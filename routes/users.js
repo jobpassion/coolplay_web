@@ -7,5 +7,8 @@ router.get('/', function(req, res) {
     userDao.insert({name:'abc'});
   res.send('respond with a resource');
 });
+router.get('/test', function(req, res) {
+    res.json({a:1});
+});
 
 module.exports = router;
