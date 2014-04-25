@@ -13,6 +13,7 @@ function sql(_sql, _args, callback){
     var connection = pool.getConnection(function(err, connection) {
         var query = connection.query(_sql, _args, function(err, result) {
             logger.debug('sql executed');
+			connection.release();
             if(callback){
                 callback(result, err);
             }
