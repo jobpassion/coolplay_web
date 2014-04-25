@@ -10,5 +10,8 @@ router.get('/', function(req, res) {
 router.get('/test', function(req, res) {
     res.json({a:1});
 });
+router.get('/register', function(req, res) {
+    res.json({a:1});
+});
 
 module.exports = router;
