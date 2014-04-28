@@ -11,8 +11,10 @@
     "morgan": "~1.0.0",
     "cookie-parser": "~1.0.1",
     "body-parser": "~1.0.0",
-    "mysql" : "",
-    "log4js" : "",
+    "mysql": "",
+    "jquery": "^2.1.0",
+    "jsdom": "^0.10.5",
+    "log4js": "",
     "debug": "~0.7.4",
     "jade": "~1.3.0",
     "less-middleware": "0.1.15"
