@@ -8,12 +8,12 @@ var config = {
 var log4js = require('log4js');
 log4js.configure({
     appenders: [
-        {
-            "type": "logLevelFilter",
-            "level": "INFO",
-            appender:
-                { type: 'console' ,level:'error'}
-        },
+        //{
+        //    "type": "logLevelFilter",
+        //    "level": "INFO",
+        //    appender:
+        //        { type: 'console' ,level:'error'}
+        //},
         {
             "type": "logLevelFilter",
             "level": "INFO",
@@ -27,8 +27,8 @@ log4js.configure({
 
                 }
         }
-    ],
-replaceConsole: true
+    ]
+//,replaceConsole: true
 
 });
 GLOBAL.ROOT = __dirname + '/../';
