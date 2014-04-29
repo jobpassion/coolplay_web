@@ -100,6 +100,11 @@ function proxiedQueryPage(url, page){
 			logger.info('pushing todo item:' + matches[1]);
 			todoItems.push(matches[1]);
 		}
+		if(!next && urls.length>0){
+			next = true;
+			urls.pop();
+			currentPage = 0;
+		}
       }
     })
     
@@ -193,9 +198,10 @@ setInterval(function(){
 }, 100);
 var currentPage = 0;
 var next = true;
+var urls = ['http://www.dianping.com/search/category/5/10/g201'];
 setInterval(function(){
 	if(todoItems.length==0 && next)
-		proxiedQueryPage('http://www.dianping.com/search/category/5/10/g4581r1694', ++currentPage);
+		proxiedQueryPage(urls[urls.length - 1], ++currentPage);
 }, 10000);
 //proxiedQueryPage('http://www.dianping.com/search/category/5/10/g4581r65', 1);
 //queryItem(5986025);
