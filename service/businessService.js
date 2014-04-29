@@ -5,6 +5,6 @@ var businessPromotionDao = require(ROOT + 'dao/businessPromotionDao');
 var businessReviewDao = require(ROOT + 'dao/businessReviewDao');
 
 
-exports.add = function(business, callback){
-	
+exports.insert = function(business, callback){
+	businessDao.insert(business, callback);
 }
