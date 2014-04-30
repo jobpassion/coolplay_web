@@ -34,7 +34,8 @@ var headers = {
             ,Connection:'keep-alive'
             ,Host:'www.dianping.com'
             ,Pragma:'no-cache'
-            ,'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.116 Safari/537.36'
+            ,'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.131 Safari/537.36'
+			,'Cookie':'_hc.v="\"3b801394-1439-48f9-bc20-57d1b5a84d66.1398687560\""; tc=5; abtest="47,122\|44,107\|45,116"; is=334431760877; ano=50qPs41kzwEkAAAAZDZjNzQ2OGYtZWM4Ni00OTllLWI1Y2QtZTg3YTc4NzRmYmFkEMAwn-18UdrOhDUEMB239uccdts1; sid=d5lk3z2oichkou55pxchgn45; PHOENIX_ID=0a010406-145af3c4836-315aa; JSESSIONID=C83F1032948A6ECB0BBB3C37A2EBBBF1; aburl=1; cy=5; cye=nanjing; __utma=1.284892197.1398687561.1398779639.1398813793.5; __utmb=1.57.10.1398813793; __utmc=1; __utmz=1.1398687561.1.1.utmcsr=google.com.hk|utmccn=(referral)|utmcmd=referral|utmcct=/; s_ViewType=1; ab=; lb.dp=1141113098.20480.0000'
         };
 //function proxiedQueryItem(itemId){
 //	var options = {
@@ -90,6 +91,9 @@ function proxiedQueryPage(url, page){
     request(options, function (error, response, body) {
 		if(error)
 			logger.error(error);
+		if(200!= response.statusCode){
+			logger.error(response.statusCode + ' on url :' + url + 'p' + page);
+		}
 		
       if (!error && response.statusCode == 200) {
 		var re = /<a href="\/shop\/(.*)" class="BL"/g;
@@ -152,6 +156,9 @@ function proxiedQueryItem(item){
 	blockingItems.push(item);
     request(options, function (error, response, body) {
 		blockingItems.pop();
+		if(error){
+			logger.error(error);
+		}
       if (!error && response.statusCode == 200) {
         var re = /<h1 class="shop-title" itemprop="name itemreviewed">([^<]*)<\/h1>/;
         var results = re.exec(body);
@@ -196,7 +203,7 @@ setInterval(function(){
 	if(todoItems.length>0 && blockingItems.length < 3)
 		proxiedQueryItem(todoItems.pop());
 }, 100);
-var currentPage = 0;
+var currentPage = 35;
 var next = true;
 var urls = ['http://www.dianping.com/search/category/5/10/g201'];
 setInterval(function(){
