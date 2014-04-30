@@ -85,6 +85,7 @@ function proxiedQueryPage(url, page){
 
     var options = {
         url:url + "p" + page
+        ,proxy:'http://' + proxy
         ,headers:headers
     };
 	next = false;
@@ -151,6 +152,8 @@ function proxiedQueryItem(item){
     logger.info("crawling " + item);
     var options = {
         url:'http://www.dianping.com/shop/' + item
+        ,proxy:'http://' + proxy
+        ,timeout:10000
         ,headers:headers
     };
 	blockingItems.push(item);
@@ -183,12 +186,19 @@ function proxiedQueryItem(item){
         res.region2 = S(results[1]).trim().s;
         res.category1 = '美食';
         results = re.exec(body);
-        res.category2 = S(results[1]).trim().s;
+        if(results)
+            res.category2 = S(results[1]).trim().s;
         results = re.exec(body);
 		if(results)
         	res.category3 = S(results[1]).trim().s;
 		re = /poi: ["'](.*)["']/;
         results = re.exec(body);
+        if(!results){
+            logger.error('parse poi error on item:' + item);
+            logger.info(body);
+            next = false;
+            return;
+        }
         var poi = S(results[1]).trim().s;
 		poi = decode(poi);
 		res.latitude = poi.lat;
@@ -203,9 +213,12 @@ setInterval(function(){
 	if(todoItems.length>0 && blockingItems.length < 3)
 		proxiedQueryItem(todoItems.pop());
 }, 100);
-var currentPage = 35;
+var currentPage = 3;
 var next = true;
-var urls = ['http://www.dianping.com/search/category/5/10/g201'];
+var urls = ['http://www.dianping.com/search/category/5/10/g198'
+    ,'http://www.dianping.com/search/category/5/10/g199'
+    ,'http://www.dianping.com/search/category/5/10/g204'
+];
 setInterval(function(){
 	if(todoItems.length==0 && next)
 		proxiedQueryPage(urls[urls.length - 1], ++currentPage);
@@ -213,3 +226,4 @@ setInterval(function(){
 //proxiedQueryPage('http://www.dianping.com/search/category/5/10/g4581r65', 1);
 //queryItem(5986025);
 //proxiedQueryItem(5538379);
+var proxy = '222.66.115.233:80';
