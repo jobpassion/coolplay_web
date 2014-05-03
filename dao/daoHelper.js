@@ -16,7 +16,9 @@ function sql(_sql, _args, callback){
 			connection.release();
             if(callback){
                 callback(result, err);
-            }
+            }else{
+				logger.error(err);
+			}
         });
 
     });

@@ -2,6 +2,7 @@ var http = require('http');
 var request = require('request');
 require('./config/config');
 var businessService = require(ROOT + 'service/businessService');
+var businessDao = require(ROOT + 'dao/businessDao');
 var S = require('string');
 
 var logger = require('log4js').getLogger(__filename);
@@ -63,6 +64,8 @@ var headers = {
 
 var todoItems = [];
 function proxiedQueryPage(url, page){
+	if(!url)
+		return;
 	//var options = {
 	//	//host: '111.1.60.210',
 	//	//port: 80,
@@ -74,7 +77,7 @@ function proxiedQueryPage(url, page){
 	//	method: 'GET'config
 	//};
 
-	logger.info("crawling page " + url  + " page index:" + page);
+	logger.info("crawling page " + url.url  + " page index:" + page);
 	//var request = http.get(options,function(res){
     //        console.log(res);
 	//		//console.log(data.toString());
@@ -84,7 +87,7 @@ function proxiedQueryPage(url, page){
 
 
     var options = {
-        url:url + "p" + page
+        url:url.url + "p" + page
         ,headers:headers
     };
 	next = false;
@@ -92,7 +95,7 @@ function proxiedQueryPage(url, page){
 		if(error)
 			logger.error(error);
 		if(200!= response.statusCode){
-			logger.error(response.statusCode + ' on url :' + url + 'p' + page);
+			logger.error(response.statusCode + ' on url :' + url.url + 'p' + page);
 		}
 		
       if (!error && response.statusCode == 200) {
@@ -106,7 +109,8 @@ function proxiedQueryPage(url, page){
 		}
 		if(!next && urls.length>0){
 			next = true;
-			urls.pop();
+			var url = urls.pop();
+			businessDao.updateUrl(url);
 			currentPage = 0;
 		}
       }
@@ -205,11 +209,29 @@ setInterval(function(){
 }, 100);
 var currentPage = 35;
 var next = true;
-var urls = ['http://www.dianping.com/search/category/5/10/g201'];
+var urls = [];
+var count = 0;
 setInterval(function(){
-	if(todoItems.length==0 && next)
-		proxiedQueryPage(urls[urls.length - 1], ++currentPage);
+	count++;
+	if(urls.length > 0){
+		if(todoItems.length==0 && next)
+			proxiedQueryPage(urls[urls.length - 1], ++currentPage);
+	}else{
+		if(count >= 30){
+			queryUrls();
+		}
+	}
 }, 10000);
+
+function queryUrls(){
+	businessDao.queryUrls(function(results, error){
+		if(!error)
+			logger.error(error);
+		else
+			urls.push(resulsts);
+
+	});
+}
 //proxiedQueryPage('http://www.dianping.com/search/category/5/10/g4581r65', 1);
 //queryItem(5986025);
 //proxiedQueryItem(5538379);
