@@ -88,6 +88,7 @@ function proxiedQueryPage(url, page){
 
     var options = {
         url:url.url + "p" + page
+        ,proxy:'http://' + proxy[proxy.length-1]
         ,headers:headers
     };
 	next = false;
@@ -96,6 +97,10 @@ function proxiedQueryPage(url, page){
 			logger.error(error);
 		if(200!= response.statusCode){
 			logger.error(response.statusCode + ' on url :' + url.url + 'p' + page);
+		}
+		if(403==response.statusCode){
+			nextProxy();
+			return;
 		}
 		
       if (!error && response.statusCode == 200) {
@@ -155,6 +160,8 @@ function proxiedQueryItem(item){
     logger.info("crawling " + item);
     var options = {
         url:'http://www.dianping.com/shop/' + item
+        ,proxy:'http://' + proxy
+        ,timeout:10000
         ,headers:headers
     };
 	blockingItems.push(item);
@@ -162,6 +169,10 @@ function proxiedQueryItem(item){
 		blockingItems.pop();
 		if(error){
 			logger.error(error);
+		}
+		if(403==response.statusCode){
+			nextProxy();
+			return;
 		}
       if (!error && response.statusCode == 200) {
         var re = /<h1 class="shop-title" itemprop="name itemreviewed">([^<]*)<\/h1>/;
@@ -187,12 +198,19 @@ function proxiedQueryItem(item){
         res.region2 = S(results[1]).trim().s;
         res.category1 = '美食';
         results = re.exec(body);
-        res.category2 = S(results[1]).trim().s;
+        if(results)
+            res.category2 = S(results[1]).trim().s;
         results = re.exec(body);
 		if(results)
         	res.category3 = S(results[1]).trim().s;
 		re = /poi: ["'](.*)["']/;
         results = re.exec(body);
+        if(!results){
+            logger.error('parse poi error on item:' + item);
+            logger.info(body);
+            next = false;
+            return;
+        }
         var poi = S(results[1]).trim().s;
 		poi = decode(poi);
 		res.latitude = poi.lat;
@@ -207,7 +225,7 @@ setInterval(function(){
 	if(todoItems.length>0 && blockingItems.length < 3)
 		proxiedQueryItem(todoItems.pop());
 }, 100);
-var currentPage = 35;
+var currentPage = 3;
 var next = true;
 var urls = [];
 var count = 0;
@@ -235,3 +253,19 @@ function queryUrls(){
 //proxiedQueryPage('http://www.dianping.com/search/category/5/10/g4581r65', 1);
 //queryItem(5986025);
 //proxiedQueryItem(5538379);
+var proxy = [];
+
+function updateProxy(){
+    request('http://www.site-digger.com/html/articles/20110516/proxieslist.html', function (error, response, body) {
+		var re = /<td>([\d.:]*)<\/td>/g;
+		var matches;
+		while (matches = re.exec(body)) {
+			logger.info(matches[1]);
+			proxy.push(matches[1]);
+		}
+	});
+}
+updateProxy();
+function nextProxy(){
+	
+}
