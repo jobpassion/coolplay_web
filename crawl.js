@@ -99,6 +99,8 @@ function proxiedQueryPage(url, page){
 			logger.error(response.statusCode + ' on url :' + url.url + 'p' + page);
 		}
 		if(403==response.statusCode){
+			currentPage--;
+			next = true;
 			nextProxy();
 			return;
 		}
@@ -166,7 +168,8 @@ function proxiedQueryItem(item){
     };
 	blockingItems.push(item);
     request(options, function (error, response, body) {
-		blockingItems.pop();
+    	blockingItems.pop();
+    	todoItems.push(item);
 		if(error){
 			logger.error(error);
 		}
@@ -222,14 +225,18 @@ function proxiedQueryItem(item){
     });
 }
 setInterval(function(){
+	if(proxy.length==0)
+		return;
 	if(todoItems.length>0 && blockingItems.length < 3)
 		proxiedQueryItem(todoItems.pop());
-}, 100);
+}, 1000);
 var currentPage = 3;
 var next = true;
 var urls = [];
 var count = 0;
 setInterval(function(){
+	if(proxy.length==0)
+		return;
 	count++;
 	if(urls.length > 0){
 		if(todoItems.length==0 && next)
@@ -259,6 +266,7 @@ function updateProxy(){
     request('http://www.site-digger.com/html/articles/20110516/proxieslist.html', function (error, response, body) {
 		var re = /<td>([\d.:]*)<\/td>/g;
 		var matches;
+		proxy = [];
 		while (matches = re.exec(body)) {
 			logger.info(matches[1]);
 			proxy.push(matches[1]);
@@ -266,6 +274,10 @@ function updateProxy(){
 	});
 }
 updateProxy();
+queryUrls();
 function nextProxy(){
-	
+	proxy.pop();
+	if(proxy.length<=3){
+		updateProxy();
+	}
 }
