@@ -10,7 +10,7 @@ exports.queryBySourceId = function(sourceId, callback){
 }
 
 exports.queryUrls = function(callback){
-	daoHelper.sql('select * from tmpUrls where complete != 1', callback);
+	daoHelper.sql('select * from tmpUrls where complete is null', null, callback);
 }
 
 

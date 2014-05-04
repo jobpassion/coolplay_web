@@ -7,7 +7,7 @@ var businessReviewDao = require(ROOT + 'dao/businessReviewDao');
 
 exports.insert = function(business, callback){
 	businessDao.queryBySourceId(business.sourceId, function(results, error){
-		if(!results){
+		if(results.length==0){
 			businessDao.insert(business, callback);
 		}
 		

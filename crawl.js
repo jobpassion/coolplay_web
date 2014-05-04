@@ -96,9 +96,9 @@ function proxiedQueryPage(url, page){
 		if(error)
 			logger.error(error);
 		if(200!= response.statusCode){
-			logger.error(response.statusCode + ' on url :' + url.url + 'p' + page);
+			//logger.error(response.statusCode + ' on url :' + url.url + 'p' + page);
 		}
-		if(403==response.statusCode){
+		if(200!=response.statusCode){
 			currentPage--;
 			next = true;
 			nextProxy();
@@ -162,18 +162,21 @@ function proxiedQueryItem(item){
     logger.info("crawling " + item);
     var options = {
         url:'http://www.dianping.com/shop/' + item
-        ,proxy:'http://' + proxy
+        ,proxy:'http://' + proxy[proxy.length-1]
         ,timeout:10000
         ,headers:headers
     };
 	blockingItems.push(item);
     request(options, function (error, response, body) {
     	blockingItems.pop();
-    	todoItems.push(item);
 		if(error){
+    		todoItems.push(item);
 			logger.error(error);
+			nextProxy();
+			return;
 		}
-		if(403==response.statusCode){
+		if(200!=response.statusCode){
+    		todoItems.push(item);
 			nextProxy();
 			return;
 		}
@@ -230,7 +233,7 @@ setInterval(function(){
 	if(todoItems.length>0 && blockingItems.length < 3)
 		proxiedQueryItem(todoItems.pop());
 }, 1000);
-var currentPage = 3;
+var currentPage = 0;
 var next = true;
 var urls = [];
 var count = 0;
@@ -250,10 +253,10 @@ setInterval(function(){
 
 function queryUrls(){
 	businessDao.queryUrls(function(results, error){
-		if(!error)
+		if(error)
 			logger.error(error);
-		else
-			urls.push(resulsts);
+		else if(results)
+			urls = urls.concat(results);
 
 	});
 }

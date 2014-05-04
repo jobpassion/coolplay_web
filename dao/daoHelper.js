@@ -14,6 +14,8 @@ function sql(_sql, _args, callback){
         var query = connection.query(_sql, _args, function(err, result) {
             logger.debug('sql executed');
 			connection.release();
+			if(err)
+				logger.error(err);
             if(callback){
                 callback(result, err);
             }else{
