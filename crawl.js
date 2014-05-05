@@ -247,7 +247,7 @@ setInterval(function(){
 		if(todoItems.length==0 && next)
 			proxiedQueryPage(urls[urls.length - 1], ++currentPage);
 	}else{
-		if(count >= 30){
+		if(count >= 3){
 			queryUrls();
 		}
 	}
