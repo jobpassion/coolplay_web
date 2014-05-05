@@ -93,10 +93,12 @@ function proxiedQueryPage(url, page){
     };
 	next = false;
     request(options, function (error, response, body) {
-		if(error)
+		if(error){
 			logger.error(error);
-		if(200!= response.statusCode){
-			//logger.error(response.statusCode + ' on url :' + url.url + 'p' + page);
+			currentPage--;
+			next = true;
+			nextProxy();
+			return;
 		}
 		if(200!=response.statusCode){
 			currentPage--;
