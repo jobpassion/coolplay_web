@@ -183,6 +183,7 @@ function proxiedQueryItem(item){
 			return;
 		}
       if (!error && response.statusCode == 200) {
+		  try{
         var re = /<h1 class="shop-title" itemprop="name itemreviewed">([^<]*)<\/h1>/;
         var results = re.exec(body);
         var res = {sourceId:item
@@ -228,6 +229,12 @@ function proxiedQueryItem(item){
 		res.longitude = poi.lng;
         console.log(res);
 		businessService.insert(res);
+		  }catch(e){
+            logger.error('parse poi error on item:' + item);
+    		todoItems.push(item);
+			nextProxy();
+			return;
+		  }
         //console.log(body) // Print the google web page.
       }
     });
