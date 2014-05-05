@@ -1,10 +1,10 @@
 var config = {
-    //dbHost:'mysql.cfp3qdjt6nej.ap-northeast-1.rds.amazonaws.com',
-    //dbUser:'awsuser',
-    //dbPassword:'261103692',
-    dbHost:'localhost',
-    dbUser:'root',
-    dbPassword:'root',
+    dbHost:'mysql.cfp3qdjt6nej.ap-northeast-1.rds.amazonaws.com',
+    dbUser:'awsuser',
+    dbPassword:'261103692',
+    //dbHost:'localhost',
+    //dbUser:'root',
+    //dbPassword:'root',
     dbDatabase:'webapp',
 }
 
