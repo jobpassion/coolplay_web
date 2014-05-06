@@ -116,11 +116,15 @@ function proxiedQueryPage(url, page){
 			logger.info('pushing todo item:' + matches[1]);
 			todoItems.push(matches[1]);
 		}
-		if(!next && urls.length>0){
+		re = /<span class="PageSel">(.*)<\/span>/g;
+		while(matches = re.exec(body)){
+			if(matches[1] != page){
+		//if(!next && urls.length>0){
 			next = true;
 			var url = urls.pop();
 			businessDao.updateUrl(url);
 			currentPage = 0;
+			}
 		}
       }
     })
