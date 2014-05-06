@@ -242,8 +242,8 @@ function proxiedQueryItem(item){
         console.log(res);
 		businessService.insert(res);
 		  }catch(e){
-            logger.error('parse poi error on item:' + item);
-    		todoItems.push(item);
+            logger.error('parse rror on item:' + item + ' error:' + e);
+    		//todoItems.push(item);
 			nextProxy();
 			return;
 		  }
