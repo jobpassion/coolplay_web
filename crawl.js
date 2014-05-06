@@ -228,7 +228,7 @@ function proxiedQueryItem(item){
         results = re.exec(body);
         if(!results){
             logger.error('parse poi error on item:' + item);
-    		todoItems.push(item);
+    		//todoItems.push(item);
 			nextProxy();
 			return;
             //logger.info(body);
