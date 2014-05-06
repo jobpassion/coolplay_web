@@ -116,6 +116,13 @@ function proxiedQueryPage(url, page){
 			logger.info('pushing todo item:' + matches[1]);
 			todoItems.push(matches[1]);
 		}
+		if(body.indexOf('没有找到满足条件的商户') != -1){
+			next = true;
+			var url = urls.pop();
+			businessDao.updateUrl(url);
+			currentPage = 0;
+			return;
+		}
 		re = /<span class="PageSel">(.*)<\/span>/g;
 		while(matches = re.exec(body)){
 			if(matches[1] != page){
@@ -124,6 +131,7 @@ function proxiedQueryPage(url, page){
 			var url = urls.pop();
 			businessDao.updateUrl(url);
 			currentPage = 0;
+			return;
 			}
 		}
       }
