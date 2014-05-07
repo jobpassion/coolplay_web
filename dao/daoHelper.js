@@ -1,6 +1,6 @@
 var config = require('../config/config');
-var log4js = require('log4js');
 var mysql = require('mysql');
+var log4js = require('log4js');
 var logger = log4js.getLogger(__filename);
 var pool  = mysql.createPool({
     host     : config.dbHost,
@@ -11,6 +11,8 @@ var pool  = mysql.createPool({
 logger.debug('db initialized');
 function sql(_sql, _args, callback){
     var connection = pool.getConnection(function(err, connection) {
+        if(err)
+            logger.error(err);
         var query = connection.query(_sql, _args, function(err, result) {
             logger.debug('sql executed');
 			connection.release();
@@ -19,7 +21,7 @@ function sql(_sql, _args, callback){
             if(callback){
                 callback(result, err);
             }else{
-				logger.error(err);
+				//logger.error(err);
 			}
         });
 
