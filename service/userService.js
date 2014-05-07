@@ -1,6 +1,7 @@
 var userDao = require(ROOT + 'dao/userDao');
 var dictionary = require(ROOT + 'config/dictionary');
 var crypto = require('crypto');
+var redisHelper = require(ROOT + 'dao/redisHelper');
 
 exports.register = function(user, callback){
 	
@@ -14,9 +15,34 @@ exports.register = function(user, callback){
             callback({errCode:1, msg:dictionary.errCode[1]}, false);
         }else{
             user.accessToken = randomToken();
+			redisHelper.redis(function(err, client) {
+				client.set('user-token-' + user.loginName, user.accessToken);
+			}):
             userDao.insert(user);
             callback(user, true);
         }
+    })
+}
+
+exports.login = function(user, callback){
+	if(!user.loginName||!user.password){
+		callback({errCode:2, msg:dictionary.errCode[2]}, false);
+		return;
+	}
+    var loginName = user.loginName;
+    userDao.queryByName(loginName, function(results){
+        if(results&&results.length>0){
+			if(user.password==results[0].password){
+				user.accessToken = randomToken;
+				redisHelper.redis(function(err, client) {
+					client.set('user-token-' + user.loginName, user.accessToken);
+				}):
+				callback(user, true);
+			}else
+				callback({errCode:4, msg:dictionary.errCode[4]}, false);
+        }else{
+			callback({errCode:3, msg:dictionary.errCode[3]}, false);
+		}
     })
 }
 
