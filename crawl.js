@@ -239,6 +239,9 @@ function proxiedQueryItem(item){
 		poi = decode(poi);
 		res.latitude = poi.lat;
 		res.longitude = poi.lng;
+        if(res.latitude && res.longitude){
+            res.geohash = geohash.encode(res.latitude, res.longitude);
+        }
         console.log(res);
 		businessService.insert(res);
 		  }catch(e){
