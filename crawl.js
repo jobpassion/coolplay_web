@@ -116,7 +116,7 @@ function proxiedQueryPage(url, page){
 			logger.info('pushing todo item:' + matches[1]);
 			todoItems.push(matches[1]);
 		}
-		if(body.indexOf('没有找到满足条件的商户') != -1){
+		if(body.indexOf('找到满足条件的商户') != -1){
 			next = true;
 			var url = urls.pop();
 			businessDao.updateUrl(url);
@@ -257,7 +257,7 @@ setInterval(function(){
 	if(todoItems.length>0 && blockingItems.length < 3)
 		proxiedQueryItem(todoItems.pop());
 }, 1000);
-var currentPage = 0;
+var currentPage = 19;
 var next = true;
 var urls = [];
 var count = 0;
@@ -290,7 +290,11 @@ function queryUrls(){
 var proxy = [];
 
 function updateProxy(){
+		logger.info('start query new proxies');
     request('http://www.site-digger.com/html/articles/20110516/proxieslist.html', function (error, response, body) {
+		if(error)
+		    logger.error(error);
+		logger.info('queried new proxies');
 		var re = /<td>([\d.:]*)<\/td>/g;
 		var matches;
 		proxy = [];
