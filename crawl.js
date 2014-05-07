@@ -89,6 +89,7 @@ function proxiedQueryPage(url, page){
     var options = {
         url:url.url + "p" + page
         ,proxy:'http://' + proxy[proxy.length-1]
+        ,timeout:20000
         ,headers:headers
     };
 	next = false;
@@ -264,6 +265,7 @@ var currentPage = 19;
 var next = true;
 var urls = [];
 var count = 0;
+
 setInterval(function(){
 	if(proxy.length==0)
 		return;
@@ -294,7 +296,7 @@ var proxy = [];
 
 function updateProxy(){
 		logger.info('start query new proxies');
-    request('http://www.site-digger.com/html/articles/20110516/proxieslist.html', function (error, response, body) {
+    request({url:'http://www.site-digger.com/html/articles/20110516/proxieslist.html', timeout:10000}, function (error, response, body) {
 		if(error)
 		    logger.error(error);
 		logger.info('queried new proxies');
