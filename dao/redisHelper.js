@@ -1,7 +1,7 @@
 var config = require('../config/config');
 var log4js = require('log4js');
 var logger = log4js.getLogger(__filename);
-var poolModule = require('./generic-pool.js');
+var poolModule = require('generic-pool');
 
 
 var pool = poolModule.Pool({

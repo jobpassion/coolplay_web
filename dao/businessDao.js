@@ -17,3 +17,7 @@ exports.queryUrls = function(callback){
 exports.updateUrl = function(url, callback){
 	daoHelper.sql('update tmpUrls set complete = 1 where id = ?', [url.id], callback);
 }
+
+exports.queryGeoLike = function(geoHash, callback){
+	daoHelper.sql('select * from business where geohash like ?', [geoHash + '%'], callback);
+}
