@@ -262,7 +262,7 @@ setInterval(function(){
 	if(todoItems.length>0 && blockingItems.length < 3)
 		proxiedQueryItem(todoItems.pop());
 }, 1000);
-var currentPage = 19;
+var currentPage = 0;
 var next = true;
 var urls = [];
 var count = 0;
