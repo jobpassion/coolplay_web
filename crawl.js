@@ -4,6 +4,7 @@ require('./config/config');
 var businessService = require(ROOT + 'service/businessService');
 var businessDao = require(ROOT + 'dao/businessDao');
 var S = require('string');
+var geohash = require('ngeohash');
 
 var logger = require('log4js').getLogger(__filename);
 
