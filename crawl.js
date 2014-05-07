@@ -275,6 +275,7 @@ setInterval(function(){
 			proxiedQueryPage(urls[urls.length - 1], ++currentPage);
 	}else{
 		if(count >= 3){
+			count = 0;
 			queryUrls();
 		}
 	}
