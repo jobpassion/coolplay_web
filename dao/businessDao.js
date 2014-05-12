@@ -21,3 +21,7 @@ exports.updateUrl = function(url, callback){
 exports.queryGeoLike = function(geoHash, callback){
 	daoHelper.sql('select * from business where geohash like ?', [geoHash + '%'], callback);
 }
+
+exports.queryPriceNull = function(callback){
+	daoHelper.sql('select * from business where price is null', null, callback);
+}
