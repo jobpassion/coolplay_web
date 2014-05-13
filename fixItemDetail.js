@@ -1,5 +1,6 @@
 var proxyQuery = require('./proxyQuery');
 var daoHelper = require(ROOT + 'dao/daoHelper');
+var businessDao = require(ROOT + 'dao/businessDao');
 var logger = require('log4js').getLogger(__filename);
 var env = require('jsdom').env;
 var jquery = require('jquery');
@@ -41,7 +42,12 @@ function interval2(){
 			tel = tel.text();
 			tel = S(tel).trim().s;
 			obj.tel = tel;
-
+            obj.rating = $('meta[itemprop="rating"]').attr('content');
+            var t = $('.rst-taste').children('strong');
+            obj.taste = $(t[1]).text();
+            obj.ambience = $(t[2]).text();
+            obj.serving = $(t[3]).text();
+            businessDao.updateBusiness(obj);
 		  });
 		setTimeout(function(){interval2()}, 1000);
 

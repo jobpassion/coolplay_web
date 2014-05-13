@@ -25,3 +25,7 @@ exports.queryGeoLike = function(geoHash, callback){
 exports.queryPriceNull = function(callback){
 	daoHelper.sql('select * from business where price is null', null, callback);
 }
+
+exports.updateBusiness = function(business, callback){
+    daoHelper.sql('update business set price = ?,tel=?,rating=?,taste=?,ambience=?,serving=? where id=?',[business.price, business.tel,business.rating,business,ambience,business.serving, business.id], callback);
+}
