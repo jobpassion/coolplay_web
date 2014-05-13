@@ -21,7 +21,7 @@ function interval1(){
 
 interval1();
 function interval2(quali){
-	logger.info('[' + __function + ':' + __line + '] thread:');
+	logger.info('[' + __function + ':' + __line + '] thread:' + quali);
 
 	if(todo.length==0){
 		setTimeout(function(){interval2(quali)}, 1000);
