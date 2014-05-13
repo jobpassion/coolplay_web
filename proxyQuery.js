@@ -49,14 +49,14 @@ function intervalQuery(){
 	if(blockingItems.length==0)
 		return;
 	var obj = blockingItems.pop();
-	exports.query(obj.url, obj.callback);
+	query(obj.url, obj.callback);
 }
 
 setInterval(function(){
 	intervalQuery();
 }, 3000);
 
-exports.query = function(url, callback){
+ function query(url, callback){
 	var obj = {url:url, callback:callback};
 	if(block){
 		blockingItems.push(obj);
@@ -105,3 +105,4 @@ exports.query = function(url, callback){
 
 	});
 }
+exports.query = query;
