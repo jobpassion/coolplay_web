@@ -43,7 +43,7 @@ function interval2(){
 			tel = S(tel).trim().s;
 			obj.tel = tel;
             obj.rating = $('meta[itemprop="rating"]').attr('content');
-            var t = $('.rst-taste').children('strong');
+            var t = $('.rst-taste').find('strong');
             obj.taste = $(t[1]).text();
             obj.ambience = $(t[2]).text();
             obj.serving = $(t[3]).text();
