@@ -79,5 +79,7 @@ function interval2(){
 	});	
 }
 interval2();
+interval2();
+interval2();
 
 
