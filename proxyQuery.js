@@ -72,13 +72,16 @@ exports.query = function(url, callback){
     options.proxy = 'http://' + proxy[proxy.length-1];
 	options.url = url;
     request(options, function (error, response, body) {
+		if(error){
+			logger.error('[' + __function + ':' + __line + '] ' + error);
+		}
 		var idx = cancelItems.indexOf(obj);
 		if(idx>-1){
 			blockingItems.push(obj);
 			cancelItems.splice(idx,1);
 			return;
 		}
-		if(403==response.statusCode){
+		if(error || 403==response.statusCode){
 			block = true;
 			blockingItems.push(obj);
 
