@@ -20,9 +20,11 @@ function interval1(){
 }
 
 interval1();
-function interval2(){
+function interval2(quali){
+	logger.info('[' + __function + ':' + __line + '] thread:');
+
 	if(todo.length==0){
-		setTimeout(function(){interval2()}, 1000);
+		setTimeout(function(){interval2(quali)}, 1000);
 		return;
 	}
 
@@ -73,13 +75,13 @@ function interval2(){
                 
             });
 		  });
-		setTimeout(function(){interval2()}, 1000);
+		setTimeout(function(){interval2(quali)}, 1000);
 
 	
 	});	
 }
-interval2();
-interval2();
-interval2();
+interval2(1);
+interval2(2);
+interval2(3);
 
 
