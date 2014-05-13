@@ -11,7 +11,7 @@ function interval1(){
 	if(todo.length>10){
 		return;
 	}
-    daoHelper.sql('select id, sourceId from business where price is null limit 0, 100', null, function(results){
+    daoHelper.sql('select id, sourceId from business where fix is null limit 0, 100', null, function(results){
 		todo = todo.concat(results);
 		setTimeout(function(){
 			interval1();
@@ -38,17 +38,37 @@ function interval2(){
 			while (matches = re.exec(body)) {
 				obj.price = matches[1];
 			}
+            re = /\d+/g;
 			var tel = $('.call');
 			tel = tel.text();
 			tel = S(tel).trim().s;
 			obj.tel = tel;
             obj.rating = $('meta[itemprop="rating"]').attr('content');
+            if(!re.test(obj.rating)){
+                obj.rating = null;
+            }
             var t = $('.rst-taste').find('strong');
             obj.taste = $(t[1]).text();
+            re = /\d+/g;
+            if(!re.test(obj.taste)){
+                obj.taste = null;
+            }
             obj.ambience = $(t[2]).text();
+            re = /\d+/g;
+            if(!re.test(obj.ambience)){
+                obj.ambience= null;
+            }
             obj.serving = $(t[3]).text();
+            re = /\d+/g;
+            if(!re.test(obj.serving)){
+                obj.serving= null;
+            }
+            obj.fix =1;
             logger.info('[' + __function + ':' + __line + '] ' + JSON.stringify(obj));
-            businessDao.updateBusiness(obj, function(){
+            businessDao.updateBusiness(obj, function(results, error){
+                if(error){
+                    logger.error('[' + __function + ':' + __line + '] ' + error);
+                }
             logger.info('[' + __function + ':' + __line + '] succed saved item:' + obj.sourceId);
                 
             });
