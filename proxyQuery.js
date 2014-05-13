@@ -72,8 +72,14 @@ exports.query = function(url, callback){
     options.proxy = 'http://' + proxy[proxy.length-1];
 	options.url = url;
     request(options, function (error, response, body) {
+		for(var i in requesting){
+			if(obj==requesting[i]){
+				requesting.splice(i,1);
+			}
 		if(error){
 			logger.error('[' + __function + ':' + __line + '] ' + error);
+			blockingItems.push(obj);
+			return;
 		}
 		var idx = cancelItems.indexOf(obj);
 		if(idx>-1){
@@ -94,10 +100,6 @@ exports.query = function(url, callback){
 			updateProxy();
 			return;
 		}
-		for(var i in requesting){
-			if(obj==requesting[i]){
-				requesting.splice(i,1);
-			}
 		}
 		callback(error, response, body);
 
