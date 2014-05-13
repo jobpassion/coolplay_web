@@ -47,6 +47,7 @@ function interval2(){
             obj.taste = $(t[1]).text();
             obj.ambience = $(t[2]).text();
             obj.serving = $(t[3]).text();
+            logger.info('[' + __function + ':' + __line + '] ' + obj);
             businessDao.updateBusiness(obj, function(){
             logger.info('[' + __function + ':' + __line + '] succed saved item:' + obj.sourceId);
                 
