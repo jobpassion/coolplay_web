@@ -79,6 +79,7 @@ setInterval(function(){
 			if(obj==requesting[i]){
 				requesting.splice(i,1);
 			}
+		}
 		//if(error){
 		//	logger.error('[' + __function + ':' + __line + '] ' + error);
 		//	blockingItems.push(obj);
@@ -104,7 +105,6 @@ setInterval(function(){
 			requesting = [];
 			updateProxy();
 			return;
-		}
 		}
 		callback(error, response, body);
 
