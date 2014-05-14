@@ -90,7 +90,7 @@ setInterval(function(){
 			cancelItems.splice(idx,1);
 			return;
 		}
-		if(error || !response || 403==response.statusCode){
+		if(error || response==null || 403==response.statusCode){
 			if(error)
 				logger.error('[' + __function + ':' + __line + '] ' + error);
 			block = true;
