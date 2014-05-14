@@ -22,6 +22,8 @@ var proxy = [];
 function updateProxy(){
 	if(proxy.length>0){
 		proxy.pop();
+		logger.info('[' + __function + ':' + __line + '] proxy length ' + proxy.length);
+		block = false;
 	}else{
 		logger.info('[' + __function + ':' + __line + '] start query new proxies');
     request({url:'http://www.site-digger.com/html/articles/20110516/proxieslist.html', timeout:10000}, function (error, response, body) {
@@ -71,23 +73,26 @@ setInterval(function(){
 	requesting.push(obj);
     options.proxy = 'http://' + proxy[proxy.length-1];
 	options.url = url;
+	logger.info('[' + __function + ':' + __line + '] ' + url);
     request(options, function (error, response, body) {
 		for(var i in requesting){
 			if(obj==requesting[i]){
 				requesting.splice(i,1);
 			}
-		if(error){
-			logger.error('[' + __function + ':' + __line + '] ' + error);
-			blockingItems.push(obj);
-			return;
-		}
+		//if(error){
+		//	logger.error('[' + __function + ':' + __line + '] ' + error);
+		//	blockingItems.push(obj);
+		//	return;
+		//}
 		var idx = cancelItems.indexOf(obj);
 		if(idx>-1){
 			blockingItems.push(obj);
 			cancelItems.splice(idx,1);
 			return;
 		}
-		if(error || 403==response.statusCode){
+		if(error || !response || 403==response.statusCode){
+			if(error)
+				logger.error('[' + __function + ':' + __line + '] ' + error);
 			block = true;
 			blockingItems.push(obj);
 

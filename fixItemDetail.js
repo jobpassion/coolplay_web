@@ -1,3 +1,4 @@
+//var agent = require('webkit-devtools-agent');
 var proxyQuery = require('./proxyQuery');
 var daoHelper = require(ROOT + 'dao/daoHelper');
 var businessDao = require(ROOT + 'dao/businessDao');
@@ -36,7 +37,6 @@ function interval2(quali){
 	proxyQuery.query('http://www.dianping.com/shop/' + obj.sourceId, function(error, response, body){
 		logger.info('[' + __function + ':' + __line + '] queried item:' + obj.sourceId + '  with statusCode ' + response.statusCode);
 		env(body, function (errors, window) {
-
 			var $ = jquery(window)
 			  ;
 			var re = /   ¥([\d]+)/g;
@@ -78,6 +78,7 @@ function interval2(quali){
             logger.info('[' + __function + ':' + __line + '] succed saved item:' + obj.sourceId);
                 
             });
+			window.close();
 		  });
 		setTimeout(function(){interval2(quali)}, 1000);
 
