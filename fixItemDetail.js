@@ -8,7 +8,11 @@ var S = require('string');
 
 var todo = [];
 function interval1(){
+	logger.info('[' + __function + ':' + __line + '] todo size ' + todo.length);
 	if(todo.length>10){
+		setTimeout(function(){
+			interval1();
+		}, 10000);
 		return;
 	}
     daoHelper.sql('select id, sourceId from business where fix is null limit 0, 100', null, function(results){
