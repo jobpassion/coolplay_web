@@ -37,6 +37,7 @@ function interval2(quali){
 	proxyQuery.query('http://www.dianping.com/shop/' + obj.sourceId, function(error, response, body){
 		logger.info('[' + __function + ':' + __line + '] queried item:' + obj.sourceId + '  with statusCode ' + response.statusCode);
 		env(body, function (errors, window) {
+			/*
 			var $ = jquery(window)
 			  ;
 			var re = /   ¥([\d]+)/g;
@@ -69,6 +70,19 @@ function interval2(quali){
             if(!re.test(obj.serving)){
                 obj.serving= null;
             }
+			*/
+			var $ = jquery(window);
+			
+			var img = $('.thumb-switch').find('img');
+			if(img.length>0){
+				obj.img = img.attr('src');
+			}else{
+				img = $($('.thumb-wrapper')[0]).find('img');
+				if(img.length>0){
+					obj.img = img.attr('src');
+				}
+			}
+
             obj.fix =1;
             logger.info('[' + __function + ':' + __line + '] ' + JSON.stringify(obj));
             businessDao.updateBusiness(obj, function(results, error){
