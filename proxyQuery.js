@@ -3,7 +3,7 @@ require('./config/config');
 var logger = require('log4js').getLogger(__filename);
 var headers = {
             Accept:'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-            'Accept-Encoding':'deflate,sdch'
+            'Accept-Encoding':''
             ,'Accept-Language':'zh-CN,zh;q=0.8,en;q=0.6,zh-TW;q=0.4'
             ,'Cache-Control':'no-cache'
             ,Connection:'keep-alive'
