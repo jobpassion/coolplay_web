@@ -1,1 +1,1 @@
-nohup node fixItemDetail.js &
+nohup node fixItemDetail3.js &
