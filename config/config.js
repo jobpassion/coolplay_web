@@ -5,7 +5,10 @@ var config = {
     //dbHost:'localhost',
     //dbUser:'root',
     //dbPassword:'root',
-    dbDatabase:'webapp',
+    dbDatabase:'webapp'
+    //,redisHost:'localhost'
+    ,redisHost:'awsc.droyyu.0001.apne1.cache.amazonaws.com'
+    ,redisPort:'6379'
 }
 
 var log4js = require('log4js');

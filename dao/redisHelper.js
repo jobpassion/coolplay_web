@@ -7,7 +7,7 @@ var poolModule = require('generic-pool');
 var pool = poolModule.Pool({
 	name     : 'redis',
 	create   : function(callback) {
-		var client = require('redis').createClient();  
+		var client = require('redis').createClient(config.redisPort, config.redisHost);  
 		callback(null, client);  
 	},
 	destroy  : function(client) { client.quit(); }, //当超时则释放连接
@@ -16,4 +16,14 @@ var pool = poolModule.Pool({
 	log : true,  
 });
 
-exports.redis = pool.acquire;
+function release(client){
+	pool.release(client);
+}
+module.exports = function(callback){
+	pool.acquire(function(err, client) {
+		if(err)
+			logger.error('[' + __function + ':' + __line + '] ' + err);
+		client.end = function(){release(client)};
+		callback(err, client);
+	});
+};

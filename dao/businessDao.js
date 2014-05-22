@@ -19,7 +19,12 @@ exports.updateUrl = function(url, callback){
 }
 
 exports.queryGeoLike = function(geoHash, callback){
-	daoHelper.sql('select * from business where geohash like ?', [geoHash + '%'], callback);
+	var likeStr = '';
+	for(var i in geoHash){
+		likeStr += " or geohash like '" + geoHash[i] + "%'";
+	}
+	likeStr = likeStr.substr(4);
+	daoHelper.sql('select * from business where ' + likeStr, null, callback);
 }
 
 exports.queryPriceNull = function(callback){
