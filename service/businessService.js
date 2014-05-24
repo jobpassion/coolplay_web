@@ -31,7 +31,7 @@ exports.queryNearby = function(obj, callback){
 				
 				var arr = [];
 				//var hashArr = ngeohash.neighbors(geohash);
-				var hashArr = ngeohash.bboxes(obj.latitude - 0.01, obj.longitude - 0.01, obj.latitude + 0.01, obj.longitude + 0.01, 6);
+				var hashArr = ngeohash.bboxes(1*obj.latitude - 0.01, 1*obj.longitude - 0.01, 1*obj.latitude + 0.01, 1*obj.longitude + 0.01, 6);
 				businessDao.queryGeoLike(hashArr, function(results){
 					//for(var i in results){
 					//	var o  = results[i];

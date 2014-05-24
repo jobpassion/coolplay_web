@@ -9,7 +9,7 @@ router.get('/', function(req, res) {
 
 
 //router.get('/queryNearby', function(req, res){
-router.post('/queryNearby', function(req, res){
+router.all('/queryNearby', function(req, res){
 	businessService.queryNearby(req.body, function(results){
 	//businessService.queryNearby({latitude:32.06697, longitude:118.77793}, function(results){
 		res.json(results);
