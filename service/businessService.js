@@ -77,3 +77,7 @@ exports.queryNearby = function(obj, callback){
 	});
 }
 function end(client){client.end();}
+exports.queryComments = function(obj, callback){
+	businessDao.queryComments(obj, callback);
+}
+

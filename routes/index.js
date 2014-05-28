@@ -15,5 +15,13 @@ router.post('/queryNearby', function(req, res){
 		res.json(results);
 	});
 })
+router.all('/queryComments', function(req, res){
+	if(!req.body.businessId){
+		req.body = {businessId:120};
+	}
+	businessService.queryComments(req.body, function(results){
+		res.json(results);
+	});
+})
 
 module.exports = router;

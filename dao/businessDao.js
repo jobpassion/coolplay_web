@@ -35,3 +35,6 @@ exports.updateBusiness = function(business, callback){
     //daoHelper.sql('update business set price = ?,tel=?,rating=?,taste=?,ambience=?,serving=?,fix=? where id=?',[business.price, business.tel,business.rating,business.taste,business.ambience,business.serving,business.fix, business.id], callback);
     daoHelper.sql('update business set img = ?,fix=? where id=?',[business.img, business.fix, business.id], callback);
 }
+exports.queryComments = function(obj, callback){
+	daoHelper.sql('select * from businessReview where businessId=?', [obj.businessId], callback)
+}
