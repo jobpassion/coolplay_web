@@ -21,10 +21,11 @@ exports.updateUrl = function(url, callback){
 exports.queryGeoLike = function(geoHash, callback){
 	var likeStr = '';
 	for(var i in geoHash){
-		likeStr += " or geohash like '" + geoHash[i] + "%'";
+		likeStr += " or t1.geohash like '" + geoHash[i] + "%'";
 	}
 	likeStr = likeStr.substr(4);
-	daoHelper.sql('select * from business where ' + likeStr, null, callback);
+	//daoHelper.sql('select * from business where ' + likeStr, null, callback);
+	daoHelper.sql('select t1.*, count(t2.businessId) reviewCount from business t1 left join businessReview t2 on t1.id = t2.businessId where ;' + likeStr, null, callback);
 }
 
 exports.queryPriceNull = function(callback){
