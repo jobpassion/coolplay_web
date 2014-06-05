@@ -45,7 +45,21 @@ exports.login = function(user, callback){
 		}
     })
 }
-
+exports.3rdLogin = function(user, callback){
+	if(!user.nickname){
+		callback({errCode:2, msg:dictionary.errCode[2]}, false);
+		return;
+	}
+    var loginName = user.loginName;
+    userDao.queryByParams({3rd:user['3rd'], openId:user.openId}, function(results){
+        if(results&&results.length>0){
+			callback(results[0], true);
+        }else{
+			userDao.insert(user);
+			callback(user, true);
+		}
+    })
+}
 
 function randomToken(){
     return crypto.randomBytes(20).toString('hex'); 

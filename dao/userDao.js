@@ -9,3 +9,6 @@ exports.queryByName = function(name, callback){
 exports.queryByname = function(name, callback){
 	daoHelper.sql('select * from user where name=?', name, callback);
 }
+exports.queryByParams = function(params, callback){
+	daoHelper.sql('select * from user where name=?', name, callback);
+}
