@@ -14,6 +14,9 @@ router.all('/register', function(req, res) {
 });
 router.all('3rdLogin', function(req, res){
 	var user = req.body;
+    userService.3rdLogin(user, function(result, succ){
+        res.json(result);
+    });
 });
 
 module.exports = router;
