@@ -4,6 +4,7 @@ var businessImageDao = require(ROOT + 'dao/businessImageDao');
 var businessPromotionDao = require(ROOT + 'dao/businessPromotionDao');
 var businessReviewDao = require(ROOT + 'dao/businessReviewDao');
 var redisHelper = require(ROOT + 'dao/redisHelper');
+var config = require(ROOT + 'config/config');
 var geolib = require('geolib');
 var ngeohash = require('ngeohash');
 var logger = require('log4js').getLogger(__filename);
@@ -22,7 +23,12 @@ exports.insert = function(business, callback){
 exports.queryNearby = function(obj, callback){
 	obj.geohash = ngeohash.encode(obj.latitude, obj.longitude);
 
+	if(config.local){
+		callback();
+		return;
+	}
 	redisHelper(function(err, client) {
+		if(!err){
 		client.get('geohash-' + obj.geohash + '-p0',function(err, reply){
 			client.end();	
 			if(!reply){
@@ -74,6 +80,7 @@ exports.queryNearby = function(obj, callback){
 				callback(arr);
 			}
 		});
+		}
 	});
 }
 function end(client){client.end();}
