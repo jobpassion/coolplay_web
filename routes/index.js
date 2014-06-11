@@ -27,4 +27,18 @@ router.all('/queryComments', function(req, res){
 	});
 })
 
+router.all('/addReview', function(req, res){
+	if(!req.body.businessId){
+		req.body = {businessId:120, userName:'redrum', content:'testContent'}
+	}
+	req.body.createDate = new Date();
+	businessService.addReview(req.body, function(results, error){
+		if(!error){
+			res.json({success:1});
+		}else{
+			res.json({success:0});
+		}
+	});
+});
+
 module.exports = router;
