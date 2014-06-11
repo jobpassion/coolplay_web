@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var businessService = require(ROOT + 'service/businessService');
+var logger = require('log4js').getLogger(__filename);
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -16,6 +17,8 @@ router.all('/queryNearby', function(req, res){
 	});
 })
 router.all('/queryComments', function(req, res){
+
+	logger.info('[' + __function + ':' + __line + '] ' + JSON.stringify(req.body));
 	if(!req.body.businessId){
 		req.body = {businessId:120};
 	}
