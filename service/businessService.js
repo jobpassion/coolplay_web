@@ -88,3 +88,7 @@ exports.queryComments = function(obj, callback){
 	businessDao.queryComments(obj, callback);
 }
 
+exports.addReview = function(obj, callback){
+	businessReviewDao.insert(obj, callback);
+}
+
