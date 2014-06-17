@@ -23,6 +23,8 @@
     "jquery": "^2.1.0",
 	"jsdom": "latest",
     "request": "^2.34.0",
+    "dateutil": "",
+    "util": "",
     "string": "^1.8.1"
   }
 }

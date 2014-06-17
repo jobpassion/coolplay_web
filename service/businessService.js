@@ -85,7 +85,20 @@ exports.queryNearby = function(obj, callback){
 }
 function end(client){client.end();}
 exports.queryComments = function(obj, callback){
-	businessDao.queryComments(obj, callback);
+
+	businessDao.queryComments(obj, function(results){
+		for(var obj in results){
+			obj = results[obj];
+			if(util.isDate(obj.createDate)){
+				obj.createDate.setHours(obj.createDate.getHours() + 8);
+				obj.createDate = dateutil.format(obj.createDate, 'Y-m-d H:i');
+			}else{
+				obj.createDate = "";
+			}
+		}
+		callback(results);
+	}
+	);
 }
 
 exports.addReview = function(obj, callback){
