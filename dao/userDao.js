@@ -16,3 +16,6 @@ exports.queryByParams = function(params, callback){
 	}
 	daoHelper.sql('select * from user where 1=1' + whereCause, null, callback);
 }
+exports.insertUserAction = function(userAction, callback){
+	daoHelper.sql('insert into userAction set ?', userAction, callback);
+}

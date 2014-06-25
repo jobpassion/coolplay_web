@@ -64,3 +64,14 @@ exports.thirdLogin = function(user, callback){
 function randomToken(){
     return crypto.randomBytes(20).toString('hex'); 
 }
+
+
+exports.addUserAction = function(userAction, callback){
+	userDao.insertUserAction(userAction, function(result, error){
+		if(error){
+			callback({errCode:5, msg:dictionary.errCode[5]});
+		}else{
+			callback(result);
+		}
+	});
+}

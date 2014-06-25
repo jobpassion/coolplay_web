@@ -25,6 +25,7 @@
     "request": "^2.34.0",
     "dateutil": "",
     "util": "",
+    "q": "",
     "string": "^1.8.1"
   }
 }

@@ -18,6 +18,12 @@ router.all('/thirdLogin', function(req, res){
         res.json(result);
     });
 });
+router.all('/addUserAction', function(req, res)){
+	var userAction = req.body;
+	userService.addUserAction(userAction, function(result){
+		res.json(result);
+	})
+}
 
 module.exports = router;
 
