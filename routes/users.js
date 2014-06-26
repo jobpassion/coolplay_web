@@ -25,5 +25,21 @@ router.all('/addUserAction', function(req, res)){
 	})
 }
 
+
+router.all('/queryUserFavorite', function(req, res)){
+	var params = req.body;
+	userService.queryUserFavorite(params, function(result){
+		res.json(result);
+	});
+}
+
+
+router.all('/queryUserLike', function(req, res)){
+	var params = req.body;
+	userService.queryUserLike(params, function(result){
+		res.json(result);
+	});
+}
+
 module.exports = router;
 

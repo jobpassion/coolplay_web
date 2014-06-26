@@ -2,6 +2,7 @@ var userDao = require(ROOT + 'dao/userDao');
 var dictionary = require(ROOT + 'config/dictionary');
 var crypto = require('crypto');
 var redisHelper = require(ROOT + 'dao/redisHelper');
+var util = require(ROOT + 'util/util');
 
 exports.register = function(user, callback){
 	
@@ -65,13 +66,20 @@ function randomToken(){
     return crypto.randomBytes(20).toString('hex'); 
 }
 
-
 exports.addUserAction = function(userAction, callback){
-	userDao.insertUserAction(userAction, function(result, error){
-		if(error){
-			callback({errCode:5, msg:dictionary.errCode[5]});
-		}else{
-			callback(result);
-		}
-	});
+	userDao.insertUserAction(userAction, util.resultHandle(callback, 5));
+}
+
+exports.queryUserFavorites = function(params, callback){
+	params.type = 1;
+	userDao.queryUserAction(params, util.resultHandle(callback, 5));
+}
+
+exports.queryUserFavorite = function(params, callback){
+	params.type = 1;
+	userDao.queryUserAction(params, util.resultHandle(callback, 5));
+}
+exports.queryUserLike = function(params, callback){
+	params.type = 2;
+	userDao.queryUserAction(params, util.resultHandle(callback, 5));
 }
