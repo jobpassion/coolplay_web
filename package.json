@@ -26,6 +26,8 @@
     "dateutil": "",
     "util": "",
     "q": "",
+    "cookie-parser": "",
+    "express-session": "",
     "string": "^1.8.1"
   }
 }
