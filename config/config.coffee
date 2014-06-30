@@ -53,9 +53,11 @@ Object.defineProperty global, "__stack",
 
 Object.defineProperty global, "__line",
   get: ->
+    return 0;
     __stack[1].getLineNumber()
 
 Object.defineProperty global, "__function",
   get: ->
+    return 'none'
     __stack[1].getFunctionName()
 
