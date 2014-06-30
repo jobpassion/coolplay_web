@@ -35,6 +35,7 @@ router.all "/addUserFavorite", authInterceptor.auth, (req, res) ->
   
 router.all "/queryUserFavorite",authInterceptor.auth, (req, res) ->
   params = req.body
+  params.user = req.session.userId
   userService.queryUserFavorite params, (result) ->
     res.json result
     return
