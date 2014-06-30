@@ -20,12 +20,14 @@ router.all "/thirdLogin", (req, res) ->
   user = req.body
   userService.thirdLogin user, (result, succ) ->
 	  if(succ)
-		  req.session.authorized = true
+      req.session.authorized = true
+      req.session.userId = result.id
 	  res.json result
 
 router.all "/addUserFavorite", authInterceptor.auth, (req, res) ->
   params = req.body
   params.type = 1
+  params.user = req.session.userId
   userService.addUserFavorite params, (result) ->
     res.json result
     return

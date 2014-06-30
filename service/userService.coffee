@@ -77,8 +77,9 @@ exports.thirdLogin = (user, callback) ->
     if results and results.length > 0
       callback results[0], true
     else
-      userDao.insert user
-      callback user, true
+      userDao.insert user, (results) ->
+        user.id = results.insertId
+        callback user, true
     return
 
   return
