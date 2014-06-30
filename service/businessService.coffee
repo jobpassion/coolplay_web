@@ -76,6 +76,7 @@ exports.queryNearby = (obj, callback) ->
 
               return
 
+            callback arr
             return
 
         else
