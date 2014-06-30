@@ -28,7 +28,7 @@ router.all "/addUserFavorite", authInterceptor.auth, (req, res) ->
   params = req.body
   params.type = 1
   params.user = req.session.userId
-  userService.addUserFavorite params, (result) ->
+  userService.addUserAction params, (result) ->
     res.json result
     return
 
