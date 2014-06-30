@@ -23,7 +23,7 @@ exports.insertUserAction = (userAction, callback) ->
   return
 
 exports.queryUserAction = (params, callback) ->
-  daoHelper.sql "select * from userAction where user=? and type=?", [
+  daoHelper.sql "select a.user, b.* from userAction a left join business b on a.target = b.id where a.user=? and a.type=? ", [
     params.user
     params.type
   ], callback
