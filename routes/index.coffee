@@ -3,6 +3,7 @@ router = express.Router()
 businessService = require(ROOT + "service/businessService")
 logger = require("log4js").getLogger(__filename)
 daoHelper = require(ROOT + "dao/daoHelper")
+config = require(ROOT + "config/config")
 util = require("util")
 dateutil = require("dateutil")
 
@@ -16,6 +17,9 @@ router.get "/", (req, res) ->
 
 #router.get('/queryNearby', function(req, res){
 router.all "/queryNearby", (req, res) ->
+  if config.local
+    req.body.latitude = 32.06582
+    req.body.longitude = 118.77852
   businessService.queryNearby req.body, (results) ->
     
     #businessService.queryNearby({latitude:32.06697, longitude:118.77793}, function(results){

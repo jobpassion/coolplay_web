@@ -31,6 +31,14 @@ router.all "/addUserFavorite", authInterceptor.auth, (req, res) ->
   userService.addUserAction params, (result) ->
     res.json result
     return
+router.all "/addUserLike", authInterceptor.auth, (req, res) ->
+  params = req.body
+  params.type = 2
+  params.user = req.session.userId
+  userService.addUserAction params, (result) ->
+    res.json result
+    return
+
 
   
 router.all "/queryUserFavorite",authInterceptor.auth, (req, res) ->
@@ -44,6 +52,7 @@ router.all "/queryUserFavorite",authInterceptor.auth, (req, res) ->
 
 router.all "/queryUserLike", authInterceptor.auth,(req, res) ->
   params = req.body
+  params.user = req.session.userId
   userService.queryUserLike params, (result) ->
     res.json result
     return

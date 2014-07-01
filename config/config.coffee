@@ -11,9 +11,7 @@ config =
   #,redisHost:'localhost'
   redisHost: "awsc.droyyu.0001.apne1.cache.amazonaws.com"
   redisPort: "6379"
-
-
-#,local:true
+  #local:true
 log4js = require("log4js")
 log4js.configure appenders: [
   {

@@ -26,7 +26,7 @@ exports.insertUserAction = (userAction, callback) ->
 exports.queryUserAction = (params, callback) ->
   daoHelper.sql "select a.user, b.* , count(t2.id) reviewCount  from userAction a left join business b on a.target = b.id 
  left join businessReview t2 on b.id = t2.businessId
-  where a.user=? and a.type=? ", [
+  where a.user=? and a.type=? group by b.id", [
     params.user
     params.type
   ], callback

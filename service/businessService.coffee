@@ -28,6 +28,7 @@ ngeohash = require("ngeohash")
 logger = require("log4js").getLogger(__filename)
 util = require("util")
 dateutil = require("dateutil")
+daoHelper = require(ROOT + "dao/daoHelper")
 exports.insert = (business, callback) ->
   businessDao.queryBySourceId business.sourceId, (results, error) ->
     businessDao.insert business, callback  if results.length is 0
@@ -38,7 +39,8 @@ exports.insert = (business, callback) ->
 exports.queryNearby = (obj, callback) ->
   obj.geohash = ngeohash.encode(obj.latitude, obj.longitude)
   if config.local
-    callback()
+    daoHelper.sql "select t1.*, count(t2.id) reviewCount from business t1 left  join businessReview t2 on t1.id = t2.businessId where " + 't1.id = 31' + " group by t1.id ", null, (results) ->
+      callback(results)
     return
   redisHelper (err, client) ->
     unless err
