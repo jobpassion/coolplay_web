@@ -13,6 +13,7 @@
 #}
 
 #logger.info(results);
+#https://solr-fanhua.rhcloud.com/coolweb_collection/select?q=*:*&fq=%7B!geofilt%7D&sort=geodist()+asc&rows=200&fl=*%2Cscore%2Cdistance%3Ageodist()&wt=json&indent=true&spatial=true&pt=32.0694%2C118.77998&sfield=location&d=2
 end = (client) ->
   client.end()
   return

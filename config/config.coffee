@@ -11,6 +11,11 @@ config =
   #,redisHost:'localhost'
   redisHost: "awsc.droyyu.0001.apne1.cache.amazonaws.com"
   redisPort: "6379"
+  solr: 
+    host: 'solr-fanhua.rhcloud.com'
+    port: 80
+    core: 'coolweb_collection'
+    path: '/'
   #local:true
 log4js = require("log4js")
 log4js.configure appenders: [

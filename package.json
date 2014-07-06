@@ -28,6 +28,7 @@
     "q": "",
     "cookie-parser": "",
     "express-session": "",
+    "solr-client": "",
     "string": "^1.8.1"
   }
 }
