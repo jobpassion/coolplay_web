@@ -65,7 +65,7 @@ queryFromDB = (ids, callback) ->
     results = []
     for i in ids
       j = idMap[i.id]
-      j.distance = i.distance * 1000
+      j.distance = parseInt(i.distance * 1000)
       results.push j
       
     callback err, results
