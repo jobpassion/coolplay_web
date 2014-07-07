@@ -16,7 +16,7 @@ config =
     port: ''
     core: 'coolweb_collection'
     path: '/'
-  local:true
+  #local:true
 log4js = require("log4js")
 log4js.configure appenders: [
   {
