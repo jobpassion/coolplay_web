@@ -6,6 +6,7 @@ daoHelper = require(ROOT + "dao/daoHelper")
 config = require(ROOT + "config/config")
 util = require("util")
 dateutil = require("dateutil")
+geoService = require(ROOT + "service/geoService")
 
 # GET home page. 
 router.get "/", (req, res) ->
@@ -38,17 +39,8 @@ router.all "/queryComments", (req, res) ->
   return
 
 router.all "/test", (req, res) ->
-  daoHelper.sql "select * from businessReview where businessId=4439", [], (results) ->
-    for obj of results
-      obj = results[obj]
-      if util.isDate(obj.createDate)
-        obj.createDate.setHours obj.createDate.getHours() + 8
-        obj.createDate = dateutil.format(obj.createDate, "y-m-d H:i")
-      else
-        obj.createDate = ""
-    res.json results
-    return
-
+  geoService.queryNearby {},(err, data)->
+    res.json data
   return
 
 router.all "/addReview", (req, res) ->

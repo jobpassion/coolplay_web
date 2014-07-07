@@ -13,10 +13,10 @@ config =
   redisPort: "6379"
   solr: 
     host: 'solr-fanhua.rhcloud.com'
-    port: 80
+    port: ''
     core: 'coolweb_collection'
     path: '/'
-  #local:true
+  local:true
 log4js = require("log4js")
 log4js.configure appenders: [
   {

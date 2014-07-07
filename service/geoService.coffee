@@ -1,5 +1,5 @@
 config = require(ROOT + "config/config")
-request = require 'solr-client'
+solr = require 'solr-client'
 logger = require("log4js").getLogger(__filename)
 
 options = {
@@ -8,14 +8,20 @@ options = {
     };
 client = solr.createClient(config.solr)
 
-queryNearby = (param, callback)->
+exports.queryNearby = (param, callback)->
   query = client.createQuery()
-  				  .q('laptop')
-  				  .dismax()
-  				  .qf({title_t : 0.2 , description_t : 3.3})
-  				  .mm(2)
-  				  .start(0)
-  				  .rows(10)
+      .q('text:' + if param.q then param.q else '*')
+  				  .fq('{!geofilt}')
+  				  .sort('geodist() asc')
+  				  .rows(100)
+                  .start(if param.start then param.start else 0)
+                  .d(if param.d then param.d else 100)
+  				  .fl('*,score,distance:geodist()')
+  				  .spatial(true)
+  				  .pt('32.0694,118.77998')
+  				  .sfield('location')
   client.search query,(err,obj)->
     if err
-      console.log err
+      logger.error "[" + __function + ":" + __line + "] " + err
+      callback err
+    callback err,obj.response.docs

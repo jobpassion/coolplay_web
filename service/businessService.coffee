@@ -30,12 +30,16 @@ logger = require("log4js").getLogger(__filename)
 util = require("util")
 dateutil = require("dateutil")
 daoHelper = require(ROOT + "dao/daoHelper")
+geoService = require(ROOT + "service/geoService")
 exports.insert = (business, callback) ->
   businessDao.queryBySourceId business.sourceId, (results, error) ->
     businessDao.insert business, callback  if results.length is 0
     return
 
   return
+  
+queryFromSolr = (param, callback) ->
+  geoService.queryNearby param, callback
 
 exports.queryNearby = (obj, callback) ->
   obj.geohash = ngeohash.encode(obj.latitude, obj.longitude)
