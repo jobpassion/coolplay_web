@@ -47,13 +47,9 @@ queryFromSolr = (obj, callback) ->
     if err
       callback(err);
       return
-    redisHelper (err, client) ->
-      unless err
-        client.set "geohash-" + obj.geohash + "-p" + obj.p, JSON.stringify(results), (err, reply) ->
-          client.end()
     #callback err, results
-    queryFromDB results, callback
-queryFromDB = (ids, callback) ->
+    queryFromDB obj, results, callback
+queryFromDB = (obj, ids, callback) ->
   businessDao.queryByIds ids, (results, err) ->
     if err
       callback err, null
@@ -65,6 +61,10 @@ queryFromDB = (ids, callback) ->
       j = idMap[i.id]
       j.distance = parseInt(i.distance * 1000)
       results.push j
+    redisHelper (err, client) ->
+      unless err
+        client.set "geohash-" + obj.geohash + "-p" + obj.p, JSON.stringify(results), (err, reply) ->
+          client.end()
       
     callback err, results
 
