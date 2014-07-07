@@ -52,7 +52,7 @@ queryFromSolr = (obj, callback) ->
     redisHelper (err, client) ->
       unless err
         client.set "geohash-" + obj.geohash + "-p" + obj.p, JSON.stringify(results), (err, reply) ->
-        client.end()
+          client.end()
     #callback err, results
     queryFromDB results, callback
 queryFromDB = (ids, callback) ->
