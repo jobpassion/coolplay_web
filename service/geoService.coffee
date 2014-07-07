@@ -9,6 +9,8 @@ options = {
 client = solr.createClient(config.solr)
 
 exports.queryNearby = (param, callback)->
+  logger.debug "[" + __function + ":" + __line + "] " + "start solr query "
+  date = new Date
   query = client.createQuery()
       .q('text:' + if param.q then param.q else '*')
   				  .fq('{!geofilt}')
@@ -24,4 +26,6 @@ exports.queryNearby = (param, callback)->
     if err
       logger.error "[" + __function + ":" + __line + "] " + err
       callback err
+    endDate = new Date
+    logger.info "[" + __function + ":" + __line + "] " + "end solr query cost " + (endDate.getTime() - date.getTime())
     callback err,obj.response.docs

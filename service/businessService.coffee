@@ -38,20 +38,51 @@ exports.insert = (business, callback) ->
 
   return
   
-queryFromSolr = (param, callback) ->
-  geoService.queryNearby param, callback
+queryFromSolr = (obj, callback) ->
+  unless obj.p
+    obj.p = 0
+  param = 
+    start:obj.p * 100
+    pt:obj.latitude + ',' + obj.longitude
+    q:if obj.q then obj.q else '*'
+  geoService.queryNearby param, (err, results) ->
+    if err
+      callback(err);
+      return
+    redisHelper (err, client) ->
+      unless err
+        client.set "geohash-" + obj.geohash + "-p" + obj.p, JSON.stringify(results), (err, reply) ->
+        client.end()
+    #callback err, results
+    queryFromDB results, callback
+queryFromDB = (ids, callback) ->
+  businessDao.queryByIds ids, (results, err) ->
+    if err
+      callback err, null
+      return
+    idMap = {}
+    idMap['business_' + i.id] = i for i in results
+    results = []
+    for i in ids
+      j = idMap[i.id]
+      j.distance = i.distance * 1000
+      results.push j
+      
+    callback err, results
+
 
 exports.queryNearby = (obj, callback) ->
   obj.geohash = ngeohash.encode(obj.latitude, obj.longitude)
-  if config.local
-    daoHelper.sql "select t1.*, count(t2.id) reviewCount from business t1 left  join businessReview t2 on t1.id = t2.businessId where " + 't1.id = 31' + " group by t1.id ", null, (results) ->
-      callback(results)
-    return
+  #if config.local
+  #  daoHelper.sql "select t1.*, count(t2.id) reviewCount from business t1 left  join businessReview t2 on t1.id = t2.businessId where " + 't1.id = 31' + " group by t1.id ", null, (results) ->
+  #    callback(results)
+  #  return
   redisHelper (err, client) ->
     unless err
-      client.get "geohash-" + obj.geohash + "-p0", (err, reply) ->
+      client.get "geohash-" + obj.geohash + "-p" + obj.p, (err, reply) ->
         client.end()
         unless reply
+          ###
           arr = []
           hashArr = ngeohash.bboxes(1 * obj.latitude - 0.01, 1 * obj.longitude - 0.01, 1 * obj.latitude + 0.01, 1 * obj.longitude + 0.01, 6)
           businessDao.queryGeoLike hashArr, (results) ->
@@ -85,12 +116,15 @@ exports.queryNearby = (obj, callback) ->
 
             callback arr
             return
+          ###
+          queryFromSolr obj, callback
 
         else
           arr = JSON.parse(reply)
-          callback arr
+          callback null, arr
         return
-
+    else
+      queryFromSolr obj, callback
     return
 
   return

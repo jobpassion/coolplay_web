@@ -42,3 +42,12 @@ exports.updateBusiness = (business, callback) ->
 exports.queryComments = (obj, callback) ->
   daoHelper.sql "select * from businessReview where businessId=?", [obj.businessId], callback
   return
+exports.queryByIds = (ids, callback) ->
+  if ids.length == 0
+    callback null, []
+    return
+  whereCause = 'id in (0'
+  whereCause += ', ' + id.id.substr(9) for id in ids
+  whereCause += ')'
+  daoHelper.sql "select * from business where " + whereCause, null, callback
+  return

@@ -8,10 +8,14 @@ config = require("../config/config")
 log4js = require("log4js")
 logger = log4js.getLogger(__filename)
 poolModule = require("generic-pool")
+redis = require("redis")
 pool = poolModule.Pool(
   name: "redis"
   create: (callback) ->
-    client = require("redis").createClient(config.redisPort, config.redisHost)
+    if config.local
+      callback {errMsg:'local debug'}, null
+      return
+    client = redis.createClient(config.redisPort, config.redisHost)
     callback null, client
     return
 
@@ -25,7 +29,10 @@ pool = poolModule.Pool(
 )
 module.exports = (callback) ->
   pool.acquire (err, client) ->
-    logger.error "[" + __function + ":" + __line + "] " + err  if err
+    if err
+      logger.error "[" + __function + ":" + __line + "] " + err 
+      callback err, null
+      return
     client.end = ->
       release client
       return
