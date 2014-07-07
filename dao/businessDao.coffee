@@ -46,8 +46,8 @@ exports.queryByIds = (ids, callback) ->
   if ids.length == 0
     callback null, []
     return
-  whereCause = 'id in (0'
+  whereCause = 't1.id in (0'
   whereCause += ', ' + id.id.substr(9) for id in ids
   whereCause += ')'
-  daoHelper.sql "select * from business where " + whereCause, null, callback
+  daoHelper.sql "select t1.*, count(t2.id) reviewCount from business t1 left  join businessReview t2 on t1.id = t2.businessId where " + whereCause + " group by t1.id ", null, callback
   return
