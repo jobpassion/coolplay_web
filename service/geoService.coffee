@@ -20,7 +20,7 @@ exports.queryNearby = (param, callback)->
                   .d(if param.d then param.d else 100)
   				  .fl('*,score,distance:geodist()')
   				  .spatial(true)
-  				  .pt('32.0694,118.77998')
+  				  .pt(param.pt)
   				  .sfield('location')
   client.search query,(err,obj)->
     if err
