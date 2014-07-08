@@ -63,7 +63,7 @@ queryFromDB = (obj, ids, callback) ->
       results.push j
     redisHelper (err, client) ->
       unless err
-        client.set "geohash-" + obj.geohash + "-p" + obj.p, JSON.stringify(results), (err, reply) ->
+        client.set "geohash-" + obj.geohash + "-q" + obj.q + "-p" + obj.p, JSON.stringify(results), (err, reply) ->
           client.end()
       
     callback err, results
@@ -72,6 +72,8 @@ queryFromDB = (obj, ids, callback) ->
 exports.queryNearby = (obj, callback) ->
   unless obj.p
     obj.p = 0
+  unless obj.q
+    obj.p = '*'
   obj.geohash = ngeohash.encode(obj.latitude, obj.longitude)
   #if config.local
   #  daoHelper.sql "select t1.*, count(t2.id) reviewCount from business t1 left  join businessReview t2 on t1.id = t2.businessId where " + 't1.id = 31' + " group by t1.id ", null, (results) ->
@@ -79,7 +81,7 @@ exports.queryNearby = (obj, callback) ->
   #  return
   redisHelper (err, client) ->
     unless err
-      client.get "geohash-" + obj.geohash + "-p" + obj.p, (err, reply) ->
+      client.get "geohash-" + obj.geohash + "-q" + obj.q + "-p" + obj.p, (err, reply) ->
         client.end()
         unless reply
           ###
