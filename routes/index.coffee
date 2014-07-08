@@ -21,8 +21,8 @@ router.all "/queryNearby", (req, res) ->
   if config.local
     req.body.latitude = 32.06582
     req.body.longitude = 118.77852
-  #businessService.queryNearby req.body, (err, results) ->
-  businessService.queryNearby {latitude:32.06697, longitude:118.77793}, (err, results) ->
+  businessService.queryNearby req.body, (err, results) ->
+  #businessService.queryNearby {latitude:32.06697, longitude:118.77793}, (err, results) ->
     res.json results
     return
 
