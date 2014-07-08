@@ -73,7 +73,7 @@ exports.queryNearby = (obj, callback) ->
   unless obj.p
     obj.p = 0
   unless obj.q
-    obj.p = '*'
+    obj.q = '*'
   obj.geohash = ngeohash.encode(obj.latitude, obj.longitude)
   #if config.local
   #  daoHelper.sql "select t1.*, count(t2.id) reviewCount from business t1 left  join businessReview t2 on t1.id = t2.businessId where " + 't1.id = 31' + " group by t1.id ", null, (results) ->
