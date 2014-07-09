@@ -44,7 +44,7 @@ exports.queryComments = (obj, callback) ->
   return
 exports.queryByIds = (ids, callback) ->
   if ids.length == 0
-    callback null, []
+    callback [], null
     return
   whereCause = 't1.id in (0'
   whereCause += ', ' + id.id.substr(9) for id in ids
