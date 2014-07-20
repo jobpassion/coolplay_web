@@ -31,3 +31,10 @@ exports.queryUserAction = (params, callback) ->
     params.type
   ], callback
   return
+exports.registXMPP = (user, callback) ->
+  daoHelper.sql "insert into ejabberd.users set ?", {
+    username:user.id
+    password:user.password
+    created_at:new Date()
+  }, callback
+  return

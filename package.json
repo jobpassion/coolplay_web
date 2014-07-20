@@ -26,6 +26,7 @@
     "dateutil": "",
     "util": "",
     "q": "",
+    "async": "",
     "cookie-parser": "",
     "express-session": "",
     "solr-client": "",

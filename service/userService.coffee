@@ -5,6 +5,8 @@ dictionary = require(ROOT + "config/dictionary")
 crypto = require("crypto")
 redisHelper = require(ROOT + "dao/redisHelper")
 util = require(ROOT + "util/util")
+async = require("async")
+
 exports.register = (user, callback) ->
   if not user.loginName or not user.password
     callback
@@ -77,9 +79,17 @@ exports.thirdLogin = (user, callback) ->
     if results and results.length > 0
       callback results[0], true
     else
-      userDao.insert user, (results) ->
-        user.id = results.insertId
-        callback user, true
+      user.password = randomToken()
+      async.waterfall [
+        (next) ->
+          userDao.insert user, (results) ->
+            user.id = results.insertId
+            next()
+            return
+        (next) ->
+          userDao.registXMPP user, (results) ->
+            next user, true
+      ], callback
     return
 
   return
