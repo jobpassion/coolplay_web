@@ -11,15 +11,17 @@ users = require("./routes/users")
 RedisStore = require("connect-redis")(session)
 app = express()
 app.use cookieParser()
-#app.use session(secret: "1234567890QWERTY")
-app.use session(
-  store: new RedisStore(
-    host: config.redisHost
-    port: config.redisPort
-    db: 2
+if config.local
+  app.use session(secret: "1234567890QWERTY")
+else
+  app.use session(
+    store: new RedisStore(
+      host: config.redisHost
+      port: config.redisPort
+      db: 2
+    )
+    secret: "1234567890QWERTY"
   )
-  secret: "1234567890QWERTY"
-)
 
 # view engine setup
 app.set "views", path.join(__dirname, "views")
