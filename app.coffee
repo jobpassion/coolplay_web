@@ -1,4 +1,4 @@
-require "./config/config"
+config = require "./config/config"
 express = require("express")
 path = require("path")
 favicon = require("static-favicon")
@@ -8,9 +8,18 @@ session = require("express-session")
 bodyParser = require("body-parser")
 routes = require("./routes/index")
 users = require("./routes/users")
+RedisStore = require("connect-redis")(express)
 app = express()
 app.use cookieParser()
-app.use session(secret: "1234567890QWERTY")
+#app.use session(secret: "1234567890QWERTY")
+app.use session(
+  store: new RedisStore(
+    host: config.redisHost
+    port: config.redisPort
+    db: 2
+  )
+  secret: "1234567890QWERTY"
+)
 
 # view engine setup
 app.set "views", path.join(__dirname, "views")

@@ -30,6 +30,7 @@
     "cookie-parser": "",
     "express-session": "",
     "solr-client": "",
+    "connect-redis": "",
     "string": "^1.8.1"
   }
 }
