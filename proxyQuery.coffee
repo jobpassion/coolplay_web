@@ -1,3 +1,24 @@
+proxy = []
+block = false
+blockingItems = []
+requesting = []
+cancelItems = []
+
+headers =
+  Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"
+  "Accept-Encoding": ""
+  "Accept-Language": "zh-CN,zh;q=0.8,en;q=0.6,zh-TW;q=0.4"
+  "Cache-Control": "max-age=0"
+  "Proxy-Connection":"keep-alive"
+  Host: "www.dianping.com"
+  "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.131 Safari/537.36"
+  Cookie: 'HOENIX_ID=0a01678e-1477d29110e-8b39ff; _hc.v="\"70d31d59-9e4d-42b9-a69d-6d96e2c681b3.1406553963\""; is=06867943003; ano=NdZNoPOqzwEkAAAAYTNlMjllN2UtNzVlOC00OTJiLWI0YWItNzE4NTdmMDNkODAwr15ZR6YcrbRR7S2xpoAhZkVHDns1; sid=purr2bv4w22zkhipq222twrh; m_rs=a3f9f38a-fa85-471d-9840-55c55daea437; abtest="51,131\|48,124\|52,133\|47,122\|44,107\|45,115"; __utma=1.2145327365.1406559703.1406566622.1406566622.75; __utmc=1; __utmz=1.1406566458.67.2.utmcsr=dianping.com|utmccn=(referral)|utmcmd=referral|utmcct=/search/category/1/10/x2y3; ab=; s_ViewType=1; JSESSIONID=6DB428680FDBFE14E26C268ADACD2D79; aburl=1; cy=1; cye=shanghai; lb.dp=184615178.20480.0000'
+options =
+  timeout: 20000
+  headers: headers
+
+
+
 updateProxy = ->
   if proxy.length > 0
     proxy.pop()
@@ -32,6 +53,9 @@ query = (url, callback) ->
   obj =
     url: url
     callback: callback
+  if requesting.length > 3
+    blockingItems.push obj
+    return
 
   if block
     blockingItems.push obj
@@ -76,28 +100,8 @@ query = (url, callback) ->
 request = require("request")
 require "./config/config"
 logger = require("log4js").getLogger(__filename)
-headers =
-  Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"
-  "Accept-Encoding": ""
-  "Accept-Language": "zh-CN,zh;q=0.8,en;q=0.6,zh-TW;q=0.4"
-  "Cache-Control": "no-cache"
-  Connection: "keep-alive"
-  Host: "www.dianping.com"
-  Pragma: "no-cache"
-  "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.131 Safari/537.36"
-  Cookie: "_hc.v=\"\"3b801394-1439-48f9-bc20-57d1b5a84d66.1398687560\"\"; tc=5; abtest=\"47,122|44,107|45,116\"; is=334431760877; ano=50qPs41kzwEkAAAAZDZjNzQ2OGYtZWM4Ni00OTllLWI1Y2QtZTg3YTc4NzRmYmFkEMAwn-18UdrOhDUEMB239uccdts1; sid=d5lk3z2oichkou55pxchgn45; PHOENIX_ID=0a010406-145af3c4836-315aa; JSESSIONID=C83F1032948A6ECB0BBB3C37A2EBBBF1; aburl=1; cy=5; cye=nanjing; __utma=1.284892197.1398687561.1398779639.1398813793.5; __utmb=1.57.10.1398813793; __utmc=1; __utmz=1.1398687561.1.1.utmcsr=google.com.hk|utmccn=(referral)|utmcmd=referral|utmcct=/; s_ViewType=1; ab=; lb.dp=1141113098.20480.0000"
-
-options =
-  timeout: 20000
-  headers: headers
-
-proxy = []
-block = false
-blockingItems = []
-requesting = []
-cancelItems = []
 setInterval (->
   intervalQuery()
   return
-), 3000
+), 30
 exports.query = query
