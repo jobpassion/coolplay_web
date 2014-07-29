@@ -171,6 +171,7 @@ intervalQuery = (quali)->
     , 1000)
 
 intervalQueryItem = (quali)->
+  logger.info "[" + __function + ":" + __line + "] item thread:" + quali
   if todoItems.length > 0
     proxiedQueryItem todoItems.pop(), ()->
       setTimeout(()->
