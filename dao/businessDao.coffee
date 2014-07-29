@@ -8,7 +8,7 @@ exports.queryBySourceId = (sourceId, callback) ->
   return
 
 exports.queryUrls = (callback) ->
-  daoHelper.sql "select * from tmpUrls where complete is null", null, callback
+  daoHelper.sql "select * from tmpUrls where complete is null and count < 750 and count >0 limit 0, 50", null, callback 
   return
 
 exports.updateUrl = (url, callback) ->
