@@ -154,7 +154,12 @@ proxiedQueryItem = (item, callback) ->
 
 intervalQuery = (quali)->
   logger.info "[" + __function + ":" + __line + "] thread:" + quali
-  if urls.length > 0 and todoItems.length < 30
+  if todoItems.length > 30
+    setTimeout(()->
+      intervalQuery quali
+    , 1000)
+    return
+  if urls.length > 0
     proxiedQueryPage urls[urls.length - 1], ++currentPage, ()->
       setTimeout(()->
         intervalQuery quali
