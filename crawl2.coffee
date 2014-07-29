@@ -129,6 +129,7 @@ proxiedQueryItem = (item, callback) ->
         unless results
           logger.error "parse poi error on item:" + item
           next "parse poi error on item:" + item
+          return
         poi = S(results[1]).trim().s
         poi = decode(poi)
         res.latitude = poi.lat
