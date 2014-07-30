@@ -56,34 +56,43 @@ decode = (C) ->
 
 queryUrls()
 proxiedQueryPage = (url, page, callback) ->
-  return  unless url
+  #return  unless url
   logger.info "crawling page " + url.url + " page index:" + page
   async.waterfall [
     (next)->
       proxyQuery.query url.url + "p" + page, (error, response, body) ->
         env body, (errors, window) ->
-          $ = jquery(window)
-          re = /<a href="\/shop\/(.*)" class="BL"/g
-          matches = undefined
-          while matches = re.exec(body)
-            logger.info "pushing todo item:" + matches[1]
-            todoItems.push matches[1]
-          unless body.indexOf("找到满足条件的商户") == -1
-            url = urls.pop()
-            businessDao.updateUrl url
-            currentPage = 0
-            return
-          re = /<span class="PageSel">(.*)<\/span>/g
-          while matches = re.exec(body)
-            if `matches[1] != page`
+          if(errors)
+            next errors
+          try
+            $ = jquery(window)
+            re = /<a href="\/shop\/(.*)" class="BL"/g
+            matches = undefined
+            while matches = re.exec(body)
+              logger.info "pushing todo item:" + matches[1]
+              todoItems.push matches[1]
+            unless body.indexOf("找到满足条件的商户") == -1
               url = urls.pop()
               businessDao.updateUrl url
               currentPage = 0
+              next null
               return
-          next(null)
+            re = /<span class="PageSel">(.*)<\/span>/g
+            while matches = re.exec(body)
+              if `matches[1] != page`
+                url = urls.pop()
+                businessDao.updateUrl url
+                currentPage = 0
+                next null
+                return
+            next null
+          catch e
+            next e
+            return
+          #next(null)
   ], (err)->
     if err
-      logger.error err
+      logger.error 'bbbbbbb' + err.stack
       err = 
         value: url.url
         type: 'page'
@@ -145,7 +154,7 @@ proxiedQueryItem = (item, callback) ->
 
   ], (err)->
     if err
-      logger.error err
+      logger.error 'aaaaa' + err.stack
       err = 
         value: "http://www.dianping.com/shop/" + item
         type: 'item'
@@ -173,6 +182,7 @@ intervalQuery = (quali)->
 
 intervalQueryItem = (quali)->
   logger.info "[" + __function + ":" + __line + "] item thread:" + quali
+  logger.info 'todoItems:' + todoItems.length
   if todoItems.length > 0
     proxiedQueryItem todoItems.pop(), ()->
       setTimeout(()->
