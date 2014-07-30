@@ -25,7 +25,7 @@ updateProxy = ->
     err = 
       value: currentProxy
       type: 'proxy'
-    daoHelper.sql 'insert into error set ?', err, null
+    #daoHelper.sql 'insert into error set ?', err, null
     currentProxy = null
 
   if proxy.length > 0
