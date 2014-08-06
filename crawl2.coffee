@@ -10,6 +10,9 @@ async = require 'async'
 businessService = require(ROOT + "service/businessService")
 businessDao = require(ROOT + "dao/businessDao")
 
+count1 = 0
+count2 = 0
+count3 = 0
 
 urls = []
 currentPage = 0
@@ -147,11 +150,9 @@ proxiedQueryItem = (item, callback) ->
         console.log res
         businessService.insert res
         next null
+        count3++
       catch e
         next e
-
-
-
   ], (err)->
     if err
       logger.error 'aaaaa' + err.stack
@@ -161,6 +162,7 @@ proxiedQueryItem = (item, callback) ->
         errMsg: err
       daoHelper.sql 'insert into error set ?', err, null
     callback()
+    count2++
 
 intervalQuery = (quali)->
   logger.info "[" + __function + ":" + __line + "] thread:" + quali
@@ -184,6 +186,7 @@ intervalQueryItem = (quali)->
   logger.info "[" + __function + ":" + __line + "] item thread:" + quali
   logger.info 'todoItems:' + todoItems.length
   if todoItems.length > 0
+    count1++;
     proxiedQueryItem todoItems.pop(), ()->
       setTimeout(()->
         intervalQueryItem quali
@@ -200,3 +203,8 @@ intervalQuery 3
 intervalQueryItem 1
 intervalQueryItem 2
 intervalQueryItem 3
+
+
+setInterval(()->
+  logger.info 'count1: ' + count1 + ' count2: ' + count2 + ' count3: ' + count3
+, 1000)

@@ -96,7 +96,7 @@ query = (url, callback) ->
       blockingItems.push obj
       cancelItems.splice idx, 1
       return
-    if error or not response? or 403 == response.statusCode
+    if error or not response? or 200 != response.statusCode
       logger.error "[" + __function + ":" + __line + "] " + error  if error
       block = true
       blockingItems.push obj

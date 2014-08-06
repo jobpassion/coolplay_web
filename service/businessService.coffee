@@ -34,6 +34,8 @@ geoService = require(ROOT + "service/geoService")
 exports.insert = (business, callback) ->
   businessDao.queryBySourceId business.sourceId, (results, error) ->
     businessDao.insert business, callback  if results.length is 0
+    if callback
+      callback()
     return
 
   return

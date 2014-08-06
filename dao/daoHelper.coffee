@@ -1,6 +1,9 @@
 sql = (_sql, _args, callback) ->
   connection = pool.getConnection((err, connection) ->
     logger.error err  if err
+    if err
+      sql(_sql, _args, callback)
+      return
     query = connection.query(_sql, _args, (err, result) ->
       logger.debug "sql executed"
       connection.release()
