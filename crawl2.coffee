@@ -74,7 +74,7 @@ proxiedQueryPage = (url, page, callback) ->
             while matches = re.exec(body)
               logger.info "pushing todo item:" + matches[1]
               todoItems.push matches[1]
-            unless body.indexOf("找到满足条件的商户") == -1
+            if body.indexOf("PageSel") == -1
               url = urls.pop()
               businessDao.updateUrl url
               currentPage = 0
@@ -173,6 +173,7 @@ intervalQuery = (quali)->
     return
   if urls.length > 0
     proxiedQueryPage urls[urls.length - 1], ++currentPage, ()->
+    #proxiedQueryPage {url:'http://www.dianping.com/search/category/1/10/x128y129'}, 100, ()->
       setTimeout(()->
         intervalQuery quali
       , 1000)
@@ -207,4 +208,4 @@ intervalQueryItem 3
 
 setInterval(()->
   logger.info 'count1: ' + count1 + ' count2: ' + count2 + ' count3: ' + count3
-, 1000)
+, 5000)
