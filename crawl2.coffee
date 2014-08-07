@@ -99,7 +99,7 @@ proxiedQueryPage = (url, page, callback) ->
       err = 
         value: url.url
         type: 'page'
-        erMsg: err
+        errMsg: err
       daoHelper.sql 'insert into error set ?', err, null
     callback()
 
