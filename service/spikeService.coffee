@@ -102,7 +102,7 @@ submitJob = new CronJob('0 * * * * *', ()->
       if user.status!=1 or user.sessions.length==0
         continue
       for session in user.sessions
-        user.sessions.pop()
+        user.sessions.shift()
         if session.status!=2
           _j--
           continue
