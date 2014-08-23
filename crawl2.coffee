@@ -97,6 +97,7 @@ proxiedQueryPage = (url, page, callback) ->
     if err
       logger.error 'bbbbbbb' + err.stack
       unless url
+        callback()
         return
       err = 
         value: url.url

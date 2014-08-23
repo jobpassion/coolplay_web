@@ -1,5 +1,6 @@
 http = require("http")
 request = require("request")
+request = request.defaults({jar: true})
 require "./config/config"
 businessService = require(ROOT + "service/businessService")
 businessDao = require(ROOT + "dao/businessDao")
