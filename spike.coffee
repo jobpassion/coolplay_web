@@ -10,6 +10,7 @@ rl = rl.rl
 #  console.log("Thank you for your valuable feedback:", answer)
 #  rl.close()
 #)
+spikeService.welcome()
 rl.on('line', (cmd)->
   #console.log('You just typed: '+cmd)
   spikeService.process cmd

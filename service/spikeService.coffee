@@ -1,12 +1,19 @@
-local = require ROOT + 'config/local.en'
+local = require ROOT + 'config/local.zh'
 multiline = require 'multiline'
 CronJob = require('cron').CronJob
 request = require("request")
 #request = request.defaults({jar: true})
 tough = require('tough-cookie')
+properties = require('properties')
 rl = require ROOT + 'service/stdInputService'
+fs = require 'fs'
 rl = rl.rl
 answersCache = {}
+
+properties.parse "spikeCache", { path: true }, (error, obj)->
+  if error
+    return console.error error
+  answersCache = obj
 users = [
   userName:'oak1987@163.com'
   loginToken:'__p__=48853b45ff9c83ff23f9a6c5e5d6a8e249ae1d398323bade6a94b26f83afed36'
@@ -41,6 +48,9 @@ exports.process = (cmd)->
   switch cmd
     when local.list_users then listUsers()
     when local.add_job then addJob(cmd)
+    when local.help then console.log local.welcome
+exports.welcome = ()->
+  console.log local.welcome, local.list_users, local.add_job, local.help
 
 refreshBySessionUser = (session, user)->
   request {url:'http://www.600280.com/member/index', headers:{Cookie:user.loginToken, jar:session.jar}}, (error, response, body)->
@@ -92,6 +102,8 @@ queryBySessionUser = (session, user)->
             console.log local.ok
             answer = res
             session.answer = answer
+            fs.appendFile('spikeCache', '\n' + results[1] + '=' + answer, (err)->
+            )
             cJob.start()
     catch e
       #submitJob = new CronJob('55 59 11 * * 5', ()->
@@ -122,6 +134,7 @@ submitBySessionUser = (session, user)->
  }, jar:session.jar}, (error, response, body)->
    if error
      console.log error
+   console.log body
    if body.indexOf('"result":"0"')!=-1
      console.log local.success + ':' + user.url
      user.status = 2

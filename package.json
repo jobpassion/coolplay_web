@@ -35,6 +35,7 @@
     "multiline": "",
     "cron": "",
     "tough-cookie": "",
+    "properties": "",
     "string": "^1.8.1"
   }
 }
