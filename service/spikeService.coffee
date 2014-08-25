@@ -62,7 +62,7 @@ refreshBySessionUser = (session, user)->
         #console.log 'login ' + response.headers['set-cookie'][0]
     catch e 
       console.error e
-cJob = new CronJob('*/1 * * * * *', ()->
+cJob = new CronJob('* * * * * *', ()->
   for user in users
     if user.status==1
       for session in user.sessions
@@ -106,8 +106,8 @@ queryBySessionUser = (session, user)->
             )
             cJob.start()
     catch e
-      #submitJob = new CronJob('55 59 11 * * 5', ()->
-submitJob = new CronJob('0 * * * * *', ()->
+submitJob = new CronJob('52 58 11 * * 2', ()->
+#submitJob = new CronJob('0 * * * * *', ()->
   inter = setInterval ()->
     b = false
     for user in users
@@ -130,7 +130,7 @@ submitBySessionUser = (session, user)->
    verifyAns:session.answer
    addressIds:session.addressIds
    onlyFee:0
-   remark:'如需发票请注明发票抬头(个人或单位)、发票类型(普通或增值税)及发票内容'
+   remark:''
  }, jar:session.jar}, (error, response, body)->
    if error
      console.log error
