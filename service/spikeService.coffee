@@ -81,7 +81,7 @@ cJob = new CronJob('* * * * * *', ()->
         if !session.lastUpdate or new Date().getTime() - session.lastUpdate >=10*60*1000
           refreshBySessionUser session, user
           break
-      while user.sessions.length < 3
+      while user.sessions.length < 50
         a=1
         session = {jar:request.jar()}
         user.sessions.push session
