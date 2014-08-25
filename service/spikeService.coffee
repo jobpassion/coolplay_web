@@ -15,8 +15,20 @@ properties.parse "spikeCache", { path: true }, (error, obj)->
     return console.error error
   answersCache = obj
 users = [
+  userName:'oak19873@163.com'
+  loginToken:'__p__=ab423420d570c2479b4d3b86b920cc136338339f78c557ddad1df1dd850d4f62'
+  jar:request.jar()
+  status:0
+  sessions:[]
+,
   userName:'oak1987@163.com'
   loginToken:'__p__=48853b45ff9c83ff23f9a6c5e5d6a8e249ae1d398323bade6a94b26f83afed36'
+  jar:request.jar()
+  status:0
+  sessions:[]
+,
+  userName:'oak19872@163.com'
+  loginToken:'__p__=6087a41d914f3c7b3d144f20ce24f792289c4f447d8de759883a04ad27610335'
   jar:request.jar()
   status:0
   sessions:[]
