@@ -13,7 +13,7 @@ intervalQuery = (quali)->
   if i>1000 
     return
   tmpUrl = 
-    url: 'http://www.dianping.com/search/category/1/10/x' + i + 'y' + ++i
+    url: 'http://www.dianping.com/search/category/2/10/x' + i + 'y' + ++i
   daoHelper.sql "update error set value = ? where type = 'current'", [i], null
 
   proxyQuery.query tmpUrl.url, (error, response, body) ->
@@ -28,7 +28,9 @@ intervalQuery = (quali)->
           value: tmpUrl.url
         daoHelper.sql 'insert into error set ?', err, null
         intervalQuery quali
+        window.close()
         return
+      window.close()
       daoHelper.sql 'insert into tmpUrls set ?', tmpUrl, (result, err)->
         if err
           console.err err

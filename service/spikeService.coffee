@@ -1,4 +1,4 @@
-local = require ROOT + 'config/local.zh'
+local = require ROOT + 'config/local.en'
 multiline = require 'multiline'
 CronJob = require('cron').CronJob
 request = require("request")
@@ -118,7 +118,7 @@ queryBySessionUser = (session, user)->
             )
             cJob.start()
     catch e
-submitJob = new CronJob('52 58 11 * * 2', ()->
+submitJob = new CronJob('52 58 09 * * 2', ()->
 #submitJob = new CronJob('0 * * * * *', ()->
   inter = setInterval ()->
     b = false
