@@ -1,5 +1,6 @@
 local = require ROOT + 'config/local.en'
 multiline = require 'multiline'
+logger = require("log4js").getLogger(__filename)
 CronJob = require('cron').CronJob
 request = require("request")
 #request = request.defaults({jar: true})
@@ -89,7 +90,7 @@ refreshBySessionUser = (session, user)->
         session.jar.setCookie(response.headers['set-cookie'][0], 'http://www.600280.com')
         session.lastUpdate = new Date().getTime()
         session.status = 1
-        #console.log 'login ' + response.headers['set-cookie'][0]
+        logger.info 'login ' + session.lastUpdate
     catch e 
       console.error e
 cJob = new CronJob('* * * * * *', ()->
@@ -114,7 +115,7 @@ queryBySessionUser = (session, user)->
   request {url:user.url, jar:session.jar}, (error, response, body)->
     cJob.start()
     try
-      console.log 'query ' + session.lastUpdate
+      logger.info 'query ' + session.lastUpdate
       results = addressReg.exec body
       if results
         session.addressIds = results[1]
