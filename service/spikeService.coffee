@@ -94,6 +94,7 @@ refreshBySessionUser = (session, user)->
     catch e 
       console.error e
 cJob = new CronJob('* * * * * *', ()->
+  logger.info 'cron per second excute'
   for user in users
     if user.status==1
       for session in user.sessions
