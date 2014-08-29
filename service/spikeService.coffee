@@ -147,8 +147,8 @@ submitJob = new CronJob('55 59 11 * * 5', ()->
         continue
       for session in user.sessions
         if session.status!=2
-          _j--
-          user.sessions.shift()
+          #_j--
+          #user.sessions.shift()
           continue
         submitBySessionUser session, user
         user.sessions.shift()
