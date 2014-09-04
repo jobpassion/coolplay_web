@@ -138,20 +138,22 @@ queryBySessionUser = (session, user)->
             )
             cJob.start()
     catch e
-submitJob = new CronJob('55 59 11 * * 5', ()->
+submitJob = new CronJob('51 59 11 * * 5', ()->
 #submitJob = new CronJob('0 * * * * *', ()->
   inter = setInterval ()->
     b = false
     for user in users
       if user.status!=1 or user.sessions.length==0
         continue
-      for session in user.sessions
+      while user.sessions.length >0
+        #for session in user.sessions
+        session = user.sessions.shift()
         if session.status!=2
           #_j--
           #user.sessions.shift()
           continue
         submitBySessionUser session, user
-        user.sessions.shift()
+        #user.sessions.shift()
         b = true
         break
     if !b
