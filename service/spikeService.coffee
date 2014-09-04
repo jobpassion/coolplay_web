@@ -101,7 +101,7 @@ cJob = new CronJob('* * * * * *', ()->
         if !session.lastUpdate or new Date().getTime() - session.lastUpdate >=10*60*1000
           refreshBySessionUser session, user
           break
-      while user.sessions.length < 50
+      while user.sessions.length < 100
         a=1
         session = {jar:request.jar()}
         user.sessions.push session
@@ -139,7 +139,7 @@ queryBySessionUser = (session, user)->
             cJob.start()
     catch e
 submitJob = new CronJob('51 59 11 * * 5', ()->
-#submitJob = new CronJob('0 * * * * *', ()->
+#submitJob = new CronJob('0 53 * * * *', ()->
   inter = setInterval ()->
     b = false
     for user in users
@@ -158,9 +158,10 @@ submitJob = new CronJob('51 59 11 * * 5', ()->
         break
     if !b
       clearInterval inter
-  ,200
+  ,100
 ,null, true)
 submitBySessionUser = (session, user)->
+ console.log('answer:' + session.answer + '>>' + session.addressIds + '>>' + JSON.stringify(session.jar))
  request.post {url:'http://zf.600280.com//order/addSecKill', form:{
    verifyAns:session.answer
    addressIds:session.addressIds
