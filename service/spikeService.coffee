@@ -98,7 +98,7 @@ cJob = new CronJob('* * * * * *', ()->
   for user in users
     if user.status==1
       for session in user.sessions
-        if !session.lastUpdate or new Date().getTime() - session.lastUpdate >=10*60*1000
+        if !session.lastUpdate or new Date().getTime() - session.lastUpdate >=20*60*1000
           refreshBySessionUser session, user
           break
       while user.sessions.length < 50
