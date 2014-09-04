@@ -93,14 +93,31 @@ refreshBySessionUser = (session, user)->
         logger.info 'login ' + session.lastUpdate
     catch e 
       console.error e
-cJob = new CronJob('* * * * * *', ()->
-  logger.info 'cron per second excute'
+setInterval(()->
   for user in users
     if user.status==1
       for session in user.sessions
         if !session.lastUpdate or new Date().getTime() - session.lastUpdate >=20*60*1000
           refreshBySessionUser session, user
           break
+      #while user.sessions.length < 100
+      #  a=1
+      #  session = {jar:request.jar()}
+      #  user.sessions.push session
+      #for session in user.sessions
+      #  if session.status==1
+      #    cJob.stop()
+      #    queryBySessionUser session, user
+      #    break
+, 100)
+cJob = new CronJob('* * * * * *', ()->
+  logger.info 'cron per second excute'
+  for user in users
+    if user.status==1
+      #for session in user.sessions
+      #  if !session.lastUpdate or new Date().getTime() - session.lastUpdate >=30*60*1000
+      #    refreshBySessionUser session, user
+      #    break
       while user.sessions.length < 100
         a=1
         session = {jar:request.jar()}
@@ -139,7 +156,7 @@ queryBySessionUser = (session, user)->
             cJob.start()
     catch e
 submitJob = new CronJob('51 59 11 * * 5', ()->
-#submitJob = new CronJob('0 * * * * *', ()->
+#submitJob = new CronJob('0 53 * * * *', ()->
   inter = setInterval ()->
     b = false
     for user in users
@@ -161,6 +178,7 @@ submitJob = new CronJob('51 59 11 * * 5', ()->
   ,100
 ,null, true)
 submitBySessionUser = (session, user)->
+ console.log('answer:' + session.answer + '>>' + session.addressIds + '>>' + JSON.stringify(session.jar))
  request.post {url:'http://zf.600280.com//order/addSecKill', form:{
    verifyAns:session.answer
    addressIds:session.addressIds
