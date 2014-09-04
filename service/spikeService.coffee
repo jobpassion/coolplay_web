@@ -101,7 +101,7 @@ cJob = new CronJob('* * * * * *', ()->
         if !session.lastUpdate or new Date().getTime() - session.lastUpdate >=20*60*1000
           refreshBySessionUser session, user
           break
-      while user.sessions.length < 50
+      while user.sessions.length < 100
         a=1
         session = {jar:request.jar()}
         user.sessions.push session
@@ -158,7 +158,7 @@ submitJob = new CronJob('51 59 11 * * 5', ()->
         break
     if !b
       clearInterval inter
-  ,200
+  ,100
 ,null, true)
 submitBySessionUser = (session, user)->
  request.post {url:'http://zf.600280.com//order/addSecKill', form:{
