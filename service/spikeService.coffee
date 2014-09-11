@@ -181,6 +181,7 @@ queryBySessionUser = (session, user)->
 submitJob = new CronJob('51 30 0 * * 5', ()->
 #submitJob = new CronJob('51 59 11 * * 5', ()->
   clearInterval intervalPer100ms
+  cJob.stop()
   inter = setInterval ()->
     b = false
     for user in users
