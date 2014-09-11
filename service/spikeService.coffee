@@ -92,6 +92,7 @@ exports.welcome = ()->
   console.log local.welcome, local.list_users, local.add_job, local.help
 
 refreshSessionCount = 0
+querySessionCount = 0
 refreshBySessionUser = (session, user)->
   session.refreshing = 1
   request {url:'http://www.600280.com/member/index', headers:{Cookie:user.loginToken, jar:session.jar}}, (error, response, body)->
@@ -152,6 +153,8 @@ queryBySessionUser = (session, user)->
     cJob.start()
     try
       logger.info 'query ' + session.lastUpdate
+      querySessionCount++
+      logger.info 'querySessionCount:' + querySessionCount
       session.querying = null
       results = addressReg.exec body
       if results
