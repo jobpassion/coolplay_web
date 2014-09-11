@@ -74,6 +74,14 @@ addJob = (cmd)->
       user.status = 1
       user.url = res
     break
+_addJob = (url)->
+  for user in users
+    if user.status==1
+      continue
+    console.log local.adding, user.userName
+    user.status = 1
+    user.url = url
+    break
         
 exports.process = (cmd)->
   switch cmd
@@ -83,20 +91,27 @@ exports.process = (cmd)->
 exports.welcome = ()->
   console.log local.welcome, local.list_users, local.add_job, local.help
 
+refreshSessionCount = 0
 refreshBySessionUser = (session, user)->
+  session.refreshing = 1
   request {url:'http://www.600280.com/member/index', headers:{Cookie:user.loginToken, jar:session.jar}}, (error, response, body)->
     try
       if response.headers['set-cookie']
         session.jar.setCookie(response.headers['set-cookie'][0], 'http://www.600280.com')
         session.lastUpdate = new Date().getTime()
+        session.refreshing = null
         session.status = 1
         logger.info 'login ' + session.lastUpdate
+        refreshSessionCount++
+        logger.info 'refreshSessionCount:' + refreshSessionCount
     catch e 
       console.error e
-setInterval(()->
+intervalPer100ms = setInterval(()->
   for user in users
     if user.status==1
       for session in user.sessions
+        if session.refreshing==1
+          continue
         if !session.lastUpdate or new Date().getTime() - session.lastUpdate >=20*60*1000
           refreshBySessionUser session, user
           break
@@ -118,11 +133,13 @@ cJob = new CronJob('* * * * * *', ()->
       #  if !session.lastUpdate or new Date().getTime() - session.lastUpdate >=30*60*1000
       #    refreshBySessionUser session, user
       #    break
-      while user.sessions.length < 100
+      while user.sessions.length < 50
         a=1
         session = {jar:request.jar()}
         user.sessions.push session
       for session in user.sessions
+        if session.querying ==1
+          continue
         if session.status==1
           cJob.stop()
           queryBySessionUser session, user
@@ -130,10 +147,12 @@ cJob = new CronJob('* * * * * *', ()->
 ,null, true)
 addressReg = /userPostAddressList = .*"id":(.*),"userId/
 queryBySessionUser = (session, user)->
+  session.querying = 1
   request {url:user.url, jar:session.jar}, (error, response, body)->
     cJob.start()
     try
       logger.info 'query ' + session.lastUpdate
+      session.querying = null
       results = addressReg.exec body
       if results
         session.addressIds = results[1]
@@ -155,7 +174,9 @@ queryBySessionUser = (session, user)->
             )
             cJob.start()
     catch e
+
 submitJob = new CronJob('51 59 11 * * 5', ()->
+  clearInterval intervalPer100ms
 #submitJob = new CronJob('0 53 * * * *', ()->
   inter = setInterval ()->
     b = false
@@ -175,7 +196,7 @@ submitJob = new CronJob('51 59 11 * * 5', ()->
         break
     if !b
       clearInterval inter
-  ,100
+  ,200
 ,null, true)
 submitBySessionUser = (session, user)->
  console.log('answer:' + session.answer + '>>' + session.addressIds + '>>' + JSON.stringify(session.jar))
@@ -191,3 +212,9 @@ submitBySessionUser = (session, user)->
    if body.indexOf('"result":"0"')!=-1
      console.log local.success + ':' + user.url
      user.status = 2
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=310331'
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=309642'
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=277288'
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=288283'
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=292846'
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=292846'
