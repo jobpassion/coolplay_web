@@ -178,7 +178,7 @@ queryBySessionUser = (session, user)->
             cJob.start()
     catch e
 
-submitJob = new CronJob('51 11 0 * * 5', ()->
+submitJob = new CronJob('51 30 0 * * 5', ()->
 #submitJob = new CronJob('51 59 11 * * 5', ()->
   clearInterval intervalPer100ms
   inter = setInterval ()->
@@ -202,7 +202,8 @@ submitJob = new CronJob('51 11 0 * * 5', ()->
   ,200
 ,null, true)
 submitBySessionUser = (session, user)->
- console.log('answer:' + session.answer + '>>' + session.addressIds + '>>' + JSON.stringify(session.jar))
+ #console.log('answer:' + session.answer + '>>' + session.addressIds + '>>' + JSON.stringify(session.jar))
+ logger.info 'submit :' + session.addressIds
  request.post {url:'http://zf.600280.com//order/addSecKill', form:{
    verifyAns:session.answer
    addressIds:session.addressIds
@@ -210,10 +211,10 @@ submitBySessionUser = (session, user)->
    remark:''
  }, jar:session.jar}, (error, response, body)->
    if error
-     console.log error
-   console.log body
+     logger.error error
+   logger.info body
    if body.indexOf('"result":"0"')!=-1
-     console.log local.success + ':' + user.url
+     logger.info local.success + ':' + user.url
      user.status = 2
 _addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=310331'
 _addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=309642'
