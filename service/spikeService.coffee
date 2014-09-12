@@ -217,9 +217,10 @@ submitBySessionUser = (session, user)->
    if body.indexOf('"result":"0"')!=-1
      logger.info local.success + ':' + user.url
      user.status = 2
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=277288'
 _addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=310331'
 _addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=309642'
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=277288'
 _addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=288283'
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=292846'
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=284938'
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=277288'
 #_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=292846'
