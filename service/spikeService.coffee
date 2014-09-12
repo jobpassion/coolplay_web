@@ -178,8 +178,8 @@ queryBySessionUser = (session, user)->
             cJob.start()
     catch e
 
-submitJob = new CronJob('46 0 8 * * 5', ()->
-#submitJob = new CronJob('46 59 11 * * 5', ()->
+      #submitJob = new CronJob('46 0 8 * * 5', ()->
+submitJob = new CronJob('46 59 11 * * 5', ()->
   clearInterval intervalPer100ms
   cJob.stop()
   inter = setInterval ()->
