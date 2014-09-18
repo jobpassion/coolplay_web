@@ -51,6 +51,18 @@ users = [
   jar:request.jar()
   status:0
   sessions:[]
+,
+  userName:'iiuyt12@163.com'
+  loginToken:'__p__=28501cd91c903540f65a1b8afff0cb3148c9e63691fdff754dfe77eb42b9ac7a'
+  jar:request.jar()
+  status:0
+  sessions:[]
+,
+  userName:'nmbv1212@163.com'
+  loginToken:'__p__=5a013bbeb826508892cd12782e0066a70fe11908a708f16d85bea1dcf915eb24'
+  jar:request.jar()
+  status:0
+  sessions:[]
 ]
 listUsers = ()->
   console.log multiline ()->
@@ -178,7 +190,7 @@ queryBySessionUser = (session, user)->
             cJob.start()
     catch e
 
-      #submitJob = new CronJob('46 0 8 * * 5', ()->
+      #submitJob = new CronJob('0 30 22 * * *', ()->
 submitJob = new CronJob('46 59 11 * * 5', ()->
   clearInterval intervalPer100ms
   cJob.stop()
@@ -217,10 +229,19 @@ submitBySessionUser = (session, user)->
    if body.indexOf('"result":"0"')!=-1
      logger.info local.success + ':' + user.url
      user.status = 2
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=277288'
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=310331'
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=309642'
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=288283'
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=284938'
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=277288'
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=277288'
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=310331'
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=309642'
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=288283'
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=284938'
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=277288'
 #_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=292846'
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=419&skuId=310139'
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=419&skuId=292774'
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=419&skuId=275290'
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=419&skuId=310338'
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=419&skuId=310139'
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=419&skuId=310338'
+#姐姐
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=419&skuId=275290'
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=419&skuId=295195'
