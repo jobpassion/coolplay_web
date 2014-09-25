@@ -63,6 +63,12 @@ users = [
   jar:request.jar()
   status:0
   sessions:[]
+,
+  userName:'yrej1983@163.com'
+  loginToken:'__p__=b014f37e16d4507873fb78089f78960e95328a8145f6188bd7e22a469c5b0dfa'
+  jar:request.jar()
+  status:0
+  sessions:[]
 ]
 listUsers = ()->
   console.log multiline ()->
@@ -261,3 +267,5 @@ _addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=306949'#zh
 
 _addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=313598'#yagao
 _addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=297585'#luyouqi
+
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=287990'#beizi
