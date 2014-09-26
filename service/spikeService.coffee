@@ -63,6 +63,12 @@ users = [
   jar:request.jar()
   status:0
   sessions:[]
+,
+  userName:'81631175@qq.com'
+  loginToken:'__p__=3681881f3697b0da87bb76198c4db8450d2eb88cc03d652d8b3e94ada4a91af0'
+  jar:request.jar()
+  status:0
+  sessions:[]
 ]
 listUsers = ()->
   console.log multiline ()->
