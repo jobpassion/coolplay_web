@@ -64,8 +64,20 @@ users = [
   status:0
   sessions:[]
 ,
+  userName:'yrej1983@163.com'
+  loginToken:'__p__=b014f37e16d4507873fb78089f78960e95328a8145f6188bd7e22a469c5b0dfa'
+  jar:request.jar()
+  status:0
+  sessions:[]
+,
   userName:'81631175@qq.com'
   loginToken:'__p__=3681881f3697b0da87bb76198c4db8450d2eb88cc03d652d8b3e94ada4a91af0'
+  jar:request.jar()
+  status:0
+  sessions:[]
+,
+  userName:'xuxf13@163.com'
+  loginToken:'__p__=75bc1004a5382bb7bd8bbfef94f66e59ad34bde8c4c2a6db4ebfb99ead66f1f3'
   jar:request.jar()
   status:0
   sessions:[]
@@ -197,7 +209,7 @@ queryBySessionUser = (session, user)->
     catch e
 
       #submitJob = new CronJob('0 30 22 * * *', ()->
-submitJob = new CronJob('43 59 11 * * 5', ()->
+submitJob = new CronJob('38 59 11 * * 5', ()->
   clearInterval intervalPer100ms
   cJob.stop()
   inter = setInterval ()->
@@ -256,6 +268,20 @@ submitBySessionUser = (session, user)->
 
 
 
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=306949'#zhentou huahua
+
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=316802'#pangxie
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=316802'#pangxie
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=316802'#pangxie
 _addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=297585'#luyouqi
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=316802'#pangxie
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=316802'#pangxie
+
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=306949'#zhentou ma
+
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=313598'#yagao
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=297585'#luyouqi
+
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=287990'#beizi
+
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=297585'#sunhukai
+
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=287268'#xubo
