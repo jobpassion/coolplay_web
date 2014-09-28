@@ -8,13 +8,13 @@ util = require(ROOT + "util/util")
 async = require("async")
 
 exports.register = (user, callback) ->
-  if not user.loginName or not user.password
-    callback
-      errCode: 2
-      msg: dictionary.errCode[2]
-    , false
-    return
-  loginName = user.loginName
+  #if not user.loginName or not user.password
+  #  callback
+  #    errCode: 2
+  #    msg: dictionary.errCode[2]
+  #  , false
+  #  return
+  #loginName = user.loginName
   userDao.queryByName loginName, (results) ->
     if results and results.length > 0
       callback
@@ -112,3 +112,5 @@ exports.queryUserLike = (params, callback) ->
   params.type = 2
   userDao.queryUserAction params, util.resultHandle(callback, 5)
   return
+exports.bindWeibo = (user, authData) ->
+  f

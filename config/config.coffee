@@ -1,4 +1,5 @@
 config =
+  impl: 'AVOS'
   dbHost: "mysql.cfp3qdjt6nej.ap-northeast-1.rds.amazonaws.com"
   dbUser: "awsuser"
   dbPassword: "261103692"
