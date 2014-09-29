@@ -4,7 +4,7 @@ logger = require("log4js").getLogger(__filename)
 CronJob = require('cron').CronJob
 request = require("request")
 #request = request.defaults({jar: true})
-tough = require('tough-cookie')
+#tough = require('tough-cookie')
 properties = require('properties')
 rl = require ROOT + 'service/stdInputService'
 fs = require 'fs'
@@ -122,6 +122,8 @@ refreshBySessionUser = (session, user)->
   request {url:'http://www.600280.com/member/index', headers:{Cookie:user.loginToken, jar:session.jar}}, (error, response, body)->
     try
       if response.headers['set-cookie']
+        #for i of session.jar
+        #  console.log i + '===' + session.jar[i]
         session.jar.setCookie(response.headers['set-cookie'][0], 'http://www.600280.com')
         session.lastUpdate = new Date().getTime()
         session.refreshing = null
