@@ -122,7 +122,7 @@ refreshBySessionUser = (session, user)->
   request {url:'http://www.600280.com/member/index', headers:{Cookie:user.loginToken, jar:session.jar}}, (error, response, body)->
     try
       if response.headers['set-cookie']
-        session.jar.setCookie(response.headers['set-cookie'][0], 'http://www.600280.com')
+        session.jar.setCookieSync(response.headers['set-cookie'][0], 'http://www.600280.com')
         session.lastUpdate = new Date().getTime()
         session.refreshing = null
         session.status = 1
