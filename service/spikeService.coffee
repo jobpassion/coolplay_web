@@ -268,20 +268,24 @@ submitBySessionUser = (session, user)->
 
 
 
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=306949'#zhentou huahua
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=306949'#zhentou huahua
+#
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=316802'#pangxie
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=316802'#pangxie
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=316802'#pangxie
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=297585'#luyouqi
+#
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=306949'#zhentou ma
+#
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=313598'#yagao
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=297585'#luyouqi
+#
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=287990'#beizi
+#
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=297585'#sunhukai
+#
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=287268'#xubo
 
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=316802'#pangxie
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=316802'#pangxie
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=316802'#pangxie
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=297585'#luyouqi
 
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=306949'#zhentou ma
 
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=313598'#yagao
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=297585'#luyouqi
-
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=287990'#beizi
-
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=297585'#sunhukai
-
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=287268'#xubo
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=287268'#xubo
