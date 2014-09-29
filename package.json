@@ -36,6 +36,7 @@
     "cron": "",
     "tough-cookie": "",
     "properties": "",
+    "coffee-script": "",
     "string": "^1.8.1"
   }
 }

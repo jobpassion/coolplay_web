@@ -46,12 +46,12 @@ users = [
   status:0
   sessions:[]
 ,
-  userName:'jaja3028@163.com'
-  loginToken:'__p__=3f7f8a0f20d4071a905e82550448160960a130521b33e51f6d6c4e0036f6362f'
-  jar:request.jar()
-  status:0
-  sessions:[]
-,
+#  userName:'jaja3028@163.com'
+#  loginToken:'__p__=3f7f8a0f20d4071a905e82550448160960a130521b33e51f6d6c4e0036f6362f'
+#  jar:request.jar()
+#  status:0
+#  sessions:[]
+#,
   userName:'iiuyt12@163.com'
   loginToken:'__p__=28501cd91c903540f65a1b8afff0cb3148c9e63691fdff754dfe77eb42b9ac7a'
   jar:request.jar()
@@ -63,24 +63,18 @@ users = [
   jar:request.jar()
   status:0
   sessions:[]
-,
-  userName:'yrej1983@163.com'
-  loginToken:'__p__=b014f37e16d4507873fb78089f78960e95328a8145f6188bd7e22a469c5b0dfa'
-  jar:request.jar()
-  status:0
-  sessions:[]
-,
-  userName:'81631175@qq.com'
-  loginToken:'__p__=3681881f3697b0da87bb76198c4db8450d2eb88cc03d652d8b3e94ada4a91af0'
-  jar:request.jar()
-  status:0
-  sessions:[]
-,
-  userName:'xuxf13@163.com'
-  loginToken:'__p__=75bc1004a5382bb7bd8bbfef94f66e59ad34bde8c4c2a6db4ebfb99ead66f1f3'
-  jar:request.jar()
-  status:0
-  sessions:[]
+  #,
+  #  userName:'yrej1983@163.com'
+  #  loginToken:'__p__=b014f37e16d4507873fb78089f78960e95328a8145f6188bd7e22a469c5b0dfa'
+  #  jar:request.jar()
+  #  status:0
+  #  sessions:[]
+  #,
+  #  userName:'vfrtgb1313@163.com'
+  #  loginToken:'__p__=2617359d83ae6cc5a67f4bc5018dd8691f79196c252a1f9b0e89982f8f2fd753'
+  #  jar:request.jar()
+  #  status:0
+  #  sessions:[]
 ]
 listUsers = ()->
   console.log multiline ()->
@@ -209,7 +203,7 @@ queryBySessionUser = (session, user)->
     catch e
 
       #submitJob = new CronJob('0 30 22 * * *', ()->
-submitJob = new CronJob('38 59 14 * * 5', ()->
+submitJob = new CronJob('38 59 11 * * 5', ()->
   clearInterval intervalPer100ms
   cJob.stop()
   inter = setInterval ()->
@@ -247,45 +241,21 @@ submitBySessionUser = (session, user)->
    if body.indexOf('"result":"0"')!=-1
      logger.info local.success + ':' + user.url
      user.status = 2
-#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=277288'
-#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=310331'
-#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=309642'
-#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=288283'
-#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=284938'
-#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=277288'
-#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=395&skuId=292846'
-
-
-#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=419&skuId=310139'
-#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=419&skuId=292774'
-#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=419&skuId=275290'
-#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=419&skuId=310338'
-#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=419&skuId=310139'
-#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=419&skuId=310338'
-##姐姐
-#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=419&skuId=275290'
-#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=419&skuId=295195'
 
 
 
-#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=306949'#zhentou huahua
-#
-#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=316802'#pangxie
-#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=316802'#pangxie
-#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=316802'#pangxie
-#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=297585'#luyouqi
-#
-#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=306949'#zhentou ma
-#
-#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=313598'#yagao
-#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=297585'#luyouqi
-#
-#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=287990'#beizi
-#
-#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=297585'#sunhukai
-#
-#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=488&skuId=287268'#xubo
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=281761'
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=310332'
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=314397'
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=281761'
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=259027'
 
+#ma
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=303546'#pangxie
 
+#jie
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=310332'
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=287243'
 
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=287268'#xubo
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=303546'#pangxie
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=303546'#pangxie
