@@ -33,7 +33,6 @@
     "readline": "",
     "multiline": "",
     "cron": "",
-    "tough-cookie": "^0.12.1",
     "properties": "",
     "coffee-script": "",
     "string": "^1.8.1"
