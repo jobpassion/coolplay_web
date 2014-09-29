@@ -4,7 +4,6 @@ logger = require("log4js").getLogger(__filename)
 CronJob = require('cron').CronJob
 request = require("request")
 #request = request.defaults({jar: true})
-tough = require('tough-cookie')
 properties = require('properties')
 rl = require ROOT + 'service/stdInputService'
 fs = require 'fs'
