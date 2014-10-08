@@ -4,7 +4,7 @@ logger = require("log4js").getLogger(__filename)
 CronJob = require('cron').CronJob
 request = require("request")
 #request = request.defaults({jar: true})
-#tough = require('tough-cookie')
+tough = require('tough-cookie')
 properties = require('properties')
 rl = require ROOT + 'service/stdInputService'
 fs = require 'fs'
@@ -46,12 +46,12 @@ users = [
   status:0
   sessions:[]
 ,
-#  userName:'jaja3028@163.com'
-#  loginToken:'__p__=3f7f8a0f20d4071a905e82550448160960a130521b33e51f6d6c4e0036f6362f'
-#  jar:request.jar()
-#  status:0
-#  sessions:[]
-#,
+  userName:'jaja3028@163.com'
+  loginToken:'__p__=3f7f8a0f20d4071a905e82550448160960a130521b33e51f6d6c4e0036f6362f'
+  jar:request.jar()
+  status:0
+  sessions:[]
+,
   userName:'iiuyt12@163.com'
   loginToken:'__p__=28501cd91c903540f65a1b8afff0cb3148c9e63691fdff754dfe77eb42b9ac7a'
   jar:request.jar()
@@ -63,18 +63,24 @@ users = [
   jar:request.jar()
   status:0
   sessions:[]
-  #,
-  #  userName:'yrej1983@163.com'
-  #  loginToken:'__p__=b014f37e16d4507873fb78089f78960e95328a8145f6188bd7e22a469c5b0dfa'
-  #  jar:request.jar()
-  #  status:0
-  #  sessions:[]
-  #,
-  #  userName:'vfrtgb1313@163.com'
-  #  loginToken:'__p__=2617359d83ae6cc5a67f4bc5018dd8691f79196c252a1f9b0e89982f8f2fd753'
-  #  jar:request.jar()
-  #  status:0
-  #  sessions:[]
+,
+  userName:'yrej1983@163.com'
+  loginToken:'__p__=b014f37e16d4507873fb78089f78960e95328a8145f6188bd7e22a469c5b0dfa'
+  jar:request.jar()
+  status:0
+  sessions:[]
+,
+  userName:'vfrtgb1313@163.com'
+  loginToken:'__p__=2617359d83ae6cc5a67f4bc5018dd8691f79196c252a1f9b0e89982f8f2fd753'
+  jar:request.jar()
+  status:0
+  sessions:[]
+,
+  userName:'agag2727@163.com'
+  loginToken:'__p__=9f7e18df8a62f096e231ae28ee053a542f179162f330319a0413349069d2a9f6'
+  jar:request.jar()
+  status:0
+  sessions:[]
 ]
 listUsers = ()->
   console.log multiline ()->
@@ -124,7 +130,8 @@ refreshBySessionUser = (session, user)->
       if response.headers['set-cookie']
         #for i of session.jar
         #  console.log i + '===' + session.jar[i]
-        session.jar.setCookieSync(response.headers['set-cookie'][0], 'http://www.600280.com')
+        #session.jar.setCookieSync(response.headers['set-cookie'][0], 'http://www.600280.com')
+        session.jar.setCookie(response.headers['set-cookie'][0], 'http://www.600280.com')
         session.lastUpdate = new Date().getTime()
         session.refreshing = null
         session.status = 1
@@ -132,6 +139,7 @@ refreshBySessionUser = (session, user)->
         refreshSessionCount++
         logger.info 'refreshSessionCount:' + refreshSessionCount
     catch e 
+      console.error user.userName
       console.error e
 intervalPer100ms = setInterval(()->
   for user in users
@@ -205,7 +213,7 @@ queryBySessionUser = (session, user)->
     catch e
 
       #submitJob = new CronJob('0 30 22 * * *', ()->
-submitJob = new CronJob('38 59 11 * * 5', ()->
+submitJob = new CronJob('39 59 11 * * 5', ()->
   clearInterval intervalPer100ms
   cJob.stop()
   inter = setInterval ()->
@@ -253,11 +261,13 @@ _addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=281761'
 _addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=259027'
 
 #ma
-#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=303546'#pangxie
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=303546'#pangxie
 
 #jie
 _addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=310332'
 _addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=287243'
 
-#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=303546'#pangxie
-#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=303546'#pangxie
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=303546'#pangxie
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=303546'#pangxie
+#jia
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=281761'
