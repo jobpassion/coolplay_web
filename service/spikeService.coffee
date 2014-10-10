@@ -82,6 +82,24 @@ users = [
   status:0
   sessions:[]
 ,
+  userName:'wow123123wow@163.com'
+  loginToken:'__p__=2d3493f7c8a6b8ba1a0a96e7ecbef3e527a603e4ef6afbbce7683687c77b0081'
+  jar:request.jar()
+  status:0
+  sessions:[]
+,
+  userName:'qwe456yy456@163.com'
+  loginToken:'__p__=74bbc66bdaaa09a68d7db05d86f7216cdf07cfe541a279505ef45772e0d23e18'
+  jar:request.jar()
+  status:0
+  sessions:[]
+,
+  userName:'yui789yuioo@163.com'
+  loginToken:'__p__=1f17132b66c8f56fa772a0c5e4c724f235e8a0245171f33efe68b8e9ecec3011'
+  jar:request.jar()
+  status:0
+  sessions:[]
+,
   userName:'jiuy1521@163.com'
   loginToken:'__p__=52e1d8c4e9723ebfe1058ffd087fe6ddb0b64f351e329b10629a3f6f9a03cd76'
   jar:request.jar()
@@ -260,29 +278,35 @@ submitBySessionUser = (session, user)->
    if error
      logger.error error
    logger.info body
-   if body.indexOf('"result":"0"')!=-1
+   if body.indexOf('"result":"0"')!=-1 or body.indexOf("-1")!= -1 or body.indexOf("-2")!= -1
      logger.info local.success + ':' + user.url
      user.status = 2
 
 
-
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=281761'
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=310332'
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=314397'
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=281761'
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=259027'
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=184281'
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=320190'
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=318934'#zhi
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=318934'
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=318934'
 
 #ma
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=303546'#pangxie
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=318332'#guo
 
 #jie
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=310332'
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=287243'
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=326873'#mianmo
 
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=303546'#pangxie
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=303546'#pangxie
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=326873'
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=326873'#mianmo
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=326873'
 #jia
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=281761'
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=318934'#zhi
+
+#hua
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=326975'#pangxie
+
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=326975'
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=326975'
+
 #jie
 _addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=318934'
 #sun
