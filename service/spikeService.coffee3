@@ -160,8 +160,8 @@ refreshBySessionUser = (session, user)->
       if response.headers['set-cookie']
         #for i of session.jar
         #  console.log i + '===' + session.jar[i]
-        #session.jar.setCookieSync(response.headers['set-cookie'][0], 'http://www.600280.com')
-        session.jar.setCookie(response.headers['set-cookie'][0], 'http://www.600280.com')
+        session.jar.setCookieSync(response.headers['set-cookie'][0], 'http://www.600280.com')
+        #session.jar.setCookie(response.headers['set-cookie'][0], 'http://www.600280.com')
         session.lastUpdate = new Date().getTime()
         session.refreshing = null
         session.status = 1
