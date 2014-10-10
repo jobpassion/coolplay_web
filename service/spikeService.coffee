@@ -308,6 +308,6 @@ _addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=326975'
 _addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=326975'
 
 #jie
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=318934'
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=318934'
 #sun
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=489&skuId=318934'
+_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=318934'
