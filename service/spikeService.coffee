@@ -39,78 +39,78 @@ users = [
   jar:request.jar()
   status:0
   sessions:[]
-,
-  userName:'fsafsa1818@163.com'
-  loginToken:'__p__=58b16b13fc3840ffa7a5950f0fa4ae82ee02850f62af7d2922aa34a016481444'
-  jar:request.jar()
-  status:0
-  sessions:[]
-,
-  userName:'jaja3028@163.com'
-  loginToken:'__p__=3f7f8a0f20d4071a905e82550448160960a130521b33e51f6d6c4e0036f6362f'
-  jar:request.jar()
-  status:0
-  sessions:[]
-,
-  userName:'iiuyt12@163.com'
-  loginToken:'__p__=28501cd91c903540f65a1b8afff0cb3148c9e63691fdff754dfe77eb42b9ac7a'
-  jar:request.jar()
-  status:0
-  sessions:[]
-,
-  userName:'nmbv1212@163.com'
-  loginToken:'__p__=5a013bbeb826508892cd12782e0066a70fe11908a708f16d85bea1dcf915eb24'
-  jar:request.jar()
-  status:0
-  sessions:[]
-,
-  userName:'yrej1983@163.com'
-  loginToken:'__p__=b014f37e16d4507873fb78089f78960e95328a8145f6188bd7e22a469c5b0dfa'
-  jar:request.jar()
-  status:0
-  sessions:[]
-,
-  userName:'vfrtgb1313@163.com'
-  loginToken:'__p__=2617359d83ae6cc5a67f4bc5018dd8691f79196c252a1f9b0e89982f8f2fd753'
-  jar:request.jar()
-  status:0
-  sessions:[]
-,
-  userName:'agag2727@163.com'
-  loginToken:'__p__=9f7e18df8a62f096e231ae28ee053a542f179162f330319a0413349069d2a9f6'
-  jar:request.jar()
-  status:0
-  sessions:[]
-,
-  userName:'wow123123wow@163.com'
-  loginToken:'__p__=2d3493f7c8a6b8ba1a0a96e7ecbef3e527a603e4ef6afbbce7683687c77b0081'
-  jar:request.jar()
-  status:0
-  sessions:[]
-,
-  userName:'qwe456yy456@163.com'
-  loginToken:'__p__=74bbc66bdaaa09a68d7db05d86f7216cdf07cfe541a279505ef45772e0d23e18'
-  jar:request.jar()
-  status:0
-  sessions:[]
-,
-  userName:'yui789yuioo@163.com'
-  loginToken:'__p__=1f17132b66c8f56fa772a0c5e4c724f235e8a0245171f33efe68b8e9ecec3011'
-  jar:request.jar()
-  status:0
-  sessions:[]
-,
-  userName:'jiuy1521@163.com'
-  loginToken:'__p__=52e1d8c4e9723ebfe1058ffd087fe6ddb0b64f351e329b10629a3f6f9a03cd76'
-  jar:request.jar()
-  status:0
-  sessions:[]
-,
-  userName:'81631175@qq.com'
-  loginToken:'__p__=18dbf96bd71ea4957475bcbcc4a162730d2eb88cc03d652d8b3e94ada4a91af0'
-  jar:request.jar()
-  status:0
-  sessions:[]
+#,
+#  userName:'fsafsa1818@163.com'
+#  loginToken:'__p__=58b16b13fc3840ffa7a5950f0fa4ae82ee02850f62af7d2922aa34a016481444'
+#  jar:request.jar()
+#  status:0
+#  sessions:[]
+#,
+#  userName:'jaja3028@163.com'
+#  loginToken:'__p__=3f7f8a0f20d4071a905e82550448160960a130521b33e51f6d6c4e0036f6362f'
+#  jar:request.jar()
+#  status:0
+#  sessions:[]
+#,
+#  userName:'iiuyt12@163.com'
+#  loginToken:'__p__=28501cd91c903540f65a1b8afff0cb3148c9e63691fdff754dfe77eb42b9ac7a'
+#  jar:request.jar()
+#  status:0
+#  sessions:[]
+#,
+#  userName:'nmbv1212@163.com'
+#  loginToken:'__p__=5a013bbeb826508892cd12782e0066a70fe11908a708f16d85bea1dcf915eb24'
+#  jar:request.jar()
+#  status:0
+#  sessions:[]
+#,
+#  userName:'yrej1983@163.com'
+#  loginToken:'__p__=b014f37e16d4507873fb78089f78960e95328a8145f6188bd7e22a469c5b0dfa'
+#  jar:request.jar()
+#  status:0
+#  sessions:[]
+#,
+#  userName:'vfrtgb1313@163.com'
+#  loginToken:'__p__=2617359d83ae6cc5a67f4bc5018dd8691f79196c252a1f9b0e89982f8f2fd753'
+#  jar:request.jar()
+#  status:0
+#  sessions:[]
+#,
+#  userName:'agag2727@163.com'
+#  loginToken:'__p__=9f7e18df8a62f096e231ae28ee053a542f179162f330319a0413349069d2a9f6'
+#  jar:request.jar()
+#  status:0
+#  sessions:[]
+#,
+#  userName:'wow123123wow@163.com'
+#  loginToken:'__p__=2d3493f7c8a6b8ba1a0a96e7ecbef3e527a603e4ef6afbbce7683687c77b0081'
+#  jar:request.jar()
+#  status:0
+#  sessions:[]
+#,
+#  userName:'qwe456yy456@163.com'
+#  loginToken:'__p__=74bbc66bdaaa09a68d7db05d86f7216cdf07cfe541a279505ef45772e0d23e18'
+#  jar:request.jar()
+#  status:0
+#  sessions:[]
+#,
+#  userName:'yui789yuioo@163.com'
+#  loginToken:'__p__=1f17132b66c8f56fa772a0c5e4c724f235e8a0245171f33efe68b8e9ecec3011'
+#  jar:request.jar()
+#  status:0
+#  sessions:[]
+#,
+#  userName:'jiuy1521@163.com'
+#  loginToken:'__p__=52e1d8c4e9723ebfe1058ffd087fe6ddb0b64f351e329b10629a3f6f9a03cd76'
+#  jar:request.jar()
+#  status:0
+#  sessions:[]
+#,
+#  userName:'81631175@qq.com'
+#  loginToken:'__p__=18dbf96bd71ea4957475bcbcc4a162730d2eb88cc03d652d8b3e94ada4a91af0'
+#  jar:request.jar()
+#  status:0
+#  sessions:[]
 ]
 listUsers = ()->
   console.log multiline ()->
@@ -287,27 +287,27 @@ _addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=184281'
 _addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=320190'
 _addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=318934'#zhi
 _addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=318934'
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=318934'
-
-#ma
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=318332'#guo
-
-#jie
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=326873'#mianmo
-
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=326873'
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=326873'#mianmo
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=326873'
-#jia
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=318934'#zhi
-
-#hua
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=326975'#pangxie
-
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=326975'
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=326975'
-
-#jie
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=318934'
-#sun
-_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=318934'
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=318934'
+#
+##ma
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=318332'#guo
+#
+##jie
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=326873'#mianmo
+#
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=326873'
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=326873'#mianmo
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=326873'
+##jia
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=318934'#zhi
+#
+##hua
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=326975'#pangxie
+#
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=326975'
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=326975'
+#
+##jie
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=318934'
+##sun
+#_addJob 'http://zf.600280.com/order/querySecKillInfo?promId=534&skuId=318934'
