@@ -26,14 +26,14 @@
         return callback(error, null);
       } else {
         if (results.length > 0) {
-          return callback(null, '已经赞过');
+          return callback(null, 0);
         } else {
           return userDao.insert('Like', {
             author: user,
             post: publish
           }, function(error, result) {
             if (!error) {
-              return callback(null, '成功赞');
+              return callback(null, 1);
             }
           });
         }

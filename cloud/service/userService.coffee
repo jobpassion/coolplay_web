@@ -16,11 +16,11 @@ exports.addToLike = (user, post, callback) ->
         callback error,null
       else
         if results.length > 0
-          callback null, '已经赞过'
+          callback null, 0#已经赞过
         else
           userDao.insert 'Like', 
             author:user
             post:publish
             ,(error, result)->
               if !error
-                callback null, '成功赞'
+                callback null, 1#成功赞
