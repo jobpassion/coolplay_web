@@ -14,6 +14,22 @@ exports.queryByParam = (_class, param, callback) ->
       callback null,results
     error:(error)->
       callback error,null
+exports.get = (_class, id, callback)->
+  query = new AV.Query AV.Object.extend _class
+  query.get id, 
+    success:(classObject)->
+      callback null, classObject
+    error:(classObject, error)->
+      if error
+        console.error error
+      callback error, classObject
+
+exports.save = (toSave, callback)->
+  toSave.save null, 
+    success:(toSave)->
+      callback null, toSave
+    error:(toSave, error)->
+      callback error, toSave
 exports.insert = (_class, param, callback)->
   classObject = AV.Object.new _class
   for key,value of param

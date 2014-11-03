@@ -29,6 +29,33 @@
     });
   };
 
+  exports.get = function(_class, id, callback) {
+    var query;
+    query = new AV.Query(AV.Object.extend(_class));
+    return query.get(id, {
+      success: function(classObject) {
+        return callback(null, classObject);
+      },
+      error: function(classObject, error) {
+        if (error) {
+          console.error(error);
+        }
+        return callback(error, classObject);
+      }
+    });
+  };
+
+  exports.save = function(toSave, callback) {
+    return toSave.save(null, {
+      success: function(toSave) {
+        return callback(null, toSave);
+      },
+      error: function(toSave, error) {
+        return callback(error, toSave);
+      }
+    });
+  };
+
   exports.insert = function(_class, param, callback) {
     var classObject, key, value;
     classObject = AV.Object["new"](_class);

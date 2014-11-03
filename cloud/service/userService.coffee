@@ -42,7 +42,10 @@ exports.addToFavorite = (user, post, callback) ->
             post:publish
             ,(error, result)->
               if !error
-                callback null, 1#成功赞
+                userDao.get 'Publish', post, (error, publish)->
+                  publish.add 'favorites', result
+                  userDao.save publish, (error, result)->
+                    callback null, 1#成功赞
 exports.queryLatestPublish = (param, callback) ->
   userDao.queryLatestPublish param, (error, results1)->
     if param.user

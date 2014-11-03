@@ -60,7 +60,12 @@
             post: publish
           }, function(error, result) {
             if (!error) {
-              return callback(null, 1);
+              return userDao.get('Publish', post, function(error, publish) {
+                publish.add('favorites', result);
+                return userDao.save(publish, function(error, result) {
+                  return callback(null, 1);
+                });
+              });
             }
           });
         }
