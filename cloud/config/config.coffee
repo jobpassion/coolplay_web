@@ -41,29 +41,7 @@ log4js.configure appenders: [
 ]
 
 #,replaceConsole: true
-GLOBAL.ROOT = __dirname + "/../cloud"
+GLOBAL.ROOT = __dirname + "/../"
 module.exports = config
 config.setAV = (_AV)->
   GLOBAL.AV = _AV
-Object.defineProperty global, "__stack",
-  get: ->
-    orig = Error.prepareStackTrace
-    Error.prepareStackTrace = (_, stack) ->
-      stack
-
-    err = new Error
-    Error.captureStackTrace err, arguments_.callee
-    stack = err.stack
-    Error.prepareStackTrace = orig
-    stack
-
-Object.defineProperty global, "__line",
-  get: ->
-    return 0;
-    __stack[1].getLineNumber()
-
-Object.defineProperty global, "__function",
-  get: ->
-    return 'none'
-    __stack[1].getFunctionName()
-

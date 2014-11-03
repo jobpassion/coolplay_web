@@ -2,7 +2,7 @@
 (function() {
   var config, userService;
 
-  config = require("../config/config");
+  config = require("cloud/config/config");
 
   userService = require(ROOT + 'service/userService');
 
