@@ -2,12 +2,12 @@
 (function() {
   var config, userDao;
 
-  config = require(ROOT + "config/config");
+  config = require("cloud/config/config");
 
   if (config.impl === 'AVOS') {
-    userDao = require(ROOT + 'dao/userDaoAVImpl');
+    userDao = require(config.ROOT + 'dao/userDaoAVImpl');
   } else {
-    userDao = require(ROOT + 'dao/userDaoImpl');
+    userDao = require(config.ROOT + 'dao/userDaoImpl');
   }
 
   module.exports = userDao;

@@ -4,9 +4,7 @@
 
   config = require("cloud/config/config");
 
-  userService = require(ROOT + 'service/userService');
-
-  config.setAV(AV);
+  userService = require('cloud/service/userService');
 
   AV.Cloud.define("hello", function(request, response) {
     response.success("Hello world!2");

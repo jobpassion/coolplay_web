@@ -1,3 +1,4 @@
+config = require "cloud/config/config"
 classMap = {}
 exports.queryByParam = (_class, param, callback) ->
   if classMap[_class]

@@ -41,7 +41,5 @@ log4js.configure appenders: [
 ]
 
 #,replaceConsole: true
-GLOBAL.ROOT = __dirname + "/../"
+config.ROOT = "cloud/"
 module.exports = config
-config.setAV = (_AV)->
-  GLOBAL.AV = _AV

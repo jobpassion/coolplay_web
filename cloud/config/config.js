@@ -44,12 +44,8 @@
     ]
   });
 
-  GLOBAL.ROOT = __dirname + "/../";
+  config.ROOT = "cloud/";
 
   module.exports = config;
-
-  config.setAV = function(_AV) {
-    return GLOBAL.AV = _AV;
-  };
 
 }).call(this);

@@ -1,6 +1,7 @@
+config = require "cloud/config/config"
 randomToken = ->
   crypto.randomBytes(20).toString "hex"
-userDao = require(ROOT + "dao/userDao")
+userDao = require(config.ROOT + "dao/userDao")
 async = require("async")
 
 classMap = {}
