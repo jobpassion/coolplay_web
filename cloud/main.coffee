@@ -1,6 +1,6 @@
 # Use AV.Cloud.define to define as many cloud functions as you want.
 # For example:
-config = require "../config/config"
+config = require "cloud/config/config"
 userService = require ROOT + 'service/userService'
 config.setAV AV
 AV.Cloud.define "hello", (request, response) ->
