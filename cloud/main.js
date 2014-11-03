@@ -22,6 +22,14 @@
     });
   });
 
+  AV.Cloud.define("addToFavorite", function(request, response) {
+    var currentUser;
+    currentUser = AV.User.current();
+    return userService.addToFavorite(currentUser, request.params.post, function(error, result) {
+      return response.success(result);
+    });
+  });
+
   AV.Cloud.define("queryLatestPublish", function(request, response) {
     var currentUser;
     currentUser = AV.User.current();

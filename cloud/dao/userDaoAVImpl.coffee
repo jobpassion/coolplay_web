@@ -49,6 +49,7 @@ exports.queryFavorites = (param, callback) ->
     Class = AV.Object.extend _class
     classMap[_class] = Class
   query = new AV.Query Class
+  query.equalTo 'author', param.user
   query.find
     success:(results)->
       callback null, results

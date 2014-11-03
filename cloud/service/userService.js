@@ -41,6 +41,33 @@
     });
   };
 
+  exports.addToFavorite = function(user, post, callback) {
+    var publish;
+    publish = AV.Object["new"]('Publish');
+    publish.set('objectId', post);
+    return userDao.queryByParam('Favorite', {
+      author: user,
+      post: publish
+    }, function(error, results) {
+      if (error) {
+        return callback(error, null);
+      } else {
+        if (results.length > 0) {
+          return callback(null, 0);
+        } else {
+          return userDao.insert('Favorite', {
+            author: user,
+            post: publish
+          }, function(error, result) {
+            if (!error) {
+              return callback(null, 1);
+            }
+          });
+        }
+      }
+    });
+  };
+
   exports.queryLatestPublish = function(param, callback) {
     return userDao.queryLatestPublish(param, function(error, results1) {
       if (param.user) {
@@ -49,12 +76,12 @@
           favoriteMap = {};
           for (_i = 0, _len = results.length; _i < _len; _i++) {
             favorite = results[_i];
-            favoriteMap[favorite.post] = 1;
+            favoriteMap[(favorite.get('post')).id] = 1;
           }
           for (_j = 0, _len1 = results1.length; _j < _len1; _j++) {
             post = results1[_j];
             if (favoriteMap[post.id]) {
-              post.favorite = true;
+              post.set('favorite', true);
             }
           }
           return callback(error, results1);

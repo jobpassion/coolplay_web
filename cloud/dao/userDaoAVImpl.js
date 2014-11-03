@@ -79,6 +79,7 @@
       classMap[_class] = Class;
     }
     query = new AV.Query(Class);
+    query.equalTo('author', param.user);
     return query.find({
       success: function(results) {
         return callback(null, results);
