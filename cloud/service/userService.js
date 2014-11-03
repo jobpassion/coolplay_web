@@ -41,4 +41,28 @@
     });
   };
 
+  exports.queryLatestPublish = function(param, callback) {
+    return userDao.queryLatestPublish(param, function(error, results1) {
+      if (param.user) {
+        return userDao.queryFavorites(param, function(error, results) {
+          var favorite, favoriteMap, post, _i, _j, _len, _len1;
+          favoriteMap = {};
+          for (_i = 0, _len = results.length; _i < _len; _i++) {
+            favorite = results[_i];
+            favoriteMap[favorite.post] = 1;
+          }
+          for (_j = 0, _len1 = results1.length; _j < _len1; _j++) {
+            post = results1[_j];
+            if (favoriteMap[post.id]) {
+              post.favorite = true;
+            }
+          }
+          return callback(error, results1);
+        });
+      } else {
+        return callback(error, results1);
+      }
+    });
+  };
+
 }).call(this);

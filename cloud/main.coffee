@@ -11,3 +11,8 @@ AV.Cloud.define "addToLike", (request, response) ->
   currentUser = AV.User.current()
   userService.addToLike currentUser, request.params.post, (error, result)->
     response.success result
+AV.Cloud.define "queryLatestPublish", (request, response) ->
+  currentUser = AV.User.current()
+  request.params.user = currentUser
+  userService.queryLatestPublish request.params, (error, results)->
+    response.success results

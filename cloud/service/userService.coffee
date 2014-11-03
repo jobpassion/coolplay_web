@@ -24,3 +24,18 @@ exports.addToLike = (user, post, callback) ->
             ,(error, result)->
               if !error
                 callback null, 1#成功赞
+exports.queryLatestPublish = (param, callback) ->
+  userDao.queryLatestPublish param, (error, results1)->
+    if param.user
+      userDao.queryFavorites param, (error, results)->
+        favoriteMap = {}
+        for favorite in results
+          favoriteMap[favorite.post] = 1
+        for post in results1
+          if favoriteMap[post.id]
+            post.favorite = true
+        callback error, results1
+    else
+      callback error, results1
+          
+

@@ -46,4 +46,47 @@
     });
   };
 
+  exports.queryLatestPublish = function(param, callback) {
+    var Class, query, _class;
+    _class = 'Publish';
+    if (classMap[_class]) {
+      Class = classMap[_class];
+    } else {
+      Class = AV.Object.extend(_class);
+      classMap[_class] = Class;
+    }
+    query = new AV.Query(Class);
+    query.include('author');
+    query.equalTo('publishType', param.publishType);
+    query.addDescending('createdAt');
+    return query.find({
+      success: function(results) {
+        return callback(null, results);
+      },
+      error: function(error) {
+        return callback(error, null);
+      }
+    });
+  };
+
+  exports.queryFavorites = function(param, callback) {
+    var Class, query, _class;
+    _class = 'Favorite';
+    if (classMap[_class]) {
+      Class = classMap[_class];
+    } else {
+      Class = AV.Object.extend(_class);
+      classMap[_class] = Class;
+    }
+    query = new AV.Query(Class);
+    return query.find({
+      success: function(results) {
+        return callback(null, results);
+      },
+      error: function(error) {
+        return callback(error, null);
+      }
+    });
+  };
+
 }).call(this);
