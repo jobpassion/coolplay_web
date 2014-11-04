@@ -39,6 +39,12 @@ exports.save = (toSave, callback)->
       callback null, toSave
     error:(toSave, error)->
       callback error, toSave
+exports.delete = (toSave, callback)->
+  toSave.destroy 
+    success:(toSave)->
+      callback null, toSave
+    error:(toSave, error)->
+      callback error, toSave
 exports.insert = (_class, param, callback)->
   classObject = AV.Object.new _class
   for key,value of param

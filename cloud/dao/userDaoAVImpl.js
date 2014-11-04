@@ -72,6 +72,17 @@
     });
   };
 
+  exports["delete"] = function(toSave, callback) {
+    return toSave.destroy({
+      success: function(toSave) {
+        return callback(null, toSave);
+      },
+      error: function(toSave, error) {
+        return callback(error, toSave);
+      }
+    });
+  };
+
   exports.insert = function(_class, param, callback) {
     var classObject, key, value;
     classObject = AV.Object["new"](_class);

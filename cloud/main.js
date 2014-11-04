@@ -22,10 +22,23 @@
     });
   });
 
+  AV.Cloud.define("removeToLike", function(request, response) {
+    return userService.removeToLike(request.user, request.params.post, function(error, result) {
+      return response.success(result);
+    });
+  });
+
   AV.Cloud.define("addToFavorite", function(request, response) {
     var currentUser;
     currentUser = AV.User.current();
     return userService.addToFavorite(currentUser, request.params.post, function(error, result) {
+      return response.success(result);
+    });
+  });
+
+  AV.Cloud.define("removeToFavorite", function(request, response) {
+    userService.constructAVObject('Publish', request.params.post);
+    return userService.removeToFavorite(request.user, request.params.post, function(error, result) {
       return response.success(result);
     });
   });

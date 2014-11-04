@@ -33,9 +33,43 @@
             post: publish
           }, function(error, result) {
             if (!error) {
-              return callback(null, 1);
+              return userDao.get('Comment', post, function(error, comment) {
+                comment.add('likes', result);
+                return userDao.save(comment, function(error, result) {
+                  return callback(null, 1);
+                });
+              });
             }
           });
+        }
+      }
+    });
+  };
+
+  exports.removeToLike = function(user, post, callback) {
+    var publish;
+    publish = AV.Object["new"]('Comment');
+    publish.set('objectId', post);
+    return userDao.queryByParam('Like', {
+      author: user,
+      post: publish
+    }, function(error, results) {
+      var like;
+      if (error) {
+        return callback(error, null);
+      } else {
+        if (results.length > 0) {
+          like = results[0];
+          return userDao["delete"](like, function(error, result) {
+            return userDao.get('Comment', post, function(error, result) {
+              result.remove('likes', like);
+              return userDao.save(result, function(error, result) {
+                return callback(null, 1);
+              });
+            });
+          });
+        } else {
+          return callback(null, 0);
         }
       }
     });
@@ -68,6 +102,35 @@
               });
             }
           });
+        }
+      }
+    });
+  };
+
+  exports.removeToFavorite = function(user, post, callback) {
+    var publish;
+    publish = AV.Object["new"]('Publish');
+    publish.set('objectId', post);
+    return userDao.queryByParam('Favorite', {
+      author: user,
+      post: publish
+    }, function(error, results) {
+      var favorite;
+      if (error) {
+        return callback(error, null);
+      } else {
+        if (results.length > 0) {
+          favorite = results[0];
+          return userDao["delete"](favorite, function(error, result) {
+            return userDao.get('Publish', post, function(error, result) {
+              result.remove('favorites', favorite);
+              return userDao.save(result, function(error, result) {
+                return callback(null, 1);
+              });
+            });
+          });
+        } else {
+          return callback(null, 0);
         }
       }
     });
@@ -124,7 +187,10 @@
   exports.queryCommentsByPost = function(param, callback) {
     return userDao.queryCommentsByPost(param, function(error, results1) {
       if (param.user) {
-        return queryLikes(param, function(error, results) {
+        return queryLikes({
+          author: param.user,
+          post: param.post
+        }, function(error, results) {
           var favorite, favoriteMap, post, _i, _j, _len, _len1;
           favoriteMap = {};
           for (_i = 0, _len = results.length; _i < _len; _i++) {

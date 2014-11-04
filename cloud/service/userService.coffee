@@ -23,7 +23,30 @@ exports.addToLike = (user, post, callback) ->
             post:publish
             ,(error, result)->
               if !error
-                callback null, 1#成功赞
+                userDao.get 'Comment', post, (error, comment)->
+                  comment.add 'likes', result
+                  userDao.save comment, (error, result)->
+                    callback null, 1#成功赞
+
+exports.removeToLike = (user, post, callback) ->
+  publish = AV.Object.new 'Comment'
+  publish.set 'objectId', post
+  userDao.queryByParam 'Like',
+    author:user
+    post:publish
+    ,(error, results)->
+      if error
+        callback error,null
+      else
+        if results.length > 0
+          like = results[0]
+          userDao.delete like, (error, result)->
+            userDao.get 'Comment', post, (error, result)->
+              result.remove 'likes', like
+              userDao.save result, (error, result)->
+                callback null, 1
+        else
+          callback null, 0#已经赞过
 exports.addToFavorite = (user, post, callback) ->
   publish = AV.Object.new 'Publish'
   publish.set 'objectId', post
@@ -46,6 +69,25 @@ exports.addToFavorite = (user, post, callback) ->
                   publish.add 'favorites', result
                   userDao.save publish, (error, result)->
                     callback null, 1#成功赞
+exports.removeToFavorite = (user, post, callback) ->
+  publish = AV.Object.new 'Publish'
+  publish.set 'objectId', post
+  userDao.queryByParam 'Favorite',
+    author:user
+    post:publish
+    ,(error, results)->
+      if error
+        callback error,null
+      else
+        if results.length > 0
+          favorite = results[0]
+          userDao.delete favorite, (error, result)->
+            userDao.get 'Publish', post, (error, result)->
+              result.remove 'favorites', favorite
+              userDao.save result, (error, result)->
+                callback null, 1
+        else
+          callback null, 0
 exports.queryLatestPublish = (param, callback) ->
   userDao.queryLatestPublish param, (error, results1)->
     if param.user
@@ -75,7 +117,10 @@ exports.queryHotestPublish = (param, callback) ->
 exports.queryCommentsByPost = (param, callback) ->
   userDao.queryCommentsByPost param, (error, results1)->
     if param.user
-      queryLikes param, (error, results)->
+      queryLikes 
+        author:param.user
+        post:param.post
+      , (error, results)->
         favoriteMap = {}
         for favorite in results
           favoriteMap[(favorite.get 'post').id] = 1
