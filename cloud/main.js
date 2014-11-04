@@ -39,4 +39,51 @@
     });
   });
 
+  AV.Cloud.define("queryHotestPublish", function(request, response) {
+    var currentUser;
+    currentUser = AV.User.current();
+    request.params.user = currentUser;
+    return userService.queryHotestPublish(request.params, function(error, results) {
+      return response.success(results);
+    });
+  });
+
+  AV.Cloud.define("queryCommentsByPost", function(request, response) {
+    var currentUser;
+    currentUser = AV.User.current();
+    request.params.post = userService.constructAVObject('Publish', request.params.post);
+    request.params.user = currentUser;
+    return userService.queryCommentsByPost(request.params, function(error, results) {
+      return response.success(results);
+    });
+  });
+
+  AV.Cloud.define("queryFavorites", function(request, response) {
+    var currentUser;
+    currentUser = AV.User.current();
+    request.params.user = currentUser;
+    return userService.queryFavorites(request.params, function(error, results) {
+      return response.success(results);
+    });
+  });
+
+  AV.Cloud.define("queryLikes", function(request, response) {
+    var currentUser;
+    currentUser = AV.User.current();
+    request.params.user = currentUser;
+    return userService.queryLikes(request.params, function(error, results) {
+      return response.success(results);
+    });
+  });
+
+  AV.Cloud.define("addCommentForPost", function(request, response) {
+    var currentUser;
+    currentUser = AV.User.current();
+    request.params.user = currentUser;
+    request.params.post = userService.constructAVObject('Publish', request.params.post);
+    return userService.addCommentForPost(request.params, function(error, results) {
+      return response.success(results);
+    });
+  });
+
 }).call(this);

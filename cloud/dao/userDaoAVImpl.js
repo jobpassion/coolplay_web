@@ -45,6 +45,22 @@
     });
   };
 
+  exports.getObject = function(classObject, callback) {
+    var query;
+    query = new AV.Query(AV.Object.extend(classObject.className));
+    return query.get(classObject.id, {
+      success: function(classObject) {
+        return callback(null, classObject);
+      },
+      error: function(classObject, error) {
+        if (error) {
+          console.error(error);
+        }
+        return callback(error, classObject);
+      }
+    });
+  };
+
   exports.save = function(toSave, callback) {
     return toSave.save(null, {
       success: function(toSave) {
@@ -85,6 +101,75 @@
     query = new AV.Query(Class);
     query.include('author');
     query.equalTo('publishType', param.publishType);
+    query.addDescending('createdAt');
+    return query.find({
+      success: function(results) {
+        return callback(null, results);
+      },
+      error: function(error) {
+        return callback(error, null);
+      }
+    });
+  };
+
+  exports.queryLatestPublish = function(param, callback) {
+    var Class, query, _class;
+    _class = 'Publish';
+    if (classMap[_class]) {
+      Class = classMap[_class];
+    } else {
+      Class = AV.Object.extend(_class);
+      classMap[_class] = Class;
+    }
+    query = new AV.Query(Class);
+    query.include('author');
+    query.equalTo('publishType', param.publishType);
+    query.addDescending('createdAt');
+    return query.find({
+      success: function(results) {
+        return callback(null, results);
+      },
+      error: function(error) {
+        return callback(error, null);
+      }
+    });
+  };
+
+  exports.queryHotestPublish = function(param, callback) {
+    var Class, query, _class;
+    _class = 'Publish';
+    if (classMap[_class]) {
+      Class = classMap[_class];
+    } else {
+      Class = AV.Object.extend(_class);
+      classMap[_class] = Class;
+    }
+    query = new AV.Query(Class);
+    query.include('author');
+    query.equalTo('publishType', param.publishType);
+    query.addDescending('likeCount');
+    return query.find({
+      success: function(results) {
+        return callback(null, results);
+      },
+      error: function(error) {
+        return callback(error, null);
+      }
+    });
+  };
+
+  exports.queryCommentsByPost = function(param, callback) {
+    var Class, query, _class;
+    _class = 'Comment';
+    if (classMap[_class]) {
+      Class = classMap[_class];
+    } else {
+      Class = AV.Object.extend(_class);
+      classMap[_class] = Class;
+    }
+    query = new AV.Query(Class);
+    query.include('author');
+    query.equalTo('post', param.post);
     query.addDescending('createdAt');
     return query.find({
       success: function(results) {

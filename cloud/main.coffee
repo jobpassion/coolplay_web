@@ -20,3 +20,30 @@ AV.Cloud.define "queryLatestPublish", (request, response) ->
   request.params.user = currentUser
   userService.queryLatestPublish request.params, (error, results)->
     response.success results
+AV.Cloud.define "queryHotestPublish", (request, response) ->
+  currentUser = AV.User.current()
+  request.params.user = currentUser
+  userService.queryHotestPublish request.params, (error, results)->
+    response.success results
+AV.Cloud.define "queryCommentsByPost", (request, response) ->
+  currentUser = AV.User.current()
+  request.params.post = userService.constructAVObject 'Publish', request.params.post
+  request.params.user = currentUser
+  userService.queryCommentsByPost request.params, (error, results)->
+    response.success results
+AV.Cloud.define "queryFavorites", (request, response) ->
+  currentUser = AV.User.current()
+  request.params.user = currentUser
+  userService.queryFavorites request.params, (error, results)->
+    response.success results
+AV.Cloud.define "queryLikes", (request, response) ->
+  currentUser = AV.User.current()
+  request.params.user = currentUser
+  userService.queryLikes request.params, (error, results)->
+    response.success results
+AV.Cloud.define "addCommentForPost", (request, response) ->
+  currentUser = AV.User.current()
+  request.params.user = currentUser
+  request.params.post = userService.constructAVObject 'Publish', request.params.post
+  userService.addCommentForPost request.params, (error, results)->
+    response.success results
