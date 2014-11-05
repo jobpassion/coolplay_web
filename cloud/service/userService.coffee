@@ -16,7 +16,8 @@ exports.addToLike = (user, post, callback) ->
         callback error,null
       else
         if results.length > 0
-          callback null, 0#已经赞过
+          callback null, 
+            result:0
         else
           userDao.insert 'Like', 
             author:user
@@ -26,7 +27,9 @@ exports.addToLike = (user, post, callback) ->
                 userDao.get 'Comment', post, (error, comment)->
                   comment.add 'likes', result
                   userDao.save comment, (error, result)->
-                    callback null, 1#成功赞
+                    callback null, 
+                      object:comment
+                      result:1
 
 exports.removeToLike = (user, post, callback) ->
   publish = AV.Object.new 'Comment'
@@ -43,10 +46,13 @@ exports.removeToLike = (user, post, callback) ->
           userDao.delete like, (error, result)->
             userDao.get 'Comment', post, (error, result)->
               result.remove 'likes', like
-              userDao.save result, (error, result)->
-                callback null, 1
+              userDao.save result, (error, result1)->
+                callback null, 
+                  object:result
+                  result:1
         else
-          callback null, 0#已经赞过
+          callback null, 
+            result:0
 exports.addToFavorite = (user, post, callback) ->
   publish = AV.Object.new 'Publish'
   publish.set 'objectId', post
@@ -58,7 +64,8 @@ exports.addToFavorite = (user, post, callback) ->
         callback error,null
       else
         if results.length > 0
-          callback null, 0#已经赞过
+          callback null, 
+            result:0
         else
           userDao.insert 'Favorite', 
             author:user
@@ -68,7 +75,9 @@ exports.addToFavorite = (user, post, callback) ->
                 userDao.get 'Publish', post, (error, publish)->
                   publish.add 'favorites', result
                   userDao.save publish, (error, result)->
-                    callback null, 1#成功赞
+                    callback null, 
+                      object:publist
+                      result:1
 exports.removeToFavorite = (user, post, callback) ->
   publish = AV.Object.new 'Publish'
   publish.set 'objectId', post
@@ -84,10 +93,13 @@ exports.removeToFavorite = (user, post, callback) ->
           userDao.delete favorite, (error, result)->
             userDao.get 'Publish', post, (error, result)->
               result.remove 'favorites', favorite
-              userDao.save result, (error, result)->
-                callback null, 1
+              userDao.save result, (error, result1)->
+                callback null, 
+                  object:result
+                  result:1
         else
-          callback null, 0
+          callback null, 
+            result:0
 exports.queryLatestPublish = (param, callback) ->
   userDao.queryLatestPublish param, (error, results1)->
     if param.user

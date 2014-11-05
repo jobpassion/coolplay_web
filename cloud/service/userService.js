@@ -26,7 +26,9 @@
         return callback(error, null);
       } else {
         if (results.length > 0) {
-          return callback(null, 0);
+          return callback(null, {
+            result: 0
+          });
         } else {
           return userDao.insert('Like', {
             author: user,
@@ -36,7 +38,10 @@
               return userDao.get('Comment', post, function(error, comment) {
                 comment.add('likes', result);
                 return userDao.save(comment, function(error, result) {
-                  return callback(null, 1);
+                  return callback(null, {
+                    object: comment,
+                    result: 1
+                  });
                 });
               });
             }
@@ -63,13 +68,18 @@
           return userDao["delete"](like, function(error, result) {
             return userDao.get('Comment', post, function(error, result) {
               result.remove('likes', like);
-              return userDao.save(result, function(error, result) {
-                return callback(null, 1);
+              return userDao.save(result, function(error, result1) {
+                return callback(null, {
+                  object: result,
+                  result: 1
+                });
               });
             });
           });
         } else {
-          return callback(null, 0);
+          return callback(null, {
+            result: 0
+          });
         }
       }
     });
@@ -87,7 +97,9 @@
         return callback(error, null);
       } else {
         if (results.length > 0) {
-          return callback(null, 0);
+          return callback(null, {
+            result: 0
+          });
         } else {
           return userDao.insert('Favorite', {
             author: user,
@@ -97,7 +109,10 @@
               return userDao.get('Publish', post, function(error, publish) {
                 publish.add('favorites', result);
                 return userDao.save(publish, function(error, result) {
-                  return callback(null, 1);
+                  return callback(null, {
+                    object: publist,
+                    result: 1
+                  });
                 });
               });
             }
@@ -124,13 +139,18 @@
           return userDao["delete"](favorite, function(error, result) {
             return userDao.get('Publish', post, function(error, result) {
               result.remove('favorites', favorite);
-              return userDao.save(result, function(error, result) {
-                return callback(null, 1);
+              return userDao.save(result, function(error, result1) {
+                return callback(null, {
+                  object: result,
+                  result: 1
+                });
               });
             });
           });
         } else {
-          return callback(null, 0);
+          return callback(null, {
+            result: 0
+          });
         }
       }
     });
