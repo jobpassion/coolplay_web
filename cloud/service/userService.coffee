@@ -76,7 +76,7 @@ exports.addToFavorite = (user, post, callback) ->
                   publish.add 'favorites', result
                   userDao.save publish, (error, result)->
                     callback null, 
-                      object:publist
+                      object:publish
                       result:1
 exports.removeToFavorite = (user, post, callback) ->
   publish = AV.Object.new 'Publish'

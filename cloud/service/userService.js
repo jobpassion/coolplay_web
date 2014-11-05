@@ -110,7 +110,7 @@
                 publish.add('favorites', result);
                 return userDao.save(publish, function(error, result) {
                   return callback(null, {
-                    object: publist,
+                    object: publish,
                     result: 1
                   });
                 });
