@@ -38,7 +38,7 @@
               return userDao.get('Comment', post, function(error, comment) {
                 comment.add('likes', result);
                 return userDao.save(comment, function(error, result) {
-                  return callback(null, {
+                  return callback(null, comment.set('like', true), {
                     object: comment,
                     result: 1
                   });
@@ -109,7 +109,7 @@
               return userDao.get('Publish', post, function(error, publish) {
                 publish.add('favorites', result);
                 return userDao.save(publish, function(error, result) {
-                  return callback(null, {
+                  return callback(null, publish.set('favorite', true), {
                     object: publish,
                     result: 1
                   });
