@@ -27,8 +27,8 @@ exports.addToLike = (user, post, callback) ->
                 userDao.get 'Comment', post, (error, comment)->
                   comment.add 'likes', result
                   userDao.save comment, (error, result)->
+                    comment.set 'like', true
                     callback null, 
-                      comment.set 'like', true
                       object:comment
                       result:1
 
@@ -76,8 +76,8 @@ exports.addToFavorite = (user, post, callback) ->
                 userDao.get 'Publish', post, (error, publish)->
                   publish.add 'favorites', result
                   userDao.save publish, (error, result)->
+                    publish.set 'favorite', true
                     callback null, 
-                      publish.set 'favorite', true
                       object:publish
                       result:1
 exports.removeToFavorite = (user, post, callback) ->
