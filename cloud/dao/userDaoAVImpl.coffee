@@ -1,5 +1,6 @@
 config = require "cloud/config/config"
 classMap = {}
+pageLimit = 1
 exports.queryByParam = (_class, param, callback) ->
   if classMap[_class]
     Class = classMap[_class]
@@ -9,6 +10,12 @@ exports.queryByParam = (_class, param, callback) ->
   query = new AV.Query Class
   for key,value of param
     query.equalTo key, value
+  page = 0
+  if param.page
+    page = param.page
+  query.limit pageLimit
+  query.skip page*pageLimit
+  
   query.find
     success:(results)->
       callback null,results
@@ -63,10 +70,16 @@ exports.queryLatestPublish = (param, callback) ->
   else
     Class = AV.Object.extend _class
     classMap[_class] = Class
+
   query = new AV.Query Class
   query.include 'author'
   query.equalTo 'publishType', param.publishType
   query.addDescending 'createdAt'
+  page = 0
+  if param.page
+    page = param.page
+  query.limit pageLimit
+  query.skip page*pageLimit
   query.find
     success:(results)->
       callback null, results
@@ -83,6 +96,12 @@ exports.queryLatestPublish = (param, callback) ->
   query.include 'author'
   query.equalTo 'publishType', param.publishType
   query.addDescending 'createdAt'
+  page = 0
+  if param.page
+    page = param.page
+  query.limit pageLimit
+  query.skip page*pageLimit
+  
   query.find
     success:(results)->
       callback null, results
@@ -99,6 +118,12 @@ exports.queryHotestPublish = (param, callback) ->
   query.include 'author'
   query.equalTo 'publishType', param.publishType
   query.addDescending 'likeCount'
+  page = 0
+  if param.page
+    page = param.page
+  query.limit pageLimit
+  query.skip page*pageLimit
+  
   query.find
     success:(results)->
       callback null, results
@@ -115,6 +140,12 @@ exports.queryCommentsByPost = (param, callback) ->
   query.include 'author'
   query.equalTo 'post', param.post
   query.addDescending 'createdAt'
+  page = 0
+  if param.page
+    page = param.page
+  query.limit pageLimit
+  query.skip page*pageLimit
+  
   query.find
     success:(results)->
       callback null, results
@@ -129,6 +160,12 @@ exports.queryFavorites = (param, callback) ->
     classMap[_class] = Class
   query = new AV.Query Class
   query.equalTo 'author', param.user
+  page = 0
+  if param.page
+    page = param.page
+  query.limit pageLimit
+  query.skip page*pageLimit
+  
   query.find
     success:(results)->
       callback null, results
