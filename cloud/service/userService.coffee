@@ -164,6 +164,7 @@ exports.constructAVObject = constructAVObject
 exports.addCommentForPost = (param, callback) ->
   comment = AV.Object.new 'Comment'
   comment.set 'content', param.content
+  comment.set 'author', param.user
   comment.set 'post', param.post
   userDao.save comment, (error, comment)->
     post = param.post

@@ -265,6 +265,7 @@
     var comment;
     comment = AV.Object["new"]('Comment');
     comment.set('content', param.content);
+    comment.set('author', param.user);
     comment.set('post', param.post);
     return userDao.save(comment, function(error, comment) {
       var post;
