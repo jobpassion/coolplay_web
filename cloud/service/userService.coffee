@@ -173,3 +173,11 @@ exports.addCommentForPost = (param, callback) ->
         userDao.save post, (error, post)->
           callback error, 1
       error:(classObject, error)->
+recursiveToJson = (obj)->
+  #obj = obj.toJSON()
+  for key,value of obj.attributes
+    if value.toJSON
+      obj.set key, recursiveToJson value
+  obj = obj.toJSON()
+  return obj
+exports.recursiveToJson = recursiveToJson
