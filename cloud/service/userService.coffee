@@ -175,9 +175,13 @@ exports.addCommentForPost = (param, callback) ->
       error:(classObject, error)->
 recursiveToJson = (obj)->
   #obj = obj.toJSON()
-  for key,value of obj.attributes
-    if value.toJSON
-      obj.set key, recursiveToJson value
-  obj = obj.toJSON()
+  if Array.isArray obj
+    for i in [0..obj.length - 1]
+      obj[i] = recursiveToJson obj[i]
+  else
+    for key,value of obj.attributes
+      if value.toJSON
+        obj.set key, recursiveToJson value
+    obj = obj.toJSON()
   return obj
 exports.recursiveToJson = recursiveToJson

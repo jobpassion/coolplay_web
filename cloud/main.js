@@ -67,6 +67,7 @@
     request.params.post = userService.constructAVObject('Publish', request.params.post);
     request.params.user = currentUser;
     return userService.queryCommentsByPost(request.params, function(error, results) {
+      results = userService.recursiveToJson(results);
       return response.success(results);
     });
   });
