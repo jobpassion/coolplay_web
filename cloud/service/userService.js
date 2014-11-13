@@ -178,7 +178,6 @@
             if (favoriteMap[post.id]) {
               post.set('favorite', true);
             }
-            post.author = simpleUser(post.author);
           }
           return callback(error, results1);
         });

@@ -114,7 +114,6 @@ exports.queryLatestPublish = (param, callback) ->
         for post in results1
           if favoriteMap[post.id]
             post.set 'favorite', true
-          post.author = simpleUser post.author
         callback error, results1
     else
       callback error, results1
