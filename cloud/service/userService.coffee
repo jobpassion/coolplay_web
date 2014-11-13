@@ -104,6 +104,8 @@ exports.removeToFavorite = (user, post, callback) ->
             result:0
 exports.queryLatestPublish = (param, callback) ->
   userDao.queryLatestPublish param, (error, results1)->
+    for post in results1
+      post.set 'author',simpleUser post.get 'author'
     if param.user
       userDao.queryFavorites param, (error, results)->
         favoriteMap = {}
@@ -112,11 +114,14 @@ exports.queryLatestPublish = (param, callback) ->
         for post in results1
           if favoriteMap[post.id]
             post.set 'favorite', true
+          post.author = simpleUser post.author
         callback error, results1
     else
       callback error, results1
 exports.queryHotestPublish = (param, callback) ->
   userDao.queryHotestPublish param, (error, results1)->
+    for post in results1
+      post.set 'author',simpleUser post.get 'author'
     if param.user
       queryFavorites param, (error, results)->
         favoriteMap = {}
@@ -130,6 +135,8 @@ exports.queryHotestPublish = (param, callback) ->
       callback error, results1
 exports.queryCommentsByPost = (param, callback) ->
   userDao.queryCommentsByPost param, (error, results1)->
+    for post in results1
+      post.set 'author',simpleUser post.get 'author'
     if param.user
       queryLikes 
         author:param.user
@@ -185,3 +192,10 @@ recursiveToJson = (obj)->
     obj = obj.toJSON()
   return obj
 exports.recursiveToJson = recursiveToJson
+simpleUser = (user)->
+  user = user.toJSON()
+  interests:user.interests
+  avatar:user.avatar
+  objectId:user.objectId
+  desc:user.desc
+  nickname:user.nickname

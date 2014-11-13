@@ -40,7 +40,7 @@ AV.Cloud.define "queryCommentsByPost", (request, response) ->
   request.params.user = currentUser
   userService.queryCommentsByPost request.params, (error, results)->
     #console.log userService.recursiveToJson (results[0])
-    results = userService.recursiveToJson results
+    #results = userService.recursiveToJson results
     response.success results
 AV.Cloud.define "queryFavorites", (request, response) ->
   currentUser = AV.User.current()
