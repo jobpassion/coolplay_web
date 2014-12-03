@@ -6,6 +6,8 @@
 
   userService = require('cloud/service/userService');
 
+  require('cloud/hook');
+
   AV.Cloud.define("hello", function(request, response) {
     response.success("Hello world!2");
   });

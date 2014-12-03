@@ -2,6 +2,7 @@
 # For example:
 config = require "cloud/config/config"
 userService = require 'cloud/service/userService'
+require 'cloud/hook'
 AV.Cloud.define "hello", (request, response) ->
   response.success "Hello world!2"
   return
