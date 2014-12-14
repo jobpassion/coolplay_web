@@ -329,4 +329,30 @@
     };
   };
 
+  exports.deleteContact = function(param, callback) {
+    var him, me;
+    me = param.user;
+    him = param.him;
+    return me.unfollow(him, {
+      success: function() {
+        var himUser;
+        himUser = new AV.User();
+        himUser.set('objectId', him);
+        return himUser.fetch({
+          success: function(himUser) {
+            return himUser.unfollow(me.id, {
+              success: function() {
+                return callback(null, true);
+              },
+              error: function(error) {
+                return console.log('error');
+              }
+            });
+          }
+        });
+      },
+      error: function(error) {}
+    });
+  };
+
 }).call(this);

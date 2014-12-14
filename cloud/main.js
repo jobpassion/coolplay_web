@@ -101,4 +101,13 @@
     });
   });
 
+  AV.Cloud.define("deleteContact", function(request, response) {
+    var currentUser;
+    currentUser = AV.User.current();
+    request.params.user = currentUser;
+    return userService.deleteContact(request.params, function(error, result) {
+      return response.success(result);
+    });
+  });
+
 }).call(this);

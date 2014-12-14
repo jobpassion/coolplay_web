@@ -59,3 +59,8 @@ AV.Cloud.define "addCommentForPost", (request, response) ->
   request.params.post = userService.constructAVObject 'Publish', request.params.post
   userService.addCommentForPost request.params, (error, results)->
     response.success results
+AV.Cloud.define "deleteContact", (request, response) ->
+  currentUser = AV.User.current()
+  request.params.user = currentUser
+  userService.deleteContact request.params, (error, result)->
+    response.success result

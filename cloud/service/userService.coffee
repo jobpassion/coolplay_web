@@ -198,3 +198,19 @@ simpleUser = (user)->
   objectId:user.objectId
   desc:user.desc
   nickname:user.nickname
+exports.deleteContact = (param, callback) ->
+  me = param.user
+  him = param.him
+  me.unfollow him, 
+    success:()->
+      himUser = new AV.User()
+      himUser.set 'objectId', him
+      himUser.fetch
+        success:(himUser)->
+          himUser.unfollow me.id, 
+            success:()->
+              callback null, true
+            error:(error)->
+              console.log 'error'
+    error:(error)->
+    
