@@ -218,11 +218,13 @@
 
   exports.queryCommentsByPost = function(param, callback) {
     return userDao.queryCommentsByPost(param, function(error, results1) {
-      var post, _i, _len;
+      var post, results, _i, _len;
+      results = [];
       for (_i = 0, _len = results1.length; _i < _len; _i++) {
         post = results1[_i];
-        post.set('author', simpleUser(post.get('author')));
+        results.push(post.toJSON());
       }
+      results1 = results;
       if (param.user) {
         return queryLikes({
           author: param.user,

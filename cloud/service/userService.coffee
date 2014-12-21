@@ -134,8 +134,12 @@ exports.queryHotestPublish = (param, callback) ->
       callback error, results1
 exports.queryCommentsByPost = (param, callback) ->
   userDao.queryCommentsByPost param, (error, results1)->
+    results = []
     for post in results1
-      post.set 'author',simpleUser post.get 'author'
+      #console.log post.toJSON()
+      #post.set 'author',simpleUser post.get 'author'
+      results.push post.toJSON()
+    results1 = results
     if param.user
       queryLikes 
         author:param.user
