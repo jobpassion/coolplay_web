@@ -364,7 +364,7 @@
         post = results[0];
         param.post = post;
         return exports.queryCommentsByPost(param, function(error, results) {
-          post.set('comments', results);
+          post.set('commentsArray', results);
           return callback(error, post);
         });
       }

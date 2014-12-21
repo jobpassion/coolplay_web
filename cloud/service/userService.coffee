@@ -222,5 +222,5 @@ exports.queryCircleDetail = (param, callback) ->
       post = results[0]
       param.post = post
       exports.queryCommentsByPost param, (error, results)->
-        post.set 'comments', results
+        post.set 'commentsArray', results
         callback error, post
