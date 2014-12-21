@@ -70,32 +70,10 @@ exports.queryLatestPublish = (param, callback) ->
   else
     Class = AV.Object.extend _class
     classMap[_class] = Class
-
   query = new AV.Query Class
   query.include 'author'
   query.equalTo 'publishType', param.publishType
-  query.addDescending 'createdAt'
-  page = 0
-  if param.page
-    page = param.page
-  query.limit pageLimit
-  query.skip page*pageLimit
-  query.find
-    success:(results)->
-      callback null, results
-    error:(error)->
-      callback error, null
-exports.queryLatestPublish = (param, callback) ->
-  _class = 'Publish'
-  if classMap[_class]
-    Class = classMap[_class]
-  else
-    Class = AV.Object.extend _class
-    classMap[_class] = Class
-  query = new AV.Query Class
-  query.include 'author'
-  query.equalTo 'publishType', param.publishType
-  query.addDescending 'createdAt'
+  query.descending 'createdAt'
   page = 0
   if param.page
     page = param.page
@@ -117,7 +95,7 @@ exports.queryHotestPublish = (param, callback) ->
   query = new AV.Query Class
   query.include 'author'
   query.equalTo 'publishType', param.publishType
-  query.addDescending 'likeCount'
+  query.descending 'likeCount'
   page = 0
   if param.page
     page = param.page
@@ -139,7 +117,7 @@ exports.queryCommentsByPost = (param, callback) ->
   query = new AV.Query Class
   query.include 'author'
   query.equalTo 'post', param.post
-  query.addDescending 'createdAt'
+  query.descending 'createdAt'
   page = 0
   if param.page
     page = param.page

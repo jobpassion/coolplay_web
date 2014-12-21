@@ -120,36 +120,7 @@
     query = new AV.Query(Class);
     query.include('author');
     query.equalTo('publishType', param.publishType);
-    query.addDescending('createdAt');
-    page = 0;
-    if (param.page) {
-      page = param.page;
-    }
-    query.limit(pageLimit);
-    query.skip(page * pageLimit);
-    return query.find({
-      success: function(results) {
-        return callback(null, results);
-      },
-      error: function(error) {
-        return callback(error, null);
-      }
-    });
-  };
-
-  exports.queryLatestPublish = function(param, callback) {
-    var Class, page, query, _class;
-    _class = 'Publish';
-    if (classMap[_class]) {
-      Class = classMap[_class];
-    } else {
-      Class = AV.Object.extend(_class);
-      classMap[_class] = Class;
-    }
-    query = new AV.Query(Class);
-    query.include('author');
-    query.equalTo('publishType', param.publishType);
-    query.addDescending('createdAt');
+    query.descending('createdAt');
     page = 0;
     if (param.page) {
       page = param.page;
@@ -178,7 +149,7 @@
     query = new AV.Query(Class);
     query.include('author');
     query.equalTo('publishType', param.publishType);
-    query.addDescending('likeCount');
+    query.descending('likeCount');
     page = 0;
     if (param.page) {
       page = param.page;
@@ -207,7 +178,7 @@
     query = new AV.Query(Class);
     query.include('author');
     query.equalTo('post', param.post);
-    query.addDescending('createdAt');
+    query.descending('createdAt');
     page = 0;
     if (param.page) {
       page = param.page;
