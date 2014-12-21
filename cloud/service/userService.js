@@ -355,4 +355,20 @@
     });
   };
 
+  exports.queryCircleDetail = function(param, callback) {
+    return userDao.queryByParam('Publish', {
+      objectId: param.post
+    }, function(error, results) {
+      var post;
+      if (!error && results.length > 0) {
+        post = results[0];
+        param.post = post;
+        return exports.queryCommentsByPost(param, function(error, results) {
+          post.set('comments', results);
+          return callback(error, post);
+        });
+      }
+    });
+  };
+
 }).call(this);

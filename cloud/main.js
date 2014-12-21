@@ -63,6 +63,15 @@
     });
   });
 
+  AV.Cloud.define("queryCircleDetail", function(request, response) {
+    var currentUser;
+    currentUser = AV.User.current();
+    request.params.user = currentUser;
+    return userService.queryCircleDetail(request.params, function(error, results) {
+      return response.success(results);
+    });
+  });
+
   AV.Cloud.define("queryCommentsByPost", function(request, response) {
     var currentUser;
     currentUser = AV.User.current();

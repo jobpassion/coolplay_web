@@ -214,3 +214,13 @@ exports.deleteContact = (param, callback) ->
               console.log 'error'
     error:(error)->
     
+exports.queryCircleDetail = (param, callback) ->
+  userDao.queryByParam 'Publish', 
+    objectId:param.post
+  , (error, results)->
+    if !error && results.length > 0
+      post = results[0]
+      param.post = post
+      exports.queryCommentsByPost param, (error, results)->
+        post.set 'comments', results
+        callback error, post
