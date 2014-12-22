@@ -34,14 +34,14 @@
     var currentUser;
     currentUser = AV.User.current();
     return userService.addToFavorite(currentUser, request.params.post, function(error, result) {
-      return response.success(result);
+      return response.success(userService.recursiveToJson(result));
     });
   });
 
   AV.Cloud.define("removeToFavorite", function(request, response) {
     userService.constructAVObject('Publish', request.params.post);
     return userService.removeToFavorite(request.user, request.params.post, function(error, result) {
-      return response.success(result);
+      return response.success(userService.recursiveToJson(result));
     });
   });
 

@@ -20,11 +20,11 @@ AV.Cloud.define "removeToLike", (request, response) ->
 AV.Cloud.define "addToFavorite", (request, response) ->
   currentUser = AV.User.current()
   userService.addToFavorite currentUser, request.params.post, (error, result)->
-    response.success result
+    response.success userService.recursiveToJson result
 AV.Cloud.define "removeToFavorite", (request, response) ->
   userService.constructAVObject 'Publish', request.params.post
   userService.removeToFavorite request.user, request.params.post, (error, result)->
-    response.success result
+    response.success userService.recursiveToJson result
 AV.Cloud.define "queryLatestPublish", (request, response) ->
   currentUser = AV.User.current()
   request.params.user = currentUser

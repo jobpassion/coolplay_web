@@ -53,6 +53,26 @@
     });
   };
 
+  exports.getAndInclude = function(_class, id, keys, callback) {
+    var key, query, _i, _len;
+    query = new AV.Query(AV.Object.extend(_class));
+    for (_i = 0, _len = keys.length; _i < _len; _i++) {
+      key = keys[_i];
+      query.include(key);
+    }
+    return query.get(id, {
+      success: function(classObject) {
+        return callback(null, classObject);
+      },
+      error: function(classObject, error) {
+        if (error) {
+          console.error(error);
+        }
+        return callback(error, classObject);
+      }
+    });
+  };
+
   exports.getObject = function(classObject, callback) {
     var query;
     query = new AV.Query(AV.Object.extend(classObject.className));

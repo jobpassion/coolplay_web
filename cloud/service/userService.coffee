@@ -73,7 +73,8 @@ exports.addToFavorite = (user, post, callback) ->
             post:publish
             ,(error, result)->
               if !error
-                userDao.get 'Publish', post, (error, publish)->
+                #userDao.get 'Publish', post, (error, publish)->
+                userDao.getAndInclude 'Publish', post, ['author'], (error, publish)->
                   publish.add 'favorites', result
                   userDao.save publish, (error, result)->
                     publish.set 'favorite', true
@@ -93,7 +94,8 @@ exports.removeToFavorite = (user, post, callback) ->
         if results.length > 0
           favorite = results[0]
           userDao.delete favorite, (error, result)->
-            userDao.get 'Publish', post, (error, result)->
+            #userDao.get 'Publish', post, (error, result)->
+            userDao.getAndInclude 'Publish', post, ['author'], (error, result)->
               result.remove 'favorites', favorite
               userDao.save result, (error, result1)->
                 callback null, 
@@ -189,10 +191,15 @@ recursiveToJson = (obj)->
     for i in [0..obj.length - 1]
       obj[i] = recursiveToJson obj[i]
   else
-    for key,value of obj.attributes
-      if value.toJSON
-        obj.set key, recursiveToJson value
-    obj = obj.toJSON()
+    if obj.toJSON
+      for key,value of obj.attributes
+        if value.toJSON
+          obj.set key, recursiveToJson value
+      obj = obj.toJSON()
+    else
+      for key,value of obj
+        if value.toJSON
+          obj[key]=recursiveToJson value
   return obj
 exports.recursiveToJson = recursiveToJson
 simpleUser = (user)->

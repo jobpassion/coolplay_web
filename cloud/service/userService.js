@@ -107,7 +107,7 @@
             post: publish
           }, function(error, result) {
             if (!error) {
-              return userDao.get('Publish', post, function(error, publish) {
+              return userDao.getAndInclude('Publish', post, ['author'], function(error, publish) {
                 publish.add('favorites', result);
                 return userDao.save(publish, function(error, result) {
                   publish.set('favorite', true);
@@ -139,7 +139,7 @@
         if (results.length > 0) {
           favorite = results[0];
           return userDao["delete"](favorite, function(error, result) {
-            return userDao.get('Publish', post, function(error, result) {
+            return userDao.getAndInclude('Publish', post, ['author'], function(error, result) {
               result.remove('favorites', favorite);
               return userDao.save(result, function(error, result1) {
                 return callback(null, {
@@ -306,14 +306,23 @@
         obj[i] = recursiveToJson(obj[i]);
       }
     } else {
-      _ref1 = obj.attributes;
-      for (key in _ref1) {
-        value = _ref1[key];
-        if (value.toJSON) {
-          obj.set(key, recursiveToJson(value));
+      if (obj.toJSON) {
+        _ref1 = obj.attributes;
+        for (key in _ref1) {
+          value = _ref1[key];
+          if (value.toJSON) {
+            obj.set(key, recursiveToJson(value));
+          }
+        }
+        obj = obj.toJSON();
+      } else {
+        for (key in obj) {
+          value = obj[key];
+          if (value.toJSON) {
+            obj[key] = recursiveToJson(value);
+          }
         }
       }
-      obj = obj.toJSON();
     }
     return obj;
   };

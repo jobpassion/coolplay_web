@@ -30,6 +30,17 @@ exports.get = (_class, id, callback)->
       if error
         console.error error
       callback error, classObject
+exports.getAndInclude = (_class, id,keys, callback)->
+  query = new AV.Query AV.Object.extend _class
+  for key in keys
+    query.include key
+  query.get id, 
+    success:(classObject)->
+      callback null, classObject
+    error:(classObject, error)->
+      if error
+        console.error error
+      callback error, classObject
 exports.getObject = (classObject, callback)->
   query = new AV.Query AV.Object.extend classObject.className
   query.get classObject.id, 
