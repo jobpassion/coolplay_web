@@ -138,11 +138,11 @@ exports.queryFavorites = (param, callback) ->
     classMap[_class] = Class
   query = new AV.Query Class
   query.equalTo 'author', param.user
-  page = 0
-  if param.page
-    page = param.page
-  query.limit pageLimit
-  query.skip page*pageLimit
+  #page = 0
+  #if param.page
+  #  page = param.page
+  #query.limit pageLimit
+  #query.skip page*pageLimit
   
   query.find
     success:(results)->

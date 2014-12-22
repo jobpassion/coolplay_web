@@ -196,7 +196,7 @@
   };
 
   exports.queryFavorites = function(param, callback) {
-    var Class, page, query, _class;
+    var Class, query, _class;
     _class = 'Favorite';
     if (classMap[_class]) {
       Class = classMap[_class];
@@ -206,12 +206,6 @@
     }
     query = new AV.Query(Class);
     query.equalTo('author', param.user);
-    page = 0;
-    if (param.page) {
-      page = param.page;
-    }
-    query.limit(pageLimit);
-    query.skip(page * pageLimit);
     return query.find({
       success: function(results) {
         return callback(null, results);
