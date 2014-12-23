@@ -233,7 +233,9 @@
 
   queryLikes = function(param, callback) {
     var paramCopy;
-    paramCopy = {};
+    paramCopy = {
+      metaUnLimit: true
+    };
     if (param.user) {
       paramCopy.user = param.user;
     }

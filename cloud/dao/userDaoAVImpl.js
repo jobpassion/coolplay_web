@@ -19,6 +19,9 @@
     query = new AV.Query(Class);
     for (key in param) {
       value = param[key];
+      if (key.indexOf('meta' === 0)) {
+        continue;
+      }
       query.equalTo(key, value);
     }
     if (includes) {
@@ -34,8 +37,10 @@
     if (param.page) {
       page = param.page;
     }
-    query.limit(pageLimit);
-    query.skip(page * pageLimit);
+    if (!param.metaUnLimit) {
+      query.limit(pageLimit);
+      query.skip(page * pageLimit);
+    }
     return query.find({
       success: function(results) {
         return callback(null, results);

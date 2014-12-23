@@ -9,6 +9,8 @@ exports.queryByParam = (_class, param, callback, includes, selectKeys) ->
     classMap[_class] = Class
   query = new AV.Query Class
   for key,value of param
+    if key.indexOf 'meta' == 0
+      continue
     query.equalTo key, value
   if includes
     for key in includes
@@ -18,8 +20,9 @@ exports.queryByParam = (_class, param, callback, includes, selectKeys) ->
   page = 0
   if param.page
     page = param.page
-  query.limit pageLimit
-  query.skip page*pageLimit
+  if !param.metaUnLimit
+    query.limit pageLimit
+    query.skip page*pageLimit
   
   query.find
     success:(results)->

@@ -144,7 +144,7 @@ exports.queryCommentsByPost = (param, callback) ->
       callback error, results1
 
 queryLikes = (param, callback) ->
-  paramCopy = {}
+  paramCopy = {metaUnLimit:true}
   if param.user
     paramCopy.user = param.user
   userDao.queryByParam 'Like', paramCopy, callback
