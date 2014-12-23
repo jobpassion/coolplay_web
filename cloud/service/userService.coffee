@@ -164,12 +164,7 @@ exports.addCommentForPost = (param, callback) ->
   comment.set 'author', param.user
   comment.set 'post', param.post
   userDao.save comment, (error, comment)->
-    post = param.post
-    userDao.getObject post, (error, post)->
-        post.add 'comments', comment
-        userDao.save post, (error, post)->
-          callback error, 1
-      error:(classObject, error)->
+    callback error, 1
 recursiveToJson = (obj)->
   if Array.isArray obj
     for i in [0..obj.length - 1]

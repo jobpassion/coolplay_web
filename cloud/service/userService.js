@@ -265,17 +265,7 @@
     comment.set('author', param.user);
     comment.set('post', param.post);
     return userDao.save(comment, function(error, comment) {
-      var post;
-      post = param.post;
-      userDao.getObject(post, function(error, post) {
-        post.add('comments', comment);
-        return userDao.save(post, function(error, post) {
-          return callback(error, 1);
-        });
-      });
-      return {
-        error: function(classObject, error) {}
-      };
+      return callback(error, 1);
     });
   };
 

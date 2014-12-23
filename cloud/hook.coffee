@@ -24,23 +24,33 @@ userDao = require(config.ROOT + "dao/userDao")
 #  height:Math.round oldHeight*scaleFactor
 #  
 
-AV.Cloud.afterSave 'Favorite', (request)->
+AV.Cloud.beforeSave 'Favorite', (request)->
   favo = request.object
   post = favo.get 'post'
   post.increment 'favoriteCount', 1
   userDao.save post, (error, result)->
-AV.Cloud.afterDelete 'Favorite', (request)->
+AV.Cloud.beforeDelete 'Favorite', (request)->
   favo = request.object
   post = favo.get 'post'
   post.increment 'favoriteCount', -1
   userDao.save post, (error, result)->
-AV.Cloud.afterSave 'Like', (request)->
+AV.Cloud.beforeSave 'Like', (request)->
   favo = request.object
   post = favo.get 'post'
   post.increment 'likeCount', 1
   userDao.save post, (error, result)->
-AV.Cloud.afterDelete 'Like', (request)->
+AV.Cloud.beforeDelete 'Like', (request)->
   favo = request.object
   post = favo.get 'post'
   post.increment 'likeCount', -1
+  userDao.save post, (error, result)->
+AV.Cloud.beforeSave 'Comment', (request)->
+  favo = request.object
+  post = favo.get 'post'
+  post.increment 'commentCount', 1
+  userDao.save post, (error, result)->
+AV.Cloud.beforeDelete 'Comment', (request)->
+  favo = request.object
+  post = favo.get 'post'
+  post.increment 'comment', -1
   userDao.save post, (error, result)->
