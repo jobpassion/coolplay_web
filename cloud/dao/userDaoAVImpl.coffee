@@ -9,7 +9,7 @@ exports.queryByParam = (_class, param, callback, includes, selectKeys) ->
     classMap[_class] = Class
   query = new AV.Query Class
   for key,value of param
-    if key.indexOf 'meta' == 0
+    if (key.indexOf 'meta') == 0
       continue
     query.equalTo key, value
   if includes

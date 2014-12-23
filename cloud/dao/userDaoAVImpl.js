@@ -19,7 +19,7 @@
     query = new AV.Query(Class);
     for (key in param) {
       value = param[key];
-      if (key.indexOf('meta' === 0)) {
+      if ((key.indexOf('meta')) === 0) {
         continue;
       }
       query.equalTo(key, value);
