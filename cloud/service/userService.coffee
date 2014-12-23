@@ -25,6 +25,7 @@ exports.addToLike = (user, post, callback) ->
             ,(error, result)->
               if !error
                 userDao.get 'Comment', post, (error, comment)->
+                  comment.set 'favorite', true
                   callback null, 
                     object:comment
                     result:1

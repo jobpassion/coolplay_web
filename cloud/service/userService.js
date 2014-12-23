@@ -36,6 +36,7 @@
           }, function(error, result) {
             if (!error) {
               return userDao.get('Comment', post, function(error, comment) {
+                comment.set('favorite', true);
                 return callback(null, {
                   object: comment,
                   result: 1
