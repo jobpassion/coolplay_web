@@ -11,7 +11,8 @@
     favo = request.object;
     post = favo.get('post');
     post.increment('favoriteCount', 1);
-    return userDao.save(post, function(error, result) {});
+    userDao.save(post, function(error, result) {});
+    return response.success();
   });
 
   AV.Cloud.beforeDelete('Favorite', function(request) {
@@ -19,7 +20,8 @@
     favo = request.object;
     post = favo.get('post');
     post.increment('favoriteCount', -1);
-    return userDao.save(post, function(error, result) {});
+    userDao.save(post, function(error, result) {});
+    return response.success();
   });
 
   AV.Cloud.beforeSave('Like', function(request) {
@@ -27,7 +29,8 @@
     favo = request.object;
     post = favo.get('post');
     post.increment('likeCount', 1);
-    return userDao.save(post, function(error, result) {});
+    userDao.save(post, function(error, result) {});
+    return response.success();
   });
 
   AV.Cloud.beforeDelete('Like', function(request) {
@@ -35,7 +38,17 @@
     favo = request.object;
     post = favo.get('post');
     post.increment('likeCount', -1);
-    return userDao.save(post, function(error, result) {});
+    userDao.save(post, function(error, result) {});
+    return response.success();
+  });
+
+  AV.Cloud.beforeSave('Comment', function(request) {
+    var favo, post;
+    favo = request.object;
+    post = favo.get('post');
+    post.increment('commentCount', 1);
+    userDao.save(post, function(error, result) {});
+    return response.success();
   });
 
   AV.Cloud.beforeDelete('Comment', function(request) {
@@ -43,7 +56,8 @@
     favo = request.object;
     post = favo.get('post');
     post.increment('commentCount', -1);
-    return userDao.save(post, function(error, result) {});
+    userDao.save(post, function(error, result) {});
+    return response.success();
   });
 
 }).call(this);
