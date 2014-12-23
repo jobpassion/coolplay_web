@@ -44,11 +44,11 @@ AV.Cloud.beforeDelete 'Like', (request)->
   post = favo.get 'post'
   post.increment 'likeCount', -1
   userDao.save post, (error, result)->
-AV.Cloud.beforeSave 'Comment', (request)->
-  favo = request.object
-  post = favo.get 'post'
-  post.increment 'commentCount', 1
-  userDao.save post, (error, result)->
+#AV.Cloud.beforeSave 'Comment', (request)->
+#  favo = request.object
+#  post = favo.get 'post'
+#  post.increment 'commentCount', 1
+#  userDao.save post, (error, result)->
 AV.Cloud.beforeDelete 'Comment', (request)->
   favo = request.object
   post = favo.get 'post'

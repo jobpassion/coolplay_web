@@ -38,14 +38,6 @@
     return userDao.save(post, function(error, result) {});
   });
 
-  AV.Cloud.beforeSave('Comment', function(request) {
-    var favo, post;
-    favo = request.object;
-    post = favo.get('post');
-    post.increment('commentCount', 1);
-    return userDao.save(post, function(error, result) {});
-  });
-
   AV.Cloud.beforeDelete('Comment', function(request) {
     var favo, post;
     favo = request.object;
