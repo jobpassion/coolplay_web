@@ -50,7 +50,7 @@
     var favo, post;
     favo = request.object;
     post = favo.get('post');
-    post.increment('comment', -1);
+    post.increment('commentCount', -1);
     return userDao.save(post, function(error, result) {});
   });
 

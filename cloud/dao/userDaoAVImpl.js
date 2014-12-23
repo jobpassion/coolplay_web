@@ -208,7 +208,7 @@
     }
     query = new AV.Query(Class);
     query.include('author');
-    query.select(['author.avatar', 'author.nickname']);
+    query.select(['content', 'author.avatar', 'author.nickname', 'favoriteCount', 'likeCount']);
     query.equalTo('post', param.post);
     query.descending('createdAt');
     page = 0;
