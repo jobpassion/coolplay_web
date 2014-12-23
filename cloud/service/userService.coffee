@@ -213,4 +213,4 @@ exports.queryCircleDetail = (param, callback) ->
       exports.queryCommentsByPost param, (error, results)->
         post.set 'comments', results
         callback error, post
-  , ['author'], ['author.nickname', 'author.avatar']
+  , ['author'], ['author.nickname', 'author.avatar', 'backImageStr', 'shareCount', 'content', 'favoriteCount', 'commentCount']

@@ -347,7 +347,7 @@
           return callback(error, post);
         });
       }
-    }, ['author'], ['author.nickname', 'author.avatar']);
+    }, ['author'], ['author.nickname', 'author.avatar', 'backImageStr', 'shareCount', 'content', 'favoriteCount', 'commentCount']);
   };
 
 }).call(this);
