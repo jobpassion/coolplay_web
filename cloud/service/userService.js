@@ -270,16 +270,19 @@
   };
 
   recursiveToJson = function(obj) {
-    var i, key, value, _i, _ref, _ref1;
+    var i, key, value, _ref;
+    if (!obj) {
+      return obj;
+    }
     if (Array.isArray(obj)) {
-      for (i = _i = 0, _ref = obj.length - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
+      for (i in obj) {
         obj[i] = recursiveToJson(obj[i]);
       }
     } else {
       if (obj.toJSON) {
-        _ref1 = obj.attributes;
-        for (key in _ref1) {
-          value = _ref1[key];
+        _ref = obj.attributes;
+        for (key in _ref) {
+          value = _ref[key];
           obj.set(key, recursiveToJson(value));
         }
         obj = obj.toJSON();
