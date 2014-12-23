@@ -1,7 +1,7 @@
 config = require "cloud/config/config"
 classMap = {}
 pageLimit = 1
-exports.queryByParam = (_class, param, callback) ->
+exports.queryByParam = (_class, param, callback, includes, selectKeys) ->
   if classMap[_class]
     Class = classMap[_class]
   else
@@ -10,6 +10,11 @@ exports.queryByParam = (_class, param, callback) ->
   query = new AV.Query Class
   for key,value of param
     query.equalTo key, value
+  if includes
+    for key in includes
+      query.include key
+  if selectKeys
+    query.select selectKeys
   page = 0
   if param.page
     page = param.page
@@ -83,6 +88,7 @@ exports.queryLatestPublish = (param, callback) ->
     classMap[_class] = Class
   query = new AV.Query Class
   query.include 'author'
+  query.select ['author.avatar', 'author.nickname']
   query.equalTo 'publishType', param.publishType
   query.descending 'createdAt'
   page = 0
@@ -105,6 +111,7 @@ exports.queryHotestPublish = (param, callback) ->
     classMap[_class] = Class
   query = new AV.Query Class
   query.include 'author'
+  query.select ['author.avatar', 'author.nickname']
   query.equalTo 'publishType', param.publishType
   query.descending 'likeCount'
   page = 0
@@ -127,6 +134,7 @@ exports.queryCommentsByPost = (param, callback) ->
     classMap[_class] = Class
   query = new AV.Query Class
   query.include 'author'
+  query.select ['author.avatar', 'author.nickname']
   query.equalTo 'post', param.post
   query.descending 'createdAt'
   page = 0

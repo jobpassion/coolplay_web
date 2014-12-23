@@ -50,7 +50,7 @@
     currentUser = AV.User.current();
     request.params.user = currentUser;
     return userService.queryLatestPublish(request.params, function(error, results) {
-      return response.success(results);
+      return response.success(userService.recursiveToJson(results));
     });
   });
 
@@ -59,7 +59,7 @@
     currentUser = AV.User.current();
     request.params.user = currentUser;
     return userService.queryHotestPublish(request.params, function(error, results) {
-      return response.success(results);
+      return response.success(userService.recursiveToJson(results));
     });
   });
 
@@ -68,7 +68,7 @@
     currentUser = AV.User.current();
     request.params.user = currentUser;
     return userService.queryCircleDetail(request.params, function(error, results) {
-      return response.success(results);
+      return response.success(userService.recursiveToJson(results));
     });
   });
 

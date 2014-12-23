@@ -36,13 +36,9 @@
           }, function(error, result) {
             if (!error) {
               return userDao.get('Comment', post, function(error, comment) {
-                comment.add('likes', result);
-                return userDao.save(comment, function(error, result) {
-                  comment.set('like', true);
-                  return callback(null, {
-                    object: comment,
-                    result: 1
-                  });
+                return callback(null, {
+                  object: comment,
+                  result: 1
                 });
               });
             }
@@ -68,12 +64,9 @@
           like = results[0];
           return userDao["delete"](like, function(error, result) {
             return userDao.get('Comment', post, function(error, result) {
-              result.remove('likes', like);
-              return userDao.save(result, function(error, result1) {
-                return callback(null, {
-                  object: result,
-                  result: 1
-                });
+              return callback(null, {
+                object: result,
+                result: 1
               });
             });
           });
@@ -108,13 +101,10 @@
           }, function(error, result) {
             if (!error) {
               return userDao.getAndInclude('Publish', post, ['author'], function(error, publish) {
-                publish.add('favorites', result);
-                return userDao.save(publish, function(error, result) {
-                  publish.set('favorite', true);
-                  return callback(null, {
-                    object: publish,
-                    result: 1
-                  });
+                publish.set('favorite', true);
+                return callback(null, {
+                  object: publish,
+                  result: 1
                 });
               });
             }
@@ -140,12 +130,9 @@
           favorite = results[0];
           return userDao["delete"](favorite, function(error, result) {
             return userDao.getAndInclude('Publish', post, ['author'], function(error, result) {
-              result.remove('favorites', favorite);
-              return userDao.save(result, function(error, result1) {
-                return callback(null, {
-                  object: result,
-                  result: 1
-                });
+              return callback(null, {
+                object: result,
+                result: 1
               });
             });
           });
@@ -218,26 +205,19 @@
 
   exports.queryCommentsByPost = function(param, callback) {
     return userDao.queryCommentsByPost(param, function(error, results1) {
-      var post, results, _i, _len;
-      results = [];
-      for (_i = 0, _len = results1.length; _i < _len; _i++) {
-        post = results1[_i];
-        results.push(post.toJSON());
-      }
-      results1 = results;
       if (param.user) {
         return queryLikes({
           author: param.user,
           post: param.post
         }, function(error, results) {
-          var favorite, favoriteMap, _j, _k, _len1, _len2;
+          var favorite, favoriteMap, post, _i, _j, _len, _len1;
           favoriteMap = {};
-          for (_j = 0, _len1 = results.length; _j < _len1; _j++) {
-            favorite = results[_j];
+          for (_i = 0, _len = results.length; _i < _len; _i++) {
+            favorite = results[_i];
             favoriteMap[(favorite.get('post')).id] = 1;
           }
-          for (_k = 0, _len2 = results1.length; _k < _len2; _k++) {
-            post = results1[_k];
+          for (_j = 0, _len1 = results1.length; _j < _len1; _j++) {
+            post = results1[_j];
             if (favoriteMap[post.id]) {
               post.set('favorite', true);
             }
@@ -310,9 +290,7 @@
         _ref1 = obj.attributes;
         for (key in _ref1) {
           value = _ref1[key];
-          if (value.toJSON) {
-            obj.set(key, recursiveToJson(value));
-          }
+          obj.set(key, recursiveToJson(value));
         }
         obj = obj.toJSON();
       } else {
@@ -375,11 +353,11 @@
         post = results[0];
         param.post = post;
         return exports.queryCommentsByPost(param, function(error, results) {
-          post.set('commentsArray', results);
+          post.set('comments', results);
           return callback(error, post);
         });
       }
-    });
+    }, ['author'], ['author.nickname', 'author.avatar']);
   };
 
 }).call(this);

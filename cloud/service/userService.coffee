@@ -25,12 +25,9 @@ exports.addToLike = (user, post, callback) ->
             ,(error, result)->
               if !error
                 userDao.get 'Comment', post, (error, comment)->
-                  comment.add 'likes', result
-                  userDao.save comment, (error, result)->
-                    comment.set 'like', true
-                    callback null, 
-                      object:comment
-                      result:1
+                  callback null, 
+                    object:comment
+                    result:1
 
 exports.removeToLike = (user, post, callback) ->
   publish = AV.Object.new 'Comment'
@@ -46,11 +43,9 @@ exports.removeToLike = (user, post, callback) ->
           like = results[0]
           userDao.delete like, (error, result)->
             userDao.get 'Comment', post, (error, result)->
-              result.remove 'likes', like
-              userDao.save result, (error, result1)->
-                callback null, 
-                  object:result
-                  result:1
+              callback null, 
+                object:result
+                result:1
         else
           callback null, 
             result:0
@@ -75,12 +70,10 @@ exports.addToFavorite = (user, post, callback) ->
               if !error
                 #userDao.get 'Publish', post, (error, publish)->
                 userDao.getAndInclude 'Publish', post, ['author'], (error, publish)->
-                  publish.add 'favorites', result
-                  userDao.save publish, (error, result)->
-                    publish.set 'favorite', true
-                    callback null, 
-                      object:publish
-                      result:1
+                  publish.set 'favorite', true
+                  callback null, 
+                    object:publish
+                    result:1
 exports.removeToFavorite = (user, post, callback) ->
   publish = AV.Object.new 'Publish'
   publish.set 'objectId', post
@@ -96,11 +89,9 @@ exports.removeToFavorite = (user, post, callback) ->
           userDao.delete favorite, (error, result)->
             #userDao.get 'Publish', post, (error, result)->
             userDao.getAndInclude 'Publish', post, ['author'], (error, result)->
-              result.remove 'favorites', favorite
-              userDao.save result, (error, result1)->
-                callback null, 
-                  object:result
-                  result:1
+              callback null, 
+                object:result
+                result:1
         else
           callback null, 
             result:0
@@ -136,12 +127,6 @@ exports.queryHotestPublish = (param, callback) ->
       callback error, results1
 exports.queryCommentsByPost = (param, callback) ->
   userDao.queryCommentsByPost param, (error, results1)->
-    results = []
-    for post in results1
-      #console.log post.toJSON()
-      #post.set 'author',simpleUser post.get 'author'
-      results.push post.toJSON()
-    results1 = results
     if param.user
       queryLikes 
         author:param.user
@@ -186,15 +171,13 @@ exports.addCommentForPost = (param, callback) ->
           callback error, 1
       error:(classObject, error)->
 recursiveToJson = (obj)->
-  #obj = obj.toJSON()
   if Array.isArray obj
     for i in [0..obj.length - 1]
       obj[i] = recursiveToJson obj[i]
   else
     if obj.toJSON
       for key,value of obj.attributes
-        if value.toJSON
-          obj.set key, recursiveToJson value
+        obj.set key, recursiveToJson value
       obj = obj.toJSON()
     else
       for key,value of obj
@@ -233,5 +216,6 @@ exports.queryCircleDetail = (param, callback) ->
       post = results[0]
       param.post = post
       exports.queryCommentsByPost param, (error, results)->
-        post.set 'commentsArray', results
+        post.set 'comments', results
         callback error, post
+  , ['author'], ['author.nickname', 'author.avatar']

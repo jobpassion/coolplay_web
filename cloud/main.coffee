@@ -29,17 +29,17 @@ AV.Cloud.define "queryLatestPublish", (request, response) ->
   currentUser = AV.User.current()
   request.params.user = currentUser
   userService.queryLatestPublish request.params, (error, results)->
-    response.success results
+    response.success userService.recursiveToJson results
 AV.Cloud.define "queryHotestPublish", (request, response) ->
   currentUser = AV.User.current()
   request.params.user = currentUser
   userService.queryHotestPublish request.params, (error, results)->
-    response.success results
+    response.success userService.recursiveToJson results
 AV.Cloud.define "queryCircleDetail", (request, response) ->
   currentUser = AV.User.current()
   request.params.user = currentUser
   userService.queryCircleDetail request.params, (error, results)->
-    response.success results
+    response.success userService.recursiveToJson results
 AV.Cloud.define "queryCommentsByPost", (request, response) ->
   currentUser = AV.User.current()
   request.params.post = userService.constructAVObject 'Publish', request.params.post

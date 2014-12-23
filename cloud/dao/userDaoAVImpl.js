@@ -8,8 +8,8 @@
 
   pageLimit = 1;
 
-  exports.queryByParam = function(_class, param, callback) {
-    var Class, key, page, query, value;
+  exports.queryByParam = function(_class, param, callback, includes, selectKeys) {
+    var Class, key, page, query, value, _i, _len;
     if (classMap[_class]) {
       Class = classMap[_class];
     } else {
@@ -20,6 +20,15 @@
     for (key in param) {
       value = param[key];
       query.equalTo(key, value);
+    }
+    if (includes) {
+      for (_i = 0, _len = includes.length; _i < _len; _i++) {
+        key = includes[_i];
+        query.include(key);
+      }
+    }
+    if (selectKeys) {
+      query.select(selectKeys);
     }
     page = 0;
     if (param.page) {
@@ -139,6 +148,7 @@
     }
     query = new AV.Query(Class);
     query.include('author');
+    query.select(['author.avatar', 'author.nickname']);
     query.equalTo('publishType', param.publishType);
     query.descending('createdAt');
     page = 0;
@@ -168,6 +178,7 @@
     }
     query = new AV.Query(Class);
     query.include('author');
+    query.select(['author.avatar', 'author.nickname']);
     query.equalTo('publishType', param.publishType);
     query.descending('likeCount');
     page = 0;
@@ -197,6 +208,7 @@
     }
     query = new AV.Query(Class);
     query.include('author');
+    query.select(['author.avatar', 'author.nickname']);
     query.equalTo('post', param.post);
     query.descending('createdAt');
     page = 0;
