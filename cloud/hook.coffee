@@ -29,34 +29,34 @@ AV.Cloud.beforeSave 'Favorite', (request)->
   post = favo.get 'post'
   post.increment 'favoriteCount', 1
   userDao.save post, (error, result)->
-  response.success()
+    response.success()
 AV.Cloud.beforeDelete 'Favorite', (request)->
   favo = request.object
   post = favo.get 'post'
   post.increment 'favoriteCount', -1
   userDao.save post, (error, result)->
-  response.success()
+    response.success()
 AV.Cloud.beforeSave 'Like', (request)->
   favo = request.object
   post = favo.get 'post'
   post.increment 'likeCount', 1
   userDao.save post, (error, result)->
-  response.success()
+    response.success()
 AV.Cloud.beforeDelete 'Like', (request)->
   favo = request.object
   post = favo.get 'post'
   post.increment 'likeCount', -1
   userDao.save post, (error, result)->
-  response.success()
+    response.success()
 AV.Cloud.beforeSave 'Comment', (request)->
   favo = request.object
   post = favo.get 'post'
   post.increment 'commentCount', 1
   userDao.save post, (error, result)->
-  response.success()
+    response.success()
 AV.Cloud.beforeDelete 'Comment', (request)->
   favo = request.object
   post = favo.get 'post'
   post.increment 'commentCount', -1
   userDao.save post, (error, result)->
-  response.success()
+    response.success()
