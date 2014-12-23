@@ -148,7 +148,7 @@
     }
     query = new AV.Query(Class);
     query.include('author');
-    query.select(['author.avatar', 'author.nickname']);
+    query.select(['author.avatar', 'author.nickname', '*']);
     query.equalTo('publishType', param.publishType);
     query.descending('createdAt');
     page = 0;
@@ -178,7 +178,7 @@
     }
     query = new AV.Query(Class);
     query.include('author');
-    query.select(['author.avatar', 'author.nickname']);
+    query.select(['author.avatar', 'author.nickname', '*']);
     query.equalTo('publishType', param.publishType);
     query.descending('likeCount');
     page = 0;

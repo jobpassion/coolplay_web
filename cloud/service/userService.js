@@ -296,7 +296,7 @@
       } else {
         for (key in obj) {
           value = obj[key];
-          if (value.toJSON) {
+          if (value && value.toJSON) {
             obj[key] = recursiveToJson(value);
           }
         }

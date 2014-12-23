@@ -88,7 +88,7 @@ exports.queryLatestPublish = (param, callback) ->
     classMap[_class] = Class
   query = new AV.Query Class
   query.include 'author'
-  query.select ['author.avatar', 'author.nickname']
+  query.select ['author.avatar', 'author.nickname', '*']
   query.equalTo 'publishType', param.publishType
   query.descending 'createdAt'
   page = 0
@@ -111,7 +111,7 @@ exports.queryHotestPublish = (param, callback) ->
     classMap[_class] = Class
   query = new AV.Query Class
   query.include 'author'
-  query.select ['author.avatar', 'author.nickname']
+  query.select ['author.avatar', 'author.nickname', '*']
   query.equalTo 'publishType', param.publishType
   query.descending 'likeCount'
   page = 0

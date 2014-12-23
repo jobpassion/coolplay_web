@@ -181,7 +181,7 @@ recursiveToJson = (obj)->
       obj = obj.toJSON()
     else
       for key,value of obj
-        if value.toJSON
+        if value && value.toJSON
           obj[key]=recursiveToJson value
   return obj
 exports.recursiveToJson = recursiveToJson
