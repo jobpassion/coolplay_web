@@ -1,4 +1,5 @@
-#config = require "cloud/config/config"
+config = require "cloud/config/config"
+userDao = require(config.ROOT + "dao/userDao")
 #userService = require 'cloud/service/userService'
 #AV.Cloud.beforeSave 'FileUpload', (request)->
 #  file = request.object
@@ -22,3 +23,24 @@
 #  width:Math.round oldWidth*scaleFactor
 #  height:Math.round oldHeight*scaleFactor
 #  
+
+AV.Cloud.afterSave 'Favorite', (request)->
+  favo = request.object
+  post = favo.get 'post'
+  post.increment 'favoriteCount', 1
+  userDao.save post, (error, result)->
+AV.Cloud.afterDelete 'Favorite', (request)->
+  favo = request.object
+  post = favo.get 'post'
+  post.increment 'favoriteCount', -1
+  userDao.save post, (error, result)->
+AV.Cloud.afterSave 'Like', (request)->
+  favo = request.object
+  post = favo.get 'post'
+  post.increment 'likeCount', 1
+  userDao.save post, (error, result)->
+AV.Cloud.afterDelete 'Like', (request)->
+  favo = request.object
+  post = favo.get 'post'
+  post.increment 'likeCount', -1
+  userDao.save post, (error, result)->
