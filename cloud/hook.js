@@ -6,7 +6,7 @@
 
   userDao = require(config.ROOT + "dao/userDao");
 
-  AV.Cloud.beforeSave('Favorite', function(request) {
+  AV.Cloud.beforeSave('Favorite', function(request, response) {
     var favo, post;
     favo = request.object;
     post = favo.get('post');
@@ -16,7 +16,7 @@
     });
   });
 
-  AV.Cloud.beforeDelete('Favorite', function(request) {
+  AV.Cloud.beforeDelete('Favorite', function(request, response) {
     var favo, post;
     favo = request.object;
     post = favo.get('post');
@@ -26,7 +26,7 @@
     });
   });
 
-  AV.Cloud.beforeSave('Like', function(request) {
+  AV.Cloud.beforeSave('Like', function(request, response) {
     var favo, post;
     favo = request.object;
     post = favo.get('post');
@@ -36,7 +36,7 @@
     });
   });
 
-  AV.Cloud.beforeDelete('Like', function(request) {
+  AV.Cloud.beforeDelete('Like', function(request, response) {
     var favo, post;
     favo = request.object;
     post = favo.get('post');
@@ -46,7 +46,7 @@
     });
   });
 
-  AV.Cloud.beforeSave('Comment', function(request) {
+  AV.Cloud.beforeSave('Comment', function(request, response) {
     var favo, post;
     favo = request.object;
     post = favo.get('post');
@@ -56,7 +56,7 @@
     });
   });
 
-  AV.Cloud.beforeDelete('Comment', function(request) {
+  AV.Cloud.beforeDelete('Comment', function(request, response) {
     var favo, post;
     favo = request.object;
     post = favo.get('post');
