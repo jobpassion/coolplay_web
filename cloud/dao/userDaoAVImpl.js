@@ -148,7 +148,8 @@
     cql += 'publishType = ?';
     cqlParams = [param.publishType];
     if (param.publishType === '2') {
-      cql += " and author = (select follower from _Follower where user = pointer('_User', ?))";
+      cql += " and (author = (select follower from _Follower where user = pointer('_User', ?)) or author = pointer('_User', ?))";
+      cqlParams.push(param.user.id);
       cqlParams.push(param.user.id);
     }
     page = 0;
@@ -159,8 +160,6 @@
     cqlParams.push(page * pageLimit);
     cqlParams.push(pageLimit);
     cql += ' ' + orderby;
-    console.log(cql);
-    console.log(cqlParams);
     return AV.Query.doCloudQuery(cql, cqlParams, {
       success: function(result) {
         return callback(null, result.results);
