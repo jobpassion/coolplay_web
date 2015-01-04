@@ -223,3 +223,10 @@ exports.queryCircleDetail = (param, callback) ->
             post.set 'favorite', true
           callback error, post
   , ['author'], ['author.nickname', 'author.avatar', 'backImageStr', 'shareCount', 'content', 'favoriteCount', 'commentCount']
+exports.queryFriends = (param, callback)->
+  userDao.queryFriends param, (error, results)->
+    newResults = []
+    if !error
+      for friend in results
+        newResults.push friend.get 'follower'
+    callback error, newResults

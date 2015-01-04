@@ -69,3 +69,9 @@ AV.Cloud.define "deleteContact", (request, response) ->
   request.params.user = currentUser
   userService.deleteContact request.params, (error, result)->
     response.success result
+AV.Cloud.define "queryFriends", (request, response) ->
+  currentUser = AV.User.current()
+  request.params.user = currentUser
+  userService.queryFriends request.params, (error, result)->
+    response.success userService.recursiveToJson result
+

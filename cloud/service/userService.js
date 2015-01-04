@@ -364,4 +364,18 @@
     }, ['author'], ['author.nickname', 'author.avatar', 'backImageStr', 'shareCount', 'content', 'favoriteCount', 'commentCount']);
   };
 
+  exports.queryFriends = function(param, callback) {
+    return userDao.queryFriends(param, function(error, results) {
+      var friend, newResults, _i, _len;
+      newResults = [];
+      if (!error) {
+        for (_i = 0, _len = results.length; _i < _len; _i++) {
+          friend = results[_i];
+          newResults.push(friend.get('follower'));
+        }
+      }
+      return callback(error, newResults);
+    });
+  };
+
 }).call(this);

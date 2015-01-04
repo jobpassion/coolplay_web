@@ -149,3 +149,11 @@ exports.queryFavorites = (param, callback) ->
       callback null, results
     error:(error)->
       callback error, null
+exports.queryFriends = (param, callback)->
+  cql = "select include follower.avatar, include follower.username, include follower.nickname, include follower.desc from _Follower where user = pointer('_User', ?) and follower = (select user from _Follower where follower = pointer('_User', ?))"
+  cqlParams = [param.user.id, param.user.id]
+  AV.Query.doCloudQuery cql,cqlParams,
+    success:(result)->
+      callback null, result.results
+    error:(error)->
+      callback error, null

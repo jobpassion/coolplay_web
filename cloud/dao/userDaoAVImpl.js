@@ -229,4 +229,18 @@
     });
   };
 
+  exports.queryFriends = function(param, callback) {
+    var cql, cqlParams;
+    cql = "select include follower.avatar, include follower.username, include follower.nickname, include follower.desc from _Follower where user = pointer('_User', ?) and follower = (select user from _Follower where follower = pointer('_User', ?))";
+    cqlParams = [param.user.id, param.user.id];
+    return AV.Query.doCloudQuery(cql, cqlParams, {
+      success: function(result) {
+        return callback(null, result.results);
+      },
+      error: function(error) {
+        return callback(error, null);
+      }
+    });
+  };
+
 }).call(this);
