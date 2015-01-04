@@ -82,52 +82,31 @@ exports.insert = (_class, param, callback)->
     error:(classObject, error)->
       #console.log error
       callback error, classObject
+queryPublish = (param, orderby, callback)->
+  cql =  'select include author.avatar, include author.nickname, * from Publish where '
+  cql += 'publishType = ?'
+  cqlParams = [param.publishType]
+  if param.publishType ==  '2'
+    cql += " and author = (select follower from _Follower where user = pointer('_User', ?))"
+    cqlParams.push param.user.id
+  page = 0
+  if param.page
+    page = param.page
+  cql += ' limit ?,?'
+  cqlParams.push page*pageLimit
+  cqlParams.push pageLimit
+  cql += ' ' + orderby
+  console.log cql
+  console.log cqlParams
+  AV.Query.doCloudQuery cql,cqlParams,
+    success:(result)->
+      callback null, result.results
+    error:(error)->
+      callback error, null
 exports.queryLatestPublish = (param, callback) ->
-  _class = 'Publish'
-  if classMap[_class]
-    Class = classMap[_class]
-  else
-    Class = AV.Object.extend _class
-    classMap[_class] = Class
-  query = new AV.Query Class
-  query.include 'author'
-  query.select ['author.avatar', 'author.nickname', '*']
-  query.equalTo 'publishType', param.publishType
-  query.descending 'createdAt'
-  page = 0
-  if param.page
-    page = param.page
-  query.limit pageLimit
-  query.skip page*pageLimit
-  
-  query.find
-    success:(results)->
-      callback null, results
-    error:(error)->
-      callback error, null
+  queryPublish param, 'order by createdAt desc', callback
 exports.queryHotestPublish = (param, callback) ->
-  _class = 'Publish'
-  if classMap[_class]
-    Class = classMap[_class]
-  else
-    Class = AV.Object.extend _class
-    classMap[_class] = Class
-  query = new AV.Query Class
-  query.include 'author'
-  query.select ['author.avatar', 'author.nickname', '*']
-  query.equalTo 'publishType', param.publishType
-  query.descending 'likeCount'
-  page = 0
-  if param.page
-    page = param.page
-  query.limit pageLimit
-  query.skip page*pageLimit
-  
-  query.find
-    success:(results)->
-      callback null, results
-    error:(error)->
-      callback error, null
+  queryPublish param, 'order by likeCount desc', callback
 exports.queryCommentsByPost = (param, callback) ->
   _class = 'Comment'
   if classMap[_class]
