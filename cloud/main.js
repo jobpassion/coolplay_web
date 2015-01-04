@@ -128,4 +128,13 @@
     });
   });
 
+  AV.Cloud.define("checkIfFriend", function(request, response) {
+    var currentUser;
+    currentUser = AV.User.current();
+    request.params.user = currentUser;
+    return userService.checkIfFriend(request.params, function(error, result) {
+      return response.success(result);
+    });
+  });
+
 }).call(this);

@@ -74,4 +74,8 @@ AV.Cloud.define "queryFriends", (request, response) ->
   request.params.user = currentUser
   userService.queryFriends request.params, (error, result)->
     response.success userService.recursiveToJson result
-
+AV.Cloud.define "checkIfFriend", (request, response) ->
+  currentUser = AV.User.current()
+  request.params.user = currentUser
+  userService.checkIfFriend request.params, (error, result)->
+    response.success result

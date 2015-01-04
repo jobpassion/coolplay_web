@@ -157,3 +157,11 @@ exports.queryFriends = (param, callback)->
       callback null, result.results
     error:(error)->
       callback error, null
+exports.checkIfFriend = (param, callback)->
+  cql = "select count(*) from _Follower where (user = pointer('_User', ?) and follower = pointer('_User', ?)) or (user = pointer('_User', ?) and follower = pointer('_User', ?))"
+  cqlParams = [param.user.id, param.friend, param.friend, param.user.id]
+  AV.Query.doCloudQuery cql,cqlParams,
+    success:(result)->
+      callback null, result.count
+    error:(error)->
+      callback error, null

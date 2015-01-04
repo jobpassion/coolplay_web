@@ -378,4 +378,10 @@
     });
   };
 
+  exports.checkIfFriend = function(param, callback) {
+    return userDao.checkIfFriend(param, function(error, result) {
+      return callback(error, result);
+    });
+  };
+
 }).call(this);

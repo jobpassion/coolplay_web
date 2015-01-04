@@ -230,3 +230,7 @@ exports.queryFriends = (param, callback)->
       for friend in results
         newResults.push friend.get 'follower'
     callback error, newResults
+exports.checkIfFriend = (param, callback)->
+  userDao.checkIfFriend param, (error, result)->
+    callback error, result
+

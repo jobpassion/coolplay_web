@@ -243,4 +243,18 @@
     });
   };
 
+  exports.checkIfFriend = function(param, callback) {
+    var cql, cqlParams;
+    cql = "select count(*) from _Follower where (user = pointer('_User', ?) and follower = pointer('_User', ?)) or (user = pointer('_User', ?) and follower = pointer('_User', ?))";
+    cqlParams = [param.user.id, param.friend, param.friend, param.user.id];
+    return AV.Query.doCloudQuery(cql, cqlParams, {
+      success: function(result) {
+        return callback(null, result.count);
+      },
+      error: function(error) {
+        return callback(error, null);
+      }
+    });
+  };
+
 }).call(this);
