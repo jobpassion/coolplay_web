@@ -105,7 +105,7 @@ queryPublish = (param, orderby, callback)->
 exports.queryLatestPublish = (param, callback) ->
   queryPublish param, 'order by createdAt desc', callback
 exports.queryHotestPublish = (param, callback) ->
-  queryPublish param, 'order by likeCount desc', callback
+  queryPublish param, 'order by favoriteCount,createdAt desc', callback
 exports.queryCommentsByPost = (param, callback) ->
   cql = 'select content,author.avatar, author.nickname, favoriteCount, likeCount from Comment'
   cql += " where post = Pointer('Publish', ?)"

@@ -175,7 +175,7 @@
   };
 
   exports.queryHotestPublish = function(param, callback) {
-    return queryPublish(param, 'order by likeCount desc', callback);
+    return queryPublish(param, 'order by favoriteCount,createdAt desc', callback);
   };
 
   exports.queryCommentsByPost = function(param, callback) {
