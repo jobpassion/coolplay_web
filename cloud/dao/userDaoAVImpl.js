@@ -153,11 +153,11 @@
       cqlParams.push(param.user.id);
     }
     page = 0;
-    if (param.page) {
-      page = param.page;
+    if (param.last && '' !== param.last) {
+      cql += ' and objectId < ?';
+      cqlParams.push(param.last);
     }
-    cql += ' limit ?,?';
-    cqlParams.push(page * pageLimit);
+    cql += ' limit ?';
     cqlParams.push(pageLimit);
     cql += ' ' + orderby;
     return AV.Query.doCloudQuery(cql, cqlParams, {
@@ -179,28 +179,20 @@
   };
 
   exports.queryCommentsByPost = function(param, callback) {
-    var Class, page, query, _class;
-    _class = 'Comment';
-    if (classMap[_class]) {
-      Class = classMap[_class];
-    } else {
-      Class = AV.Object.extend(_class);
-      classMap[_class] = Class;
+    var cql, cqlParams;
+    cql = 'select content,author.avatar, author.nickname, favoriteCount, likeCount from Comment';
+    cql += " where post = Pointer('Publish', ?)";
+    cqlParams = [param.post.id];
+    if (param.last && '' !== param.last) {
+      cql += ' and objectId < ?';
+      cqlParams.push(param.last);
     }
-    query = new AV.Query(Class);
-    query.include('author');
-    query.select(['content', 'author.avatar', 'author.nickname', 'favoriteCount', 'likeCount']);
-    query.equalTo('post', param.post);
-    query.descending('createdAt');
-    page = 0;
-    if (param.page) {
-      page = param.page;
-    }
-    query.limit(pageLimit);
-    query.skip(page * pageLimit);
-    return query.find({
-      success: function(results) {
-        return callback(null, results);
+    cql += ' limit ?';
+    cqlParams.push(pageLimit);
+    cql += ' order by createdAt desc';
+    return AV.Query.doCloudQuery(cql, cqlParams, {
+      success: function(result) {
+        return callback(null, result.results);
       },
       error: function(error) {
         return callback(error, null);

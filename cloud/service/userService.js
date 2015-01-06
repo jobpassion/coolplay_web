@@ -350,15 +350,19 @@
         param.post = post;
         return exports.queryCommentsByPost(param, function(error, results) {
           post.set('comments', results);
-          return userDao.queryByParam('Favorite', {
-            author: param.user.objectId,
-            post: param.post
-          }, function(error, results) {
-            if (results.length > 0) {
-              post.set('favorite', true);
-            }
+          if (param.user) {
+            return userDao.queryByParam('Favorite', {
+              author: param.user.objectId,
+              post: param.post
+            }, function(error, results) {
+              if (results.length > 0) {
+                post.set('favorite', true);
+              }
+              return callback(error, post);
+            });
+          } else {
             return callback(error, post);
-          });
+          }
         });
       }
     }, ['author'], ['author.nickname', 'author.avatar', 'backImageStr', 'shareCount', 'content', 'favoriteCount', 'commentCount']);

@@ -215,12 +215,15 @@ exports.queryCircleDetail = (param, callback) ->
       param.post = post
       exports.queryCommentsByPost param, (error, results)->
         post.set 'comments', results
-        userDao.queryByParam 'Favorite', 
-          author:param.user.objectId
-          post:param.post
-        , (error, results)->
-          if results.length >0
-            post.set 'favorite', true
+        if param.user
+          userDao.queryByParam 'Favorite', 
+            author:param.user.objectId
+            post:param.post
+          , (error, results)->
+            if results.length >0
+              post.set 'favorite', true
+            callback error, post
+        else
           callback error, post
   , ['author'], ['author.nickname', 'author.avatar', 'backImageStr', 'shareCount', 'content', 'favoriteCount', 'commentCount']
 exports.queryFriends = (param, callback)->

@@ -91,10 +91,10 @@ queryPublish = (param, orderby, callback)->
     cqlParams.push param.user.id
     cqlParams.push param.user.id
   page = 0
-  if param.page
-    page = param.page
-  cql += ' limit ?,?'
-  cqlParams.push page*pageLimit
+  if param.last && '' != param.last
+    cql += ' and objectId < ?'
+    cqlParams.push param.last
+  cql += ' limit ?'
   cqlParams.push pageLimit
   cql += ' ' + orderby
   AV.Query.doCloudQuery cql,cqlParams,
@@ -107,26 +107,18 @@ exports.queryLatestPublish = (param, callback) ->
 exports.queryHotestPublish = (param, callback) ->
   queryPublish param, 'order by likeCount desc', callback
 exports.queryCommentsByPost = (param, callback) ->
-  _class = 'Comment'
-  if classMap[_class]
-    Class = classMap[_class]
-  else
-    Class = AV.Object.extend _class
-    classMap[_class] = Class
-  query = new AV.Query Class
-  query.include 'author'
-  query.select ['content','author.avatar', 'author.nickname', 'favoriteCount', 'likeCount']
-  query.equalTo 'post', param.post
-  query.descending 'createdAt'
-  page = 0
-  if param.page
-    page = param.page
-  query.limit pageLimit
-  query.skip page*pageLimit
-  
-  query.find
-    success:(results)->
-      callback null, results
+  cql = 'select content,author.avatar, author.nickname, favoriteCount, likeCount from Comment'
+  cql += " where post = Pointer('Publish', ?)"
+  cqlParams = [param.post.id]
+  if param.last && '' != param.last
+    cql += ' and objectId < ?'
+    cqlParams.push param.last
+  cql += ' limit ?'
+  cqlParams.push pageLimit
+  cql += ' order by createdAt desc'
+  AV.Query.doCloudQuery cql,cqlParams,
+    success:(result)->
+      callback null, result.results
     error:(error)->
       callback error, null
 exports.queryFavorites = (param, callback) ->
