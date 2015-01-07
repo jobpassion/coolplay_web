@@ -249,4 +249,61 @@
     });
   };
 
+  exports.queryMyCircles = function(param, callback) {
+    var cql, cqlParams, page;
+    cql = 'select include author.avatar, include author.nickname, include backImageStr, include shareCount, include content, include publishType, include favoriteCount, include commentCount from Publish where ';
+    cql += 'publishType = ?';
+    cqlParams = [param.publishType];
+    cql += " and author = pointer('_User', ?)";
+    cqlParams.push(param.user.id);
+    page = 0;
+    if (param.last && '' !== param.last) {
+      cql += ' and objectId < ?';
+      cqlParams.push(param.last);
+    }
+    cql += ' limit ?';
+    cqlParams.push(pageLimit);
+    cql += ' order by createdAt desc';
+    return AV.Query.doCloudQuery(cql, cqlParams, {
+      success: function(result) {
+        return callback(null, result.results);
+      },
+      error: function(error) {
+        return callback(error, null);
+      }
+    });
+  };
+
+  exports.queryMyFavorites = function(param, callback) {
+    var cql, cqlParams, page;
+    cql = 'select include post.author.avatar, include post.author.nickname, include post.backImageStr, include post.shareCount, include post.content, include post.publishType, include post.favoriteCount, include post.commentCount from Favorite where ';
+    cql += "author = pointer('_User', ?)";
+    cqlParams = [param.user.id];
+    cql += ' and publishType = ?';
+    cqlParams.push(param.publishType);
+    page = 0;
+    if (param.last && '' !== param.last) {
+      cql += ' and objectId < ?';
+      cqlParams.push(param.last);
+    }
+    cql += ' limit ?';
+    cqlParams.push(pageLimit);
+    cql += ' order by createdAt desc';
+    return AV.Query.doCloudQuery(cql, cqlParams, {
+      success: function(result) {
+        var newResults, post, _i, _len, _ref;
+        newResults = [];
+        _ref = result.results;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          post = _ref[_i];
+          newResults.push(post.get('post'));
+        }
+        return callback(null, newResults);
+      },
+      error: function(error) {
+        return callback(error, null);
+      }
+    });
+  };
+
 }).call(this);

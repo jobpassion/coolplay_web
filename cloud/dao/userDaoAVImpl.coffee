@@ -157,3 +157,42 @@ exports.checkIfFriend = (param, callback)->
       callback null, result.count
     error:(error)->
       callback error, null
+exports.queryMyCircles = (param, callback)->
+  cql =  'select include author.avatar, include author.nickname, include backImageStr, include shareCount, include content, include publishType, include favoriteCount, include commentCount from Publish where '
+  cql += 'publishType = ?'
+  cqlParams = [param.publishType]
+  cql += " and author = pointer('_User', ?)"
+  cqlParams.push param.user.id
+  page = 0
+  if param.last && '' != param.last
+    cql += ' and objectId < ?'
+    cqlParams.push param.last
+  cql += ' limit ?'
+  cqlParams.push pageLimit
+  cql += ' order by createdAt desc'
+  AV.Query.doCloudQuery cql,cqlParams,
+    success:(result)->
+      callback null, result.results
+    error:(error)->
+      callback error, null
+exports.queryMyFavorites = (param, callback)->
+  cql =  'select include post.author.avatar, include post.author.nickname, include post.backImageStr, include post.shareCount, include post.content, include post.publishType, include post.favoriteCount, include post.commentCount from Favorite where '
+  cql += "author = pointer('_User', ?)"
+  cqlParams = [param.user.id]
+  cql += ' and publishType = ?'
+  cqlParams.push param.publishType
+  page = 0
+  if param.last && '' != param.last
+    cql += ' and objectId < ?'
+    cqlParams.push param.last
+  cql += ' limit ?'
+  cqlParams.push pageLimit
+  cql += ' order by createdAt desc'
+  AV.Query.doCloudQuery cql,cqlParams,
+    success:(result)->
+      newResults = []
+      for post in result.results
+        newResults.push post.get 'post'
+      callback null, newResults
+    error:(error)->
+      callback error, null

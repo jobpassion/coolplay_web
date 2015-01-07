@@ -388,4 +388,16 @@
     });
   };
 
+  exports.queryMyCircles = function(param, callback) {
+    return userDao.queryMyCircles(param, function(error, results) {
+      return callback(error, results);
+    });
+  };
+
+  exports.queryMyFavorites = function(param, callback) {
+    return userDao.queryMyFavorites(param, function(error, results) {
+      return callback(error, results);
+    });
+  };
+
 }).call(this);

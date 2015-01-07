@@ -12,7 +12,14 @@
     post = favo.get('post');
     post.increment('favoriteCount', 1);
     return userDao.save(post, function(error, result) {
-      return response.success();
+      return post.fetch({
+        success: function(post) {
+          favo.set('publishType', post.get('publishType'));
+          favo.save();
+          return response.success();
+        },
+        error: function(post, error) {}
+      });
     });
   });
 

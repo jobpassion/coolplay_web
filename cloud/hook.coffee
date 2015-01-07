@@ -29,7 +29,12 @@ AV.Cloud.beforeSave 'Favorite', (request, response)->
   post = favo.get 'post'
   post.increment 'favoriteCount', 1
   userDao.save post, (error, result)->
-    response.success()
+    post.fetch
+      success:(post)->
+        favo.set 'publishType', post.get 'publishType'
+        favo.save()
+        response.success()
+      error:(post, error)->
 AV.Cloud.beforeDelete 'Favorite', (request, response)->
   favo = request.object
   post = favo.get 'post'

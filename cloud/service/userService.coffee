@@ -236,4 +236,9 @@ exports.queryFriends = (param, callback)->
 exports.checkIfFriend = (param, callback)->
   userDao.checkIfFriend param, (error, result)->
     callback error, result
-
+exports.queryMyCircles = (param, callback)->
+  userDao.queryMyCircles param, (error, results)->
+    callback error, results
+exports.queryMyFavorites = (param, callback)->
+  userDao.queryMyFavorites param, (error, results)->
+    callback error, results

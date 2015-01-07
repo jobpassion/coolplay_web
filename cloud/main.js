@@ -137,4 +137,22 @@
     });
   });
 
+  AV.Cloud.define("queryMyCircles", function(request, response) {
+    var currentUser;
+    currentUser = AV.User.current();
+    request.params.user = currentUser;
+    return userService.queryMyCircles(request.params, function(error, result) {
+      return response.success(userService.recursiveToJson(result));
+    });
+  });
+
+  AV.Cloud.define("queryMyFavorites", function(request, response) {
+    var currentUser;
+    currentUser = AV.User.current();
+    request.params.user = currentUser;
+    return userService.queryMyFavorites(request.params, function(error, result) {
+      return response.success(userService.recursiveToJson(result));
+    });
+  });
+
 }).call(this);
