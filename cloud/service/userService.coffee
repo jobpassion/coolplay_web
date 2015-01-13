@@ -217,7 +217,7 @@ exports.queryCircleDetail = (param, callback) ->
         post.set 'comments', results
         if param.user
           userDao.queryByParam 'Favorite', 
-            author:param.user.objectId
+            author:param.user.id
             post:param.post
           , (error, results)->
             if results.length >0

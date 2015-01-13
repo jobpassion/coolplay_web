@@ -352,7 +352,7 @@
           post.set('comments', results);
           if (param.user) {
             return userDao.queryByParam('Favorite', {
-              author: param.user.objectId,
+              author: param.user.id,
               post: param.post
             }, function(error, results) {
               if (results.length > 0) {
