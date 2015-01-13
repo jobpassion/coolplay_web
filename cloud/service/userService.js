@@ -351,8 +351,9 @@
         return exports.queryCommentsByPost(param, function(error, results) {
           post.set('comments', results);
           if (param.user) {
+            console.log(param.post.id);
             return userDao.queryByParam('Favorite', {
-              author: param.user.id,
+              author: param.user,
               post: param.post
             }, function(error, results) {
               if (results.length > 0) {
