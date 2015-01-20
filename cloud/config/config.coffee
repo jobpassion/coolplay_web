@@ -18,27 +18,27 @@ config =
     core: 'coolweb_collection'
     path: '/'
   #local:true
-log4js = require("log4js")
-log4js.configure appenders: [
-  {
-    type: "logLevelFilter"
-    level: "INFO"
-    appender:
-      type: "console"
-      level: "error"
-  }
-  {
-    type: "logLevelFilter"
-    level: "INFO"
-    appender:
-      type: "dateFile"
-      filename: "logs/logs.log"
-      pattern: "-yyyy-MM-dd"
-      maxLogSize: 1024
-      alwaysIncludePattern: true
-      backups: 5
-  }
-]
+#log4js = require("log4js")
+#log4js.configure appenders: [
+#  {
+#    type: "logLevelFilter"
+#    level: "INFO"
+#    appender:
+#      type: "console"
+#      level: "error"
+#  }
+#  {
+#    type: "logLevelFilter"
+#    level: "INFO"
+#    appender:
+#      type: "dateFile"
+#      filename: "logs/logs.log"
+#      pattern: "-yyyy-MM-dd"
+#      maxLogSize: 1024
+#      alwaysIncludePattern: true
+#      backups: 5
+#  }
+#]
 
 #,replaceConsole: true
 config.ROOT = "cloud/"
