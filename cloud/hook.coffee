@@ -65,3 +65,14 @@ AV.Cloud.beforeDelete 'Comment', (request, response)->
   post.increment 'commentCount', -1
   userDao.save post, (error, result)->
     response.success()
+AV.Cloud.beforeSave 'Album', (request, response)->
+  album = request.object
+  userDao.queryByParam '_File', 
+    name:album.get 'filename'
+  , (error, results)->
+    if !error && results.length > 0
+      file = results[0]
+      request.object.set 'file', file
+      #album.set 'url', 'abc'
+      console.log album
+      response.success()

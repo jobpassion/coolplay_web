@@ -73,4 +73,20 @@
     });
   });
 
+  AV.Cloud.beforeSave('Album', function(request, response) {
+    var album;
+    album = request.object;
+    return userDao.queryByParam('_File', {
+      name: album.get('filename')
+    }, function(error, results) {
+      var file;
+      if (!error && results.length > 0) {
+        file = results[0];
+        request.object.set('file', file);
+        console.log(album);
+        return response.success();
+      }
+    });
+  });
+
 }).call(this);
