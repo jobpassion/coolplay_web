@@ -289,6 +289,13 @@
           obj.set(key, recursiveToJson(value));
         }
         obj = obj.toJSON();
+      } else if (obj.thumbnailURL) {
+        obj = {
+          name: obj.name(),
+          metaData: obj.metaData(),
+          url: obj.url(),
+          size: obj.size()
+        };
       } else {
         for (key in obj) {
           value = obj[key];

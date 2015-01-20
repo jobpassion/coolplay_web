@@ -83,7 +83,6 @@
       if (!error && results.length > 0) {
         file = results[0];
         request.object.set('file', file);
-        console.log(album);
         return response.success();
       }
     });

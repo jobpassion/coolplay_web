@@ -74,5 +74,4 @@ AV.Cloud.beforeSave 'Album', (request, response)->
       file = results[0]
       request.object.set 'file', file
       #album.set 'url', 'abc'
-      console.log album
       response.success()

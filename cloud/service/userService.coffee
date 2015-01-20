@@ -177,6 +177,12 @@ recursiveToJson = (obj)->
       for key,value of obj.attributes
         obj.set key, recursiveToJson value
       obj = obj.toJSON()
+    else if obj.thumbnailURL
+      obj = 
+        name:obj.name()
+        metaData:obj.metaData()
+        url:obj.url()
+        size:obj.size()
     else
       for key,value of obj
         if value && value.toJSON

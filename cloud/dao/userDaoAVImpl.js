@@ -308,7 +308,7 @@
 
   exports.queryMyAlbum = function(param, callback) {
     var cql, cqlParams, page;
-    cql = 'select filename from Album where ';
+    cql = 'select filename, include file.name, include file.url, include file.metaData from Album where ';
     cql += "user = pointer('_User', ?)";
     cqlParams = [param.user.id];
     page = 0;
