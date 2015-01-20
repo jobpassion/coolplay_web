@@ -243,3 +243,6 @@ exports.queryMyCircles = (param, callback)->
 exports.queryMyFavorites = (param, callback)->
   userDao.queryMyFavorites param, (error, results)->
     callback error, results
+exports.queryMyAlbum = (param, callback)->
+  userDao.queryMyAlbum param, (error, results)->
+    callback error, results

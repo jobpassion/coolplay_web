@@ -89,3 +89,8 @@ AV.Cloud.define "queryMyFavorites", (request, response) ->
   request.params.user = currentUser
   userService.queryMyFavorites request.params, (error, result)->
     response.success userService.recursiveToJson result
+AV.Cloud.define "queryMyAlbum", (request, response) ->
+  currentUser = AV.User.current()
+  request.params.user = currentUser
+  userService.queryMyAlbum request.params, (error, result)->
+    response.success userService.recursiveToJson result

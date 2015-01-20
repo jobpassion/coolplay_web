@@ -196,3 +196,19 @@ exports.queryMyFavorites = (param, callback)->
       callback null, newResults
     error:(error)->
       callback error, null
+exports.queryMyAlbum = (param, callback)->
+  cql =  'select filename from Album where '
+  cql += "user = pointer('_User', ?)"
+  cqlParams = [param.user.id]
+  page = 0
+  if param.last && '' != param.last
+    cql += ' and objectId < ?'
+    cqlParams.push param.last
+  cql += ' limit ?'
+  cqlParams.push pageLimit
+  cql += ' order by createdAt desc'
+  AV.Query.doCloudQuery cql,cqlParams,
+    success:(result)->
+      callback null, result.results
+    error:(error)->
+      callback error, null
