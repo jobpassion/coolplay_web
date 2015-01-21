@@ -47,6 +47,7 @@
 
   AV.Cloud.define("queryLatestPublish", function(request, response) {
     var currentUser;
+    console.log(request.params);
     currentUser = AV.User.current();
     request.params.user = currentUser;
     return userService.queryLatestPublish(request.params, function(error, results) {
@@ -157,9 +158,9 @@
 
   AV.Cloud.define("queryMyAlbum", function(request, response) {
     var currentUser;
+    console.log(request.params);
     currentUser = AV.User.current();
     request.params.user = currentUser;
-    console.log(request.params);
     return userService.queryMyAlbum(request.params, function(error, result) {
       return response.success(userService.recursiveToJson(result));
     });
