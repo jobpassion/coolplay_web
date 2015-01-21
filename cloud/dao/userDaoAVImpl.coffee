@@ -1,6 +1,6 @@
 config = require "cloud/config/config"
 classMap = {}
-pageLimit = 1
+pageLimit = 20
 exports.queryByParam = (_class, param, callback, includes, selectKeys) ->
   if classMap[_class]
     Class = classMap[_class]

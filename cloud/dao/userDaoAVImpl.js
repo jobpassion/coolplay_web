@@ -6,7 +6,7 @@
 
   classMap = {};
 
-  pageLimit = 1;
+  pageLimit = 20;
 
   exports.queryByParam = function(_class, param, callback, includes, selectKeys) {
     var Class, key, page, query, value, _i, _len;
