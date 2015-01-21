@@ -319,8 +319,11 @@
     cql += ' limit ?';
     cqlParams.push(pageLimit);
     cql += ' order by createdAt desc';
+    console.log(cql);
+    console.log(cqlParams);
     return AV.Query.doCloudQuery(cql, cqlParams, {
       success: function(result) {
+        console.log(result.results);
         return callback(null, result.results);
       },
       error: function(error) {
