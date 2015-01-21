@@ -26,7 +26,6 @@ AV.Cloud.define "removeToFavorite", (request, response) ->
   userService.removeToFavorite request.user, request.params.post, (error, result)->
     response.success userService.recursiveToJson result
 AV.Cloud.define "queryLatestPublish", (request, response) ->
-  console.log request.params
   currentUser = AV.User.current()
   request.params.user = currentUser
   userService.queryLatestPublish request.params, (error, results)->
@@ -91,7 +90,6 @@ AV.Cloud.define "queryMyFavorites", (request, response) ->
   userService.queryMyFavorites request.params, (error, result)->
     response.success userService.recursiveToJson result
 AV.Cloud.define "queryMyAlbum", (request, response) ->
-  console.log request.params
   currentUser = AV.User.current()
   request.params.user = currentUser
   userService.queryMyAlbum request.params, (error, result)->

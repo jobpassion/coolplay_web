@@ -207,11 +207,8 @@ exports.queryMyAlbum = (param, callback)->
   cql += ' limit ?'
   cqlParams.push pageLimit
   cql += ' order by createdAt desc'
-  console.log cql
-  console.log cqlParams
   AV.Query.doCloudQuery cql,cqlParams,
     success:(result)->
-      console.log result.results
       callback null, result.results
     error:(error)->
       callback error, null
