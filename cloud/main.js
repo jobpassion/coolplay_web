@@ -159,6 +159,7 @@
     var currentUser;
     currentUser = AV.User.current();
     request.params.user = currentUser;
+    console.log(request.params);
     return userService.queryMyAlbum(request.params, function(error, result) {
       return response.success(userService.recursiveToJson(result));
     });
