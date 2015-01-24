@@ -164,4 +164,13 @@
     });
   });
 
+  AV.Cloud.define("queryHisAlbum", function(request, response) {
+    var currentUser;
+    currentUser = AV.User.current();
+    request.params.user = currentUser;
+    return userService.queryHisAlbum(request.params, function(error, result) {
+      return response.success(userService.recursiveToJson(result));
+    });
+  });
+
 }).call(this);

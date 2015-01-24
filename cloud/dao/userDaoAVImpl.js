@@ -329,4 +329,27 @@
     });
   };
 
+  exports.queryHisAlbum = function(param, callback) {
+    var cql, cqlParams, page;
+    cql = 'select filename, include file.name, include file.url, include file.metaData from Album where ';
+    cql += "user = pointer('_User', ?)";
+    cqlParams = [param.him];
+    page = 0;
+    if (param.last && '' !== param.last) {
+      cql += ' and objectId < ?';
+      cqlParams.push(param.last);
+    }
+    cql += ' limit ?';
+    cqlParams.push(pageLimit);
+    cql += ' order by createdAt desc';
+    return AV.Query.doCloudQuery(cql, cqlParams, {
+      success: function(result) {
+        return callback(null, result.results);
+      },
+      error: function(error) {
+        return callback(error, null);
+      }
+    });
+  };
+
 }).call(this);

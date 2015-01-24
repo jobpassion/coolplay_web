@@ -251,3 +251,6 @@ exports.queryMyFavorites = (param, callback)->
 exports.queryMyAlbum = (param, callback)->
   userDao.queryMyAlbum param, (error, results)->
     callback error, results
+exports.queryHisAlbum = (param, callback)->
+  userDao.queryHisAlbum param, (error, results)->
+    callback error, results

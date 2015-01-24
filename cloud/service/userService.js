@@ -413,4 +413,10 @@
     });
   };
 
+  exports.queryHisAlbum = function(param, callback) {
+    return userDao.queryHisAlbum(param, function(error, results) {
+      return callback(error, results);
+    });
+  };
+
 }).call(this);
