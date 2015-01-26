@@ -419,4 +419,10 @@
     });
   };
 
+  exports.queryHisAlbumLast = function(param, callback) {
+    return userDao.queryHisAlbumLast(param, function(error, results) {
+      return callback(error, results);
+    });
+  };
+
 }).call(this);

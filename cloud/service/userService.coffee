@@ -254,3 +254,6 @@ exports.queryMyAlbum = (param, callback)->
 exports.queryHisAlbum = (param, callback)->
   userDao.queryHisAlbum param, (error, results)->
     callback error, results
+exports.queryHisAlbumLast = (param, callback)->
+  userDao.queryHisAlbumLast param, (error, results)->
+    callback error, results

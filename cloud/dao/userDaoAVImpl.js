@@ -352,4 +352,26 @@
     });
   };
 
+  exports.queryHisAlbumLast = function(param, callback) {
+    var cql, cqlParams;
+    cql = 'select filename, include file.name, include file.url, include file.metaData from Album where ';
+    cql += "user = pointer('_User', ?)";
+    cqlParams = [param.him];
+    cql += ' limit ?';
+    cqlParams.push(1);
+    cql += ' order by createdAt desc';
+    return AV.Query.doCloudQuery(cql, cqlParams, {
+      success: function(result) {
+        if (result && result.results && result.results.length > 0) {
+          return callback(null, result.results[0]);
+        } else {
+          return callback(null, null);
+        }
+      },
+      error: function(error) {
+        return callback(error, null);
+      }
+    });
+  };
+
 }).call(this);

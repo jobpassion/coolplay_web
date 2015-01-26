@@ -229,3 +229,18 @@ exports.queryHisAlbum = (param, callback)->
       callback null, result.results
     error:(error)->
       callback error, null
+exports.queryHisAlbumLast = (param, callback)->
+  cql =  'select filename, include file.name, include file.url, include file.metaData from Album where '
+  cql += "user = pointer('_User', ?)"
+  cqlParams = [param.him]
+  cql += ' limit ?'
+  cqlParams.push 1
+  cql += ' order by createdAt desc'
+  AV.Query.doCloudQuery cql,cqlParams,
+    success:(result)->
+      if result && result.results && result.results.length > 0
+        callback null, result.results[0]
+      else
+        callback null, null
+    error:(error)->
+      callback error, null
