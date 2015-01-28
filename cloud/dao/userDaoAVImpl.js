@@ -180,7 +180,7 @@
 
   exports.queryCommentsByPost = function(param, callback) {
     var cql, cqlParams;
-    cql = 'select content,author.avatar, author.nickname, favoriteCount, likeCount from Comment';
+    cql = 'select content,include author.avatar, include author.nickname, favoriteCount, likeCount from Comment';
     cql += " where post = Pointer('Publish', ?)";
     cqlParams = [param.post.id];
     if (param.last && '' !== param.last) {
