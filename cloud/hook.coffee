@@ -1,5 +1,6 @@
 config = require "cloud/config/config"
 userDao = require(config.ROOT + "dao/userDao")
+randomName = require 'chinese-random-name'
 #userService = require 'cloud/service/userService'
 #AV.Cloud.beforeSave 'FileUpload', (request)->
 #  file = request.object
@@ -75,3 +76,11 @@ AV.Cloud.beforeSave 'Album', (request, response)->
       request.object.set 'file', file
       #album.set 'url', 'abc'
       response.success()
+AV.Cloud.beforeSave 'Publish', (request, response)->
+  post = request.object
+  console.log 'publish before saved'
+  if 1 == post.get 'anonymous'
+    post.set 'anonymousNickname', randomName.generate()
+    console.log '1 == anonymous'
+    console.log post.get 'anonymousNickname'
+  response.success()
