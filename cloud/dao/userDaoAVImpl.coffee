@@ -90,6 +90,10 @@ queryPublish = (param, orderby, callback)->
     cql += " and (author = (select follower from _Follower where user = pointer('_User', ?)) or author = pointer('_User', ?))"
     cqlParams.push param.user.id
     cqlParams.push param.user.id
+  else if param.publishType == '1'
+    cql += " and author not in (select follower from _Follower where user = pointer('_User', ?)) and author not in (select followee from _Followee where user = pointer('_User', ?))"
+    cqlParams.push param.user.id
+    cqlParams.push param.user.id
   page = 0
   if param.last && '' != param.last
     cql += ' and objectId < ?'
