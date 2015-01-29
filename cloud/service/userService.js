@@ -147,6 +147,9 @@
   };
 
   exports.queryLatestPublish = function(param, callback) {
+    if (param.publishType === '2' && !param.user) {
+      callback(null, []);
+    }
     return userDao.queryLatestPublish(param, function(error, results1) {
       var post, _i, _len;
       for (_i = 0, _len = results1.length; _i < _len; _i++) {

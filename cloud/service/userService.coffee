@@ -97,6 +97,8 @@ exports.removeToFavorite = (user, post, callback) ->
           callback null, 
             result:0
 exports.queryLatestPublish = (param, callback) ->
+  if param.publishType == '2' && !param.user
+    callback null, []
   userDao.queryLatestPublish param, (error, results1)->
     for post in results1
       post.set 'author',simpleUser post.get 'author'

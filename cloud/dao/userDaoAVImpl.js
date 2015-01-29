@@ -147,11 +147,11 @@
     cql = 'select include author.avatar, include author.nickname, * from Publish where ';
     cql += 'publishType = ?';
     cqlParams = [param.publishType];
-    if (param.publishType === '2') {
+    if (param.user && param.publishType === '2') {
       cql += " and (author = (select follower from _Follower where user = pointer('_User', ?)) or author = pointer('_User', ?))";
       cqlParams.push(param.user.id);
       cqlParams.push(param.user.id);
-    } else if (param.publishType === '1') {
+    } else if (param.user && param.publishType === '1') {
       cql += " and author not in (select follower from _Follower where user = pointer('_User', ?)) and author not in (select followee from _Followee where user = pointer('_User', ?))";
       cqlParams.push(param.user.id);
       cqlParams.push(param.user.id);
