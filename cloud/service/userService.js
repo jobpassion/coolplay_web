@@ -375,7 +375,7 @@
           }
         });
       }
-    }, ['author'], ['author.nickname', 'author.avatar', 'backImageStr', 'shareCount', 'content', 'favoriteCount', 'commentCount']);
+    }, ['author'], ['author.nickname', 'author.avatar', 'backImageStr', 'shareCount', 'content', 'favoriteCount', 'commentCount', '*']);
   };
 
   exports.queryFriends = function(param, callback) {
