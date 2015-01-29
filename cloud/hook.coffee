@@ -81,6 +81,10 @@ AV.Cloud.beforeSave 'Publish', (request, response)->
   console.log 'publish before saved'
   if 1 == post.get 'anonymous'
     post.set 'anonymousNickname', randomName.generate()
-    console.log '1 == anonymous'
-    console.log post.get 'anonymousNickname'
-  response.success()
+    userDao.queryByParam '_File', 
+      name:'avatar_female_' + Math.floor(1 + Math.random() * 1578) + '.jpg'
+    , (error, results)->
+      if !error && results.length > 0
+        file = results[0]
+        post.set 'anonymousAvatar', file.get 'url'
+        response.success()
