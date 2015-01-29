@@ -88,3 +88,5 @@ AV.Cloud.beforeSave 'Publish', (request, response)->
         file = results[0]
         post.set 'anonymousAvatar', file.get 'url'
         response.success()
+  else
+    response.success()
