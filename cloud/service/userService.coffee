@@ -230,7 +230,19 @@ exports.queryCircleDetail = (param, callback) ->
           , (error, results)->
             if results.length >0
               post.set 'favorite', true
-            callback error, post
+            if (post.get 'anonymous') == 1
+              userDao.queryByParam 'GuessIt',
+                user:param.user
+                post:param.post
+              , (error, results)->
+                if results && results.length > 0
+                  post.set 'guessCount', results[0].get 'count'
+                else
+                  post.set 'guessCount', 0
+                callback error, post
+            else
+              console.log post.get 'anonymous'
+              callback error, post
         else
           callback error, post
   , ['author'], ['author.nickname', 'author.avatar', 'backImageStr', 'shareCount', 'content', 'favoriteCount', 'commentCount', '*']

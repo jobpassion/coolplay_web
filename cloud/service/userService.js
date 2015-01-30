@@ -368,7 +368,22 @@
               if (results.length > 0) {
                 post.set('favorite', true);
               }
-              return callback(error, post);
+              if ((post.get('anonymous')) === 1) {
+                return userDao.queryByParam('GuessIt', {
+                  user: param.user,
+                  post: param.post
+                }, function(error, results) {
+                  if (results && results.length > 0) {
+                    post.set('guessCount', results[0].get('count'));
+                  } else {
+                    post.set('guessCount', 0);
+                  }
+                  return callback(error, post);
+                });
+              } else {
+                console.log(post.get('anonymous'));
+                return callback(error, post);
+              }
             });
           } else {
             return callback(error, post);
