@@ -182,4 +182,13 @@
     });
   });
 
+  AV.Cloud.define("guessIt", function(request, response) {
+    var currentUser;
+    currentUser = AV.User.current();
+    request.params.user = currentUser;
+    return userService.guessIt(request.params, function(error, result) {
+      return response.success(userService.recursiveToJson(result));
+    });
+  });
+
 }).call(this);

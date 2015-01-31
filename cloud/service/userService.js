@@ -443,4 +443,25 @@
     });
   };
 
+  exports.guessIt = function(param, callback) {
+    return userDao.queryByParam('GuessIt', {
+      user: param.user,
+      post: constructAVObject('Publish', param.post)
+    }, function(error, results) {
+      var guessIt;
+      if (results && results.length > 0) {
+        guessIt = results[0];
+        guessIt.set('count', 1 + guessIt.get('count'));
+      } else {
+        guessIt = AV.Object["new"]('GuessIt');
+        guessIt.set('user', param.user);
+        guessIt.set('post', constructAVObject('Publish', param.post));
+        guessIt.set('count', 1);
+      }
+      return userDao.save(guessIt, function(error, guessIt) {
+        return callback(error, guessIt);
+      });
+    });
+  };
+
 }).call(this);

@@ -104,3 +104,8 @@ AV.Cloud.define "queryHisAlbumLast", (request, response) ->
   request.params.user = currentUser
   userService.queryHisAlbumLast request.params, (error, result)->
     response.success userService.recursiveToJson result
+AV.Cloud.define "guessIt", (request, response) ->
+  currentUser = AV.User.current()
+  request.params.user = currentUser
+  userService.guessIt request.params, (error, result)->
+    response.success userService.recursiveToJson result
