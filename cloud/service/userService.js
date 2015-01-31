@@ -205,6 +205,7 @@
         post = results1[_i];
         post.set('author', simpleUser(post.get('author')));
       }
+      console.log(results1);
       if (param.user) {
         return queryGuess(results1, param.user, function(error, results1) {
           return queryFavorites(param, function(error, results) {

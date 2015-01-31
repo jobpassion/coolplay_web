@@ -128,6 +128,7 @@ exports.queryHotestPublish = (param, callback) ->
   userDao.queryHotestPublish param, (error, results1)->
     for post in results1
       post.set 'author',simpleUser post.get 'author'
+    console.log results1
     if param.user
       queryGuess results1, param.user, (error, results1)->
         queryFavorites param, (error, results)->
