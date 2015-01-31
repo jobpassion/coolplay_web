@@ -113,19 +113,31 @@ exports.queryLatestPublish = (param, callback) ->
         callback error, results1
     else
       callback error, results1
+      
+queryGuess = (posts, user, callback)->
+  anonymousPosts = {}
+  for post in posts
+    if 1 == post.get('anonymous')
+      anonymousPosts[post.id] = post
+  userDao.queryGuess anonymousPosts, user, (error, results)->
+    for result in results
+      anonymousPosts[(result.get 'post').id].set "guessCount", result.get 'count'
+      anonymousPosts[(result.get 'post').id].set "guessRight", result.get 'right'
+    callback error, posts
 exports.queryHotestPublish = (param, callback) ->
   userDao.queryHotestPublish param, (error, results1)->
     for post in results1
       post.set 'author',simpleUser post.get 'author'
     if param.user
-      queryFavorites param, (error, results)->
-        favoriteMap = {}
-        for favorite in results
-          favoriteMap[(favorite.get 'post').id] = 1
-        for post in results1
-          if favoriteMap[post.id]
-            post.set 'favorite', true
-        callback error, results1
+      queryGuess results1, param.user, (error, results1)->
+        queryFavorites param, (error, results)->
+          favoriteMap = {}
+          for favorite in results
+            favoriteMap[(favorite.get 'post').id] = 1
+          for post in results1
+            if favoriteMap[post.id]
+              post.set 'favorite', true
+          callback error, results1
     else
       callback error, results1
 exports.queryCommentsByPost = (param, callback) ->
@@ -241,7 +253,6 @@ exports.queryCircleDetail = (param, callback) ->
                   post.set 'guessCount', 0
                 callback error, post
             else
-              console.log post.get 'anonymous'
               callback error, post
         else
           callback error, post

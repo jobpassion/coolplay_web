@@ -378,4 +378,28 @@
     });
   };
 
+  exports.queryGuess = function(anonymousPosts, user, callback) {
+    var cql, cqlParams, key, value;
+    cql = "select * from GuessIt where post in (pointer('Publish','111')";
+    cqlParams = [];
+    for (key in anonymousPosts) {
+      value = anonymousPosts[key];
+      cql += ", pointer('Publish',?)";
+      cqlParams.push(key);
+    }
+    cql += ')';
+    cql += " and user = pointer('User', ?)";
+    cqlParams.push(user.id);
+    return AV.Query.doCloudQuery(cql, cqlParams, {
+      success: function(result) {
+        if (result && result.results) {
+          return callback(null, result.results);
+        }
+      },
+      error: function(error) {
+        return callback(error, null);
+      }
+    });
+  };
+
 }).call(this);

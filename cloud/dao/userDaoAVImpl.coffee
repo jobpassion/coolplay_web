@@ -248,3 +248,18 @@ exports.queryHisAlbumLast = (param, callback)->
         callback null, null
     error:(error)->
       callback error, null
+exports.queryGuess = (anonymousPosts, user, callback)->
+  cql =  "select * from GuessIt where post in (pointer('Publish','111')"
+  cqlParams = []
+  for key,value of anonymousPosts
+    cql += ", pointer('Publish',?)"
+    cqlParams.push key
+  cql += ')'
+  cql += " and user = pointer('User', ?)"
+  cqlParams.push user.id
+  AV.Query.doCloudQuery cql,cqlParams,
+    success:(result)->
+      if result && result.results
+        callback null, result.results
+    error:(error)->
+      callback error, null
