@@ -103,14 +103,15 @@ exports.queryLatestPublish = (param, callback) ->
     for post in results1
       post.set 'author',simpleUser post.get 'author'
     if param.user
-      userDao.queryFavorites param, (error, results)->
-        favoriteMap = {}
-        for favorite in results
-          favoriteMap[(favorite.get 'post').id] = 1
-        for post in results1
-          if favoriteMap[post.id]
-            post.set 'favorite', true
-        callback error, results1
+      queryGuess results1, param.user, (error, results1)->
+        userDao.queryFavorites param, (error, results)->
+          favoriteMap = {}
+          for favorite in results
+            favoriteMap[(favorite.get 'post').id] = 1
+          for post in results1
+            if favoriteMap[post.id]
+              post.set 'favorite', true
+          callback error, results1
     else
       callback error, results1
       

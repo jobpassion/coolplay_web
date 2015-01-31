@@ -57,6 +57,7 @@
   AV.Cloud.define("queryHotestPublish", function(request, response) {
     var currentUser;
     currentUser = AV.User.current();
+    console.log(123);
     request.params.user = currentUser;
     return userService.queryHotestPublish(request.params, function(error, results) {
       return response.success(userService.recursiveToJson(results));

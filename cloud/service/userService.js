@@ -157,20 +157,22 @@
         post.set('author', simpleUser(post.get('author')));
       }
       if (param.user) {
-        return userDao.queryFavorites(param, function(error, results) {
-          var favorite, favoriteMap, _j, _k, _len1, _len2;
-          favoriteMap = {};
-          for (_j = 0, _len1 = results.length; _j < _len1; _j++) {
-            favorite = results[_j];
-            favoriteMap[(favorite.get('post')).id] = 1;
-          }
-          for (_k = 0, _len2 = results1.length; _k < _len2; _k++) {
-            post = results1[_k];
-            if (favoriteMap[post.id]) {
-              post.set('favorite', true);
+        return queryGuess(results1, param.user, function(error, results1) {
+          return userDao.queryFavorites(param, function(error, results) {
+            var favorite, favoriteMap, _j, _k, _len1, _len2;
+            favoriteMap = {};
+            for (_j = 0, _len1 = results.length; _j < _len1; _j++) {
+              favorite = results[_j];
+              favoriteMap[(favorite.get('post')).id] = 1;
             }
-          }
-          return callback(error, results1);
+            for (_k = 0, _len2 = results1.length; _k < _len2; _k++) {
+              post = results1[_k];
+              if (favoriteMap[post.id]) {
+                post.set('favorite', true);
+              }
+            }
+            return callback(error, results1);
+          });
         });
       } else {
         return callback(error, results1);
