@@ -207,7 +207,6 @@
         post = results1[_i];
         post.set('author', simpleUser(post.get('author')));
       }
-      console.log(results1);
       if (param.user) {
         return queryGuess(results1, param.user, function(error, results1) {
           return queryFavorites(param, function(error, results) {
@@ -400,8 +399,10 @@
                 }, function(error, results) {
                   if (results && results.length > 0) {
                     post.set('guessCount', results[0].get('count'));
+                    post.set('guessRight', results[0].get('right'));
                   } else {
                     post.set('guessCount', 0);
+                    post.set('guessRight', false);
                   }
                   return callback(error, post);
                 });
@@ -482,6 +483,26 @@
         guessIt.set('post', constructAVObject('Publish', param.post));
         guessIt.set('count', 1);
       }
+      return userDao.save(guessIt, function(error, guessIt) {
+        return callback(error, guessIt);
+      });
+    });
+  };
+
+  exports.guessRight = function(param, callback) {
+    return userDao.queryByParam('GuessIt', {
+      user: param.user,
+      post: constructAVObject('Publish', param.post)
+    }, function(error, results) {
+      var guessIt;
+      if (results && results.length > 0) {
+        guessIt = results[0];
+      } else {
+        guessIt = AV.Object["new"]('GuessIt');
+        guessIt.set('user', param.user);
+        guessIt.set('post', constructAVObject('Publish', param.post));
+      }
+      guessIt.set('right', true);
       return userDao.save(guessIt, function(error, guessIt) {
         return callback(error, guessIt);
       });

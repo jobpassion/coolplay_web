@@ -32,7 +32,6 @@ AV.Cloud.define "queryLatestPublish", (request, response) ->
     response.success userService.recursiveToJson results
 AV.Cloud.define "queryHotestPublish", (request, response) ->
   currentUser = AV.User.current()
-  console.log 123
   request.params.user = currentUser
   userService.queryHotestPublish request.params, (error, results)->
     response.success userService.recursiveToJson results
@@ -109,4 +108,9 @@ AV.Cloud.define "guessIt", (request, response) ->
   currentUser = AV.User.current()
   request.params.user = currentUser
   userService.guessIt request.params, (error, result)->
+    response.success userService.recursiveToJson result
+AV.Cloud.define "guessRight", (request, response) ->
+  currentUser = AV.User.current()
+  request.params.user = currentUser
+  userService.guessRight request.params, (error, result)->
     response.success userService.recursiveToJson result

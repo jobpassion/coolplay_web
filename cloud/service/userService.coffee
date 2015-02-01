@@ -129,7 +129,6 @@ exports.queryHotestPublish = (param, callback) ->
   userDao.queryHotestPublish param, (error, results1)->
     for post in results1
       post.set 'author',simpleUser post.get 'author'
-    console.log results1
     if param.user
       queryGuess results1, param.user, (error, results1)->
         queryFavorites param, (error, results)->
@@ -251,8 +250,10 @@ exports.queryCircleDetail = (param, callback) ->
               , (error, results)->
                 if results && results.length > 0
                   post.set 'guessCount', results[0].get 'count'
+                  post.set 'guessRight', results[0].get 'right'
                 else
                   post.set 'guessCount', 0
+                  post.set 'guessRight', false
                 callback error, post
             else
               callback error, post
@@ -297,6 +298,21 @@ exports.guessIt = (param, callback)->
       guessIt.set 'user', param.user
       guessIt.set 'post', constructAVObject('Publish', param.post)
       guessIt.set 'count', 1
+    userDao.save guessIt, (error, guessIt)->
+      callback error, guessIt
+    
+exports.guessRight = (param, callback)->
+  userDao.queryByParam 'GuessIt',
+    user:param.user
+    post:constructAVObject('Publish', param.post)
+  ,(error, results)->
+    if results && results.length > 0
+      guessIt = results[0]
+    else
+      guessIt = AV.Object.new('GuessIt')
+      guessIt.set 'user', param.user
+      guessIt.set 'post', constructAVObject('Publish', param.post)
+    guessIt.set 'right', true
     userDao.save guessIt, (error, guessIt)->
       callback error, guessIt
     
