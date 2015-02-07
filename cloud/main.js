@@ -200,4 +200,17 @@
     });
   });
 
+  AV.Cloud.define("queryWeiboFriends", function(request, response) {
+    var currentUser;
+    currentUser = AV.User.current();
+    request.params.user = currentUser;
+    return userService.queryWeiboFriends(request.params, function(error, result) {
+      if (error) {
+        return response.error(error);
+      } else {
+        return response.success(result);
+      }
+    });
+  });
+
 }).call(this);

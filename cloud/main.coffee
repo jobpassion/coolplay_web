@@ -114,3 +114,11 @@ AV.Cloud.define "guessRight", (request, response) ->
   request.params.user = currentUser
   userService.guessRight request.params, (error, result)->
     response.success userService.recursiveToJson result
+AV.Cloud.define "queryWeiboFriends", (request, response) ->
+  currentUser = AV.User.current()
+  request.params.user = currentUser
+  userService.queryWeiboFriends request.params, (error, result)->
+    if error
+      response.error error
+    else
+      response.success result

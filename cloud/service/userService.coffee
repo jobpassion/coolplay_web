@@ -315,4 +315,29 @@ exports.guessRight = (param, callback)->
     guessIt.set 'right', true
     userDao.save guessIt, (error, guessIt)->
       callback error, guessIt
-    
+exports.queryWeiboFriends = (param, callback)->
+  if param.user.get 'authData'
+    authData = param.user.get 'authData'
+    if authData.weibo
+      accessToken = authData.weibo.access_token
+      uid = authData.weibo.uid
+      AV.Cloud.httpRequest
+        url:'https://api.weibo.com/2/friendships/friends.json'
+        params:
+          access_token:accessToken
+          uid:uid
+        success:(httpResponse)->
+          responseText = httpResponse.text
+          responseObject = JSON.parse(responseText)
+          result = []
+          for weiboUser in responseObject.users
+            a = 1
+          callback null, responseObject
+        error:(httpResponse)->
+          responseText = httpResponse.text
+          responseObject = JSON.parse(responseText)
+          callback null, responseObject
+    else
+      callback '未绑定微博帐号',null
+  else
+    callback '未绑定微博帐号',null

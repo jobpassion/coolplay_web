@@ -263,3 +263,12 @@ exports.queryGuess = (anonymousPosts, user, callback)->
         callback null, result.results
     error:(error)->
       callback error, null
+exports.queryAllUsersWithWeibo = (param, callback)->
+  cql = 'select * from _User where weibo = ?'
+  cqlParams = ['1']
+  AV.Query.doCloudQuery cql,cqlParams,
+    success:(result)->
+      if result && result.results
+        callback null, result.results
+    error:(error)->
+      callback error, null

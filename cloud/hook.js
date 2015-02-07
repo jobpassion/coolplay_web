@@ -93,7 +93,6 @@
   AV.Cloud.beforeSave('Publish', function(request, response) {
     var post;
     post = request.object;
-    console.log('publish before saved');
     if (1 === post.get('anonymous')) {
       post.set('anonymousNickname', randomName.generate());
       return userDao.queryByParam('_File', {
@@ -108,6 +107,34 @@
       });
     } else {
       return response.success();
+    }
+  });
+
+  AV.Cloud.beforeSave('_User', function(request, response) {
+    var authData, post;
+    post = request.object;
+    if (post.get('authData')) {
+      authData = post.get('authData');
+      if (authData.weibo) {
+        post.set('weibo', '1');
+        response.success();
+        return;
+      }
+    }
+    return response.success();
+  });
+
+  AV.Cloud.afterUpdate('_User', function(request) {
+    var authData, post;
+    post = request.object;
+    if (post.get('authData')) {
+      authData = post.get('authData');
+      if (authData.weibo) {
+        post.set('weibo', '1');
+        userDao.save(post, function(error, result) {
+          return console.log(123);
+        });
+      }
     }
   });
 

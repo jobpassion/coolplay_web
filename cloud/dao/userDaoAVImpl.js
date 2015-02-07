@@ -402,4 +402,20 @@
     });
   };
 
+  exports.queryAllUsersWithWeibo = function(param, callback) {
+    var cql, cqlParams;
+    cql = 'select * from _User where weibo = ?';
+    cqlParams = ['1'];
+    return AV.Query.doCloudQuery(cql, cqlParams, {
+      success: function(result) {
+        if (result && result.results) {
+          return callback(null, result.results);
+        }
+      },
+      error: function(error) {
+        return callback(error, null);
+      }
+    });
+  };
+
 }).call(this);

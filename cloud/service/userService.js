@@ -509,4 +509,44 @@
     });
   };
 
+  exports.queryWeiboFriends = function(param, callback) {
+    var accessToken, authData, uid;
+    if (param.user.get('authData')) {
+      authData = param.user.get('authData');
+      if (authData.weibo) {
+        accessToken = authData.weibo.access_token;
+        uid = authData.weibo.uid;
+        return AV.Cloud.httpRequest({
+          url: 'https://api.weibo.com/2/friendships/friends.json',
+          params: {
+            access_token: accessToken,
+            uid: uid
+          },
+          success: function(httpResponse) {
+            var a, responseObject, responseText, result, weiboUser, _i, _len, _ref;
+            responseText = httpResponse.text;
+            responseObject = JSON.parse(responseText);
+            result = [];
+            _ref = responseObject.users;
+            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+              weiboUser = _ref[_i];
+              a = 1;
+            }
+            return callback(null, responseObject);
+          },
+          error: function(httpResponse) {
+            var responseObject, responseText;
+            responseText = httpResponse.text;
+            responseObject = JSON.parse(responseText);
+            return callback(null, responseObject);
+          }
+        });
+      } else {
+        return callback('未绑定微博帐号', null);
+      }
+    } else {
+      return callback('未绑定微博帐号', null);
+    }
+  };
+
 }).call(this);
