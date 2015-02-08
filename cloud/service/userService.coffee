@@ -315,28 +315,49 @@ exports.guessRight = (param, callback)->
     guessIt.set 'right', true
     userDao.save guessIt, (error, guessIt)->
       callback error, guessIt
+weiboFriends = (param, friends, callback)->
+  AV.Cloud.httpRequest
+    url:'https://api.weibo.com/2/friendships/friends.json'
+    params:param
+    success:(httpResponse)->
+      responseText = httpResponse.text
+      responseObject = JSON.parse(responseText)
+      if responseObject.users
+        nextCursor = responseObject.next_cursor
+        if nextCursor > 0
+          param.cursor = nextCursor
+          weiboFriends param, friends.concat(responseObject.users), callback
+        else
+          callback friends.concat(responseObject.users)
+      else
+        callback responseObject
+    error:(httpResponse)->
+      responseText = httpResponse.text
+      responseObject = JSON.parse(responseText)
+      callback responseObject
 exports.queryWeiboFriends = (param, callback)->
   if param.user.get 'authData'
     authData = param.user.get 'authData'
     if authData.weibo
       accessToken = authData.weibo.access_token
       uid = authData.weibo.uid
-      AV.Cloud.httpRequest
-        url:'https://api.weibo.com/2/friendships/friends.json'
-        params:
-          access_token:accessToken
-          uid:uid
-        success:(httpResponse)->
-          responseText = httpResponse.text
-          responseObject = JSON.parse(responseText)
-          result = []
-          for weiboUser in responseObject.users
-            a = 1
-          callback null, responseObject
-        error:(httpResponse)->
-          responseText = httpResponse.text
-          responseObject = JSON.parse(responseText)
-          callback null, responseObject
+      weiboFriends
+        access_token:accessToken
+        uid:uid
+        count:100
+      ,[],(friends)->
+        if friends.length
+          userDao.queryAllUsersWithWeibo null,(error, results)->
+            result = []
+            weiboUserMap = {}
+            for weiboUser in friends
+              weiboUserMap[weiboUser.id] = weiboUser
+            for u in results
+              if weiboUserMap[(u.get 'authData').weibo.uid]
+                result.push weiboUserMap[(u.get 'authData').weibo.uid]
+              callback null, result
+        else
+          callback null, friends
     else
       callback '未绑定微博帐号',null
   else
