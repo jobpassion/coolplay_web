@@ -98,12 +98,12 @@ AV.Cloud.beforeSave '_User', (request, response)->
       response.success()
       return
   response.success()
-AV.Cloud.afterUpdate '_User', (request)->
-  post = request.object
-  if post.get 'authData'
-    authData = post.get 'authData'
-    if authData.weibo
-      post.set 'weibo', '1'
-      userDao.save post, (error, result)->
-        console.log 123
-      return
+#AV.Cloud.afterUpdate '_User', (request)->
+#  post = request.object
+#  if post.get 'authData'
+#    authData = post.get 'authData'
+#    if authData.weibo
+#      post.set 'weibo', '1'
+#      userDao.save post, (error, result)->
+#        console.log 123
+#      return

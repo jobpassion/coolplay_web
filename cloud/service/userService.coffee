@@ -2,6 +2,7 @@ config = require "cloud/config/config"
 randomToken = ->
   crypto.randomBytes(20).toString "hex"
 userDao = require(config.ROOT + "dao/userDao")
+weiboService = require(config.ROOT + "service/weiboService")
 async = require("async")
 
 classMap = {}
@@ -358,6 +359,36 @@ exports.queryWeiboFriends = (param, callback)->
               callback null, result
         else
           callback null, friends
+    else
+      callback '未绑定微博帐号',null
+  else
+    callback '未绑定微博帐号',null
+
+exports.searchNewFriend = (param, callback)->
+  if param.user.get 'authData'
+    authData = param.user.get 'authData'
+    if authData.weibo
+      accessToken = authData.weibo.access_token
+      weiboService.searchWeibo
+        accessToken:accessToken
+        who:param.who
+      , (error, result)->
+        if error
+          callback error, null
+        else
+          if result
+            userDao.queryUserWithWeibo
+              uid:result.id
+            ,(error, result1)->
+              if result1
+                result1 = recursiveToJson result1
+                for key,value of result1
+                  result[key] = value
+                callback error, result
+              else
+                callback error, null
+          else
+            callback null, null
     else
       callback '未绑定微博帐号',null
   else

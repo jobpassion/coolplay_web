@@ -124,18 +124,4 @@
     return response.success();
   });
 
-  AV.Cloud.afterUpdate('_User', function(request) {
-    var authData, post;
-    post = request.object;
-    if (post.get('authData')) {
-      authData = post.get('authData');
-      if (authData.weibo) {
-        post.set('weibo', '1');
-        userDao.save(post, function(error, result) {
-          return console.log(123);
-        });
-      }
-    }
-  });
-
 }).call(this);

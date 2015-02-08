@@ -122,3 +122,11 @@ AV.Cloud.define "queryWeiboFriends", (request, response) ->
       response.error error
     else
       response.success result
+AV.Cloud.define "searchNewFriend", (request, response) ->
+  currentUser = AV.User.current()
+  request.params.user = currentUser
+  userService.searchNewFriend request.params, (error, result)->
+    if error
+      response.error error
+    else
+      response.success result

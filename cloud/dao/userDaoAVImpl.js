@@ -404,12 +404,32 @@
 
   exports.queryAllUsersWithWeibo = function(param, callback) {
     var cql, cqlParams;
-    cql = 'select * from _User where weibo = ?';
-    cqlParams = ['1'];
+    cql = 'select * from _User where authData.weibo is exists';
+    cqlParams = [];
     return AV.Query.doCloudQuery(cql, cqlParams, {
       success: function(result) {
         if (result && result.results) {
           return callback(null, result.results);
+        } else {
+          return callback(null, null);
+        }
+      },
+      error: function(error) {
+        return callback(error, null);
+      }
+    });
+  };
+
+  exports.queryUserWithWeibo = function(param, callback) {
+    var cql, cqlParams;
+    cql = 'select * from _User where authData.weibo.uid = ?';
+    cqlParams = ["" + param.uid + ""];
+    return AV.Query.doCloudQuery(cql, cqlParams, {
+      success: function(result) {
+        if (result && result.results && result.results.length > 0) {
+          return callback(null, result.results[0]);
+        } else {
+          return callback(null, null);
         }
       },
       error: function(error) {
