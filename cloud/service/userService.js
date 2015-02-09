@@ -638,7 +638,7 @@
           _ref = friend.phoneNumbers;
           for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
             phoneNum = _ref[_j];
-            weiboUserMap[phoneNum] = friend;
+            weiboUserMap[phoneNum.replace(/[- ]*/g, '').replace(/\+86/, '')] = friend;
           }
         }
         _results = [];

@@ -401,7 +401,7 @@ exports.queryContactFriends = (param, callback)->
       weiboUserMap = {}
       for friend in friends
         for phoneNum in friend.phoneNumbers
-          weiboUserMap[phoneNum] = friend
+          weiboUserMap[phoneNum.replace(/[- ]*/g,'').replace(/\+86/,'')] = friend
       for u in results
         if weiboUserMap[(u.get 'mobilePhoneNumber')]
           u.set 'contactName', weiboUserMap[(u.get 'mobilePhoneNumber')].contactName
