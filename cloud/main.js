@@ -234,7 +234,7 @@
       if (error) {
         return response.error(error);
       } else {
-        return response.success(result);
+        return response.success(userService.recursiveToJson(result));
       }
     });
   });

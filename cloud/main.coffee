@@ -137,4 +137,4 @@ AV.Cloud.define "queryContactsFriends", (request, response) ->
     if error
       response.error error
     else
-      response.success result
+      response.success userService.recursiveToJson result
