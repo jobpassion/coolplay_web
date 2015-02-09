@@ -285,3 +285,14 @@ exports.queryUserWithWeibo = (param, callback)->
         callback null, null
     error:(error)->
       callback error, null
+exports.queryAllUsersWithPhone = (param, callback)->
+  cql = 'select * from _User where mobilePhoneNumber is exists'
+  cqlParams = []
+  AV.Query.doCloudQuery cql,cqlParams,
+    success:(result)->
+      if result && result.results
+        callback null, result.results
+      else
+        callback null, null
+    error:(error)->
+      callback error, null

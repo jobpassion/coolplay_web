@@ -625,4 +625,36 @@
     }
   };
 
+  exports.queryContactFriends = function(param, callback) {
+    var friends;
+    friends = param.contacts;
+    if (friends.length) {
+      return userDao.queryAllUsersWithPhone(null, function(error, results) {
+        var friend, phoneNum, result, u, weiboUserMap, _i, _j, _k, _len, _len1, _len2, _ref, _results;
+        result = [];
+        weiboUserMap = {};
+        for (_i = 0, _len = friends.length; _i < _len; _i++) {
+          friend = friends[_i];
+          _ref = friend.phoneNumbers;
+          for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
+            phoneNum = _ref[_j];
+            weiboUserMap[phoneNum] = friend;
+          }
+        }
+        _results = [];
+        for (_k = 0, _len2 = results.length; _k < _len2; _k++) {
+          u = results[_k];
+          if (weiboUserMap[u.get('mobilePhoneNumber')]) {
+            u.set('contactName', weiboUserMap[u.get('mobilePhoneNumber')].contactName);
+            result.push(u);
+          }
+          _results.push(callback(null, result));
+        }
+        return _results;
+      });
+    } else {
+      return callback(null, friends);
+    }
+  };
+
 }).call(this);

@@ -393,3 +393,19 @@ exports.searchNewFriend = (param, callback)->
       callback '未绑定微博帐号',null
   else
     callback '未绑定微博帐号',null
+exports.queryContactFriends = (param, callback)->
+  friends = param.contacts
+  if friends.length
+    userDao.queryAllUsersWithPhone null,(error, results)->
+      result = []
+      weiboUserMap = {}
+      for friend in friends
+        for phoneNum in friend.phoneNumbers
+          weiboUserMap[phoneNum] = friend
+      for u in results
+        if weiboUserMap[(u.get 'mobilePhoneNumber')]
+          u.set 'contactName', weiboUserMap[(u.get 'mobilePhoneNumber')].contactName
+          result.push u
+        callback null, result
+  else
+    callback null, friends

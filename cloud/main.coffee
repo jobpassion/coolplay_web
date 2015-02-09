@@ -130,3 +130,11 @@ AV.Cloud.define "searchNewFriend", (request, response) ->
       response.error error
     else
       response.success result
+AV.Cloud.define "queryContactsFriends", (request, response) ->
+  currentUser = AV.User.current()
+  request.params.user = currentUser
+  userService.queryContactFriends request.params, (error, result)->
+    if error
+      response.error error
+    else
+      response.success result
