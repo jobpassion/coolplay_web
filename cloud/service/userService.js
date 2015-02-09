@@ -641,13 +641,13 @@
             weiboUserMap[phoneNum.replace(/[- ]*/g, '').replace(/\+86/, '')] = friend;
           }
         }
-        console.log(weiboUserMap);
-        console.log(results);
         for (_k = 0, _len2 = results.length; _k < _len2; _k++) {
           u = results[_k];
+          console.log(weiboUserMap['18001592606']);
           if (weiboUserMap[u.get('mobilePhoneNumber')]) {
             u.set('contactName', weiboUserMap[u.get('mobilePhoneNumber')].contactName);
             result.push(u);
+            console.log(u);
           }
         }
         return callback(null, result);

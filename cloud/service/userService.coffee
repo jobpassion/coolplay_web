@@ -402,12 +402,12 @@ exports.queryContactFriends = (param, callback)->
       for friend in friends
         for phoneNum in friend.phoneNumbers
           weiboUserMap[phoneNum.replace(/[- ]*/g,'').replace(/\+86/,'')] = friend
-      console.log weiboUserMap
-      console.log results
       for u in results
+        console.log weiboUserMap['18001592606']
         if weiboUserMap[(u.get 'mobilePhoneNumber')]
           u.set 'contactName', weiboUserMap[(u.get 'mobilePhoneNumber')].contactName
           result.push u
+          console.log u
       callback null, result
   else
     callback null, friends
