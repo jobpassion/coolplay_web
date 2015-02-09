@@ -630,7 +630,7 @@
     friends = param.contacts;
     if (friends.length) {
       return userDao.queryAllUsersWithPhone(null, function(error, results) {
-        var friend, phoneNum, result, u, weiboUserMap, _i, _j, _k, _len, _len1, _len2, _ref, _results;
+        var friend, phoneNum, result, u, weiboUserMap, _i, _j, _k, _len, _len1, _len2, _ref;
         result = [];
         weiboUserMap = {};
         for (_i = 0, _len = friends.length; _i < _len; _i++) {
@@ -641,16 +641,16 @@
             weiboUserMap[phoneNum.replace(/[- ]*/g, '').replace(/\+86/, '')] = friend;
           }
         }
-        _results = [];
+        console.log(weiboUserMap);
+        console.log(results);
         for (_k = 0, _len2 = results.length; _k < _len2; _k++) {
           u = results[_k];
           if (weiboUserMap[u.get('mobilePhoneNumber')]) {
             u.set('contactName', weiboUserMap[u.get('mobilePhoneNumber')].contactName);
             result.push(u);
           }
-          _results.push(callback(null, result));
         }
-        return _results;
+        return callback(null, result);
       });
     } else {
       return callback(null, friends);
