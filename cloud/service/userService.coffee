@@ -355,7 +355,11 @@ exports.queryWeiboFriends = (param, callback)->
               weiboUserMap[weiboUser.id] = weiboUser
             for u in results
               if weiboUserMap[(u.get 'authData').weibo.uid]
-                result.push weiboUserMap[(u.get 'authData').weibo.uid]
+                weiboUser = weiboUserMap[(u.get 'authData').weibo.uid]
+                u = exports.recursiveToJson u
+                for key,value of u
+                  weiboUser[key] = value
+                result.push weiboUser
               callback null, result
         else
           callback null, friends

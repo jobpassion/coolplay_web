@@ -554,7 +554,7 @@
         }, [], function(friends) {
           if (friends.length) {
             return userDao.queryAllUsersWithWeibo(null, function(error, results) {
-              var result, u, weiboUser, weiboUserMap, _i, _j, _len, _len1, _results;
+              var key, result, u, value, weiboUser, weiboUserMap, _i, _j, _len, _len1, _results;
               result = [];
               weiboUserMap = {};
               for (_i = 0, _len = friends.length; _i < _len; _i++) {
@@ -565,7 +565,13 @@
               for (_j = 0, _len1 = results.length; _j < _len1; _j++) {
                 u = results[_j];
                 if (weiboUserMap[(u.get('authData')).weibo.uid]) {
-                  result.push(weiboUserMap[(u.get('authData')).weibo.uid]);
+                  weiboUser = weiboUserMap[(u.get('authData')).weibo.uid];
+                  u = exports.recursiveToJson(u);
+                  for (key in u) {
+                    value = u[key];
+                    weiboUser[key] = value;
+                  }
+                  result.push(weiboUser);
                 }
                 _results.push(callback(null, result));
               }
