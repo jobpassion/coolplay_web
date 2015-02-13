@@ -1,4 +1,5 @@
 config = require "cloud/config/config"
+async = require 'async'
 randomToken = ->
   crypto.randomBytes(20).toString "hex"
 userDao = require(config.ROOT + "dao/userDao")
@@ -349,18 +350,19 @@ exports.queryWeiboFriends = (param, callback)->
       ,[],(friends)->
         if friends.length
           userDao.queryAllUsersWithWeibo null,(error, results)->
-            result = []
-            weiboUserMap = {}
-            for weiboUser in friends
-              weiboUserMap[weiboUser.id] = weiboUser
-            for u in results
-              if weiboUserMap[(u.get 'authData').weibo.uid]
-                weiboUser = weiboUserMap[(u.get 'authData').weibo.uid]
-                u = exports.recursiveToJson u
-                for key,value of u
-                  weiboUser[key] = value
-                result.push weiboUser
-              callback null, result
+            appendIfFriend param, results, (error, results)->
+              result = []
+              weiboUserMap = {}
+              for weiboUser in friends
+                weiboUserMap[weiboUser.id] = weiboUser
+              for u in results
+                if weiboUserMap[(u.get 'authData').weibo.uid]
+                  weiboUser = weiboUserMap[(u.get 'authData').weibo.uid]
+                  u = exports.recursiveToJson u
+                  for key,value of u
+                    weiboUser[key] = value
+                  result.push weiboUser
+                callback null, result
         else
           callback null, friends
     else
@@ -385,10 +387,11 @@ exports.searchNewFriend = (param, callback)->
               uid:result.id
             ,(error, result1)->
               if result1
-                result1 = recursiveToJson result1
-                for key,value of result1
-                  result[key] = value
-                callback error, result
+                appendIfFriend param, [result1], (error, results)->
+                  result1 = recursiveToJson results[0]
+                  for key,value of result1
+                    result[key] = value
+                  callback error, result
               else
                 callback error, null
           else
@@ -397,19 +400,30 @@ exports.searchNewFriend = (param, callback)->
       callback '未绑定微博帐号',null
   else
     callback '未绑定微博帐号',null
+appendIfFriend = (param, result, callback)->
+  friends = exports.queryFriends param, (error, friends)->
+    friendsMap = {}
+    for friend in friends
+      friendsMap[friend.id] = true
+    for r in result
+      if friendsMap[r.id]
+        r.set 'follow', true
+    callback error, result
 exports.queryContactFriends = (param, callback)->
   friends = param.contacts
+  console.log async
   if friends.length
-    userDao.queryAllUsersWithPhone null,(error, results)->
-      result = []
-      weiboUserMap = {}
-      for friend in friends
-        for phoneNum in friend.phoneNumbers
-          weiboUserMap[phoneNum.replace(/[- ]*/g,'').replace(/\+86/,'')] = friend
-      for u in results
-        if weiboUserMap[(u.get 'mobilePhoneNumber')]
-          u.set 'contactName', weiboUserMap[(u.get 'mobilePhoneNumber')].contactName
-          result.push u
-      callback null, result
+    userDao.queryAllUsersWithPhone param,(error, results)->
+      appendIfFriend param, results, (error, results)->
+        result = []
+        weiboUserMap = {}
+        for friend in friends
+          for phoneNum in friend.phoneNumbers
+            weiboUserMap[phoneNum.replace(/[- ]*/g,'').replace(/\+86/,'')] = friend
+        for u in results
+          if weiboUserMap[(u.get 'mobilePhoneNumber')]
+            u.set 'contactName', weiboUserMap[(u.get 'mobilePhoneNumber')].contactName
+            result.push u
+        callback null, result
   else
     callback null, friends

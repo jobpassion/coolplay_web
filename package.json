@@ -7,5 +7,6 @@
   },
   "dependencies": {
     "chinese-random-name": ""
+    ,"async": ""
   }
 }
