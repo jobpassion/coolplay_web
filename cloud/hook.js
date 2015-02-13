@@ -113,6 +113,7 @@
   AV.Cloud.beforeSave('_User', function(request, response) {
     var authData, post;
     post = request.object;
+    post.set('mobilePhoneVerified', true);
     if (post.get('authData')) {
       authData = post.get('authData');
       if (authData.weibo) {

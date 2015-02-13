@@ -659,10 +659,17 @@
   exports.queryContactFriends = function(param, callback) {
     var friends;
     friends = param.contacts;
-    console.log(async);
     if (friends.length) {
-      return userDao.queryAllUsersWithPhone(param, function(error, results) {
-        return appendIfFriend(param, results, function(error, results) {
+      return async.waterfall([
+        function(cb) {
+          return userDao.queryAllUsersWithPhone(param, function(error, results) {
+            return cb(error, results);
+          });
+        }, function(results, cb) {
+          return appendIfFriend(param, results, function(error, results) {
+            return cb(error, results);
+          });
+        }, function(results, cb) {
           var friend, phoneNum, result, u, weiboUserMap, _i, _j, _k, _len, _len1, _len2, _ref;
           result = [];
           weiboUserMap = {};
@@ -681,8 +688,10 @@
               result.push(u);
             }
           }
-          return callback(null, result);
-        });
+          return cb(null, result);
+        }
+      ], function(error, result) {
+        return callback(null, result);
       });
     } else {
       return callback(null, friends);

@@ -411,10 +411,15 @@ appendIfFriend = (param, result, callback)->
     callback error, result
 exports.queryContactFriends = (param, callback)->
   friends = param.contacts
-  console.log async
   if friends.length
-    userDao.queryAllUsersWithPhone param,(error, results)->
-      appendIfFriend param, results, (error, results)->
+    async.waterfall [
+      (cb)->
+        userDao.queryAllUsersWithPhone param,(error, results)->
+          cb error, results
+      ,(results, cb)->
+        appendIfFriend param, results, (error, results)->
+          cb error, results
+      ,(results, cb)->
         result = []
         weiboUserMap = {}
         for friend in friends
@@ -424,6 +429,8 @@ exports.queryContactFriends = (param, callback)->
           if weiboUserMap[(u.get 'mobilePhoneNumber')]
             u.set 'contactName', weiboUserMap[(u.get 'mobilePhoneNumber')].contactName
             result.push u
-        callback null, result
+        cb null, result
+    ], (error, result)->
+      callback null, result
   else
     callback null, friends

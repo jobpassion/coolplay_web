@@ -91,6 +91,7 @@ AV.Cloud.beforeSave 'Publish', (request, response)->
     response.success()
 AV.Cloud.beforeSave '_User', (request, response)->
   post = request.object
+  post.set 'mobilePhoneVerified', true
   if post.get 'authData'
     authData = post.get 'authData'
     if authData.weibo
