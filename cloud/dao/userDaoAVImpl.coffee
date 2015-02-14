@@ -9,7 +9,7 @@ exports.queryByParam = (_class, param, callback, includes, selectKeys) ->
     classMap[_class] = Class
   query = new AV.Query Class
   for key,value of param
-    if (key.indexOf 'meta') == 0
+    if (key.indexOf 'meta') == 0 or key == 'last' or key == 'orderBy'
       continue
     query.equalTo key, value
   if includes
@@ -22,7 +22,10 @@ exports.queryByParam = (_class, param, callback, includes, selectKeys) ->
     page = param.page
   if !param.metaUnLimit
     query.limit pageLimit
-    query.skip page*pageLimit
+  if param.last
+    query.lessThan 'objectId', param.last
+  if param.orderBy
+    param.orderBy query
   
   query.find
     success:(results)->

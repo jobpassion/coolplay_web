@@ -19,7 +19,7 @@
     query = new AV.Query(Class);
     for (key in param) {
       value = param[key];
-      if ((key.indexOf('meta')) === 0) {
+      if ((key.indexOf('meta')) === 0 || key === 'last' || key === 'orderBy') {
         continue;
       }
       query.equalTo(key, value);
@@ -39,7 +39,12 @@
     }
     if (!param.metaUnLimit) {
       query.limit(pageLimit);
-      query.skip(page * pageLimit);
+    }
+    if (param.last) {
+      query.lessThan('objectId', param.last);
+    }
+    if (param.orderBy) {
+      param.orderBy(query);
     }
     return query.find({
       success: function(results) {

@@ -445,6 +445,9 @@ exports.queryHisTimeline = (param, callback)->
         userDao.queryByParam 'Publish',
           author:constructAVObject '_User', param.him
           publishType:'2'
+          last:param.last
+          orderBy:(query)->
+            query.descending 'createdAt'
           ,(error, results)->
             cb error, results
         , ['author'], ['author.nickname', 'author.avatar', 'backImageStr', 'shareCount', 'content', 'favoriteCount', 'commentCount']
@@ -452,6 +455,9 @@ exports.queryHisTimeline = (param, callback)->
         userDao.queryByParam 'Publish', #圈外
           author:constructAVObject '_User', param.him
           publishType:'1'
+          last:param.last
+          orderBy:(query)->
+            query.descending 'createdAt'
           ,(error, results)->
             cb error, results
         , ['author'], ['author.nickname', 'author.avatar', 'backImageStr', 'shareCount', 'content', 'favoriteCount', 'commentCount']

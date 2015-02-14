@@ -709,14 +709,22 @@
         if (result === 2) {
           return userDao.queryByParam('Publish', {
             author: constructAVObject('_User', param.him),
-            publishType: '2'
+            publishType: '2',
+            last: param.last,
+            orderBy: function(query) {
+              return query.descending('createdAt');
+            }
           }, function(error, results) {
             return cb(error, results);
           }, ['author'], ['author.nickname', 'author.avatar', 'backImageStr', 'shareCount', 'content', 'favoriteCount', 'commentCount']);
         } else {
           return userDao.queryByParam('Publish', {
             author: constructAVObject('_User', param.him),
-            publishType: '1'
+            publishType: '1',
+            last: param.last,
+            orderBy: function(query) {
+              return query.descending('createdAt');
+            }
           }, function(error, results) {
             return cb(error, results);
           }, ['author'], ['author.nickname', 'author.avatar', 'backImageStr', 'shareCount', 'content', 'favoriteCount', 'commentCount']);
