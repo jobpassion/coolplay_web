@@ -239,4 +239,17 @@
     });
   });
 
+  AV.Cloud.define("queryHisTimeline", function(request, response) {
+    var currentUser;
+    currentUser = AV.User.current();
+    request.params.user = currentUser;
+    return userService.queryHisTimeline(request.params, function(error, result) {
+      if (error) {
+        return response.error(error);
+      } else {
+        return response.success(userService.recursiveToJson(result));
+      }
+    });
+  });
+
 }).call(this);

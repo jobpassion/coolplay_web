@@ -456,4 +456,22 @@
     });
   };
 
+  exports.queryHisTimeline = function(param, callback) {
+    var cql, cqlParams;
+    cql = 'select * from _User where mobilePhoneNumber is exists';
+    cqlParams = [];
+    return AV.Query.doCloudQuery(cql, cqlParams, {
+      success: function(result) {
+        if (result && result.results) {
+          return callback(null, result.results);
+        } else {
+          return callback(null, null);
+        }
+      },
+      error: function(error) {
+        return callback(error, null);
+      }
+    });
+  };
+
 }).call(this);

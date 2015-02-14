@@ -698,4 +698,33 @@
     }
   };
 
+  exports.queryHisTimeline = function(param, callback) {
+    return async.waterfall([
+      function(cb) {
+        param.friend = param.him;
+        return exports.checkIfFriend(param, function(error, result) {
+          return cb(error, result);
+        });
+      }, function(result, cb) {
+        if (result === 2) {
+          return userDao.queryByParam('Publish', {
+            author: constructAVObject('_User', param.him),
+            publishType: '2'
+          }, function(error, results) {
+            return cb(error, results);
+          }, ['author'], ['author.nickname', 'author.avatar', 'backImageStr', 'shareCount', 'content', 'favoriteCount', 'commentCount']);
+        } else {
+          return userDao.queryByParam('Publish', {
+            author: constructAVObject('_User', param.him),
+            publishType: '1'
+          }, function(error, results) {
+            return cb(error, results);
+          }, ['author'], ['author.nickname', 'author.avatar', 'backImageStr', 'shareCount', 'content', 'favoriteCount', 'commentCount']);
+        }
+      }
+    ], function(error, result) {
+      return callback(error, result);
+    });
+  };
+
 }).call(this);

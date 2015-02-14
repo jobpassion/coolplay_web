@@ -434,3 +434,26 @@ exports.queryContactFriends = (param, callback)->
       callback null, result
   else
     callback null, friends
+exports.queryHisTimeline = (param, callback)->
+  async.waterfall [
+    (cb)->
+      param.friend = param.him
+      exports.checkIfFriend param, (error, result)->
+        cb error, result
+    ,(result, cb)->
+      if result == 2
+        userDao.queryByParam 'Publish',
+          author:constructAVObject '_User', param.him
+          publishType:'2'
+          ,(error, results)->
+            cb error, results
+        , ['author'], ['author.nickname', 'author.avatar', 'backImageStr', 'shareCount', 'content', 'favoriteCount', 'commentCount']
+      else
+        userDao.queryByParam 'Publish', #圈外
+          author:constructAVObject '_User', param.him
+          publishType:'1'
+          ,(error, results)->
+            cb error, results
+        , ['author'], ['author.nickname', 'author.avatar', 'backImageStr', 'shareCount', 'content', 'favoriteCount', 'commentCount']
+  ], (error, result)->
+    callback error, result
