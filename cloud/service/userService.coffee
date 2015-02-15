@@ -450,7 +450,7 @@ exports.queryHisTimeline = (param, callback)->
             query.descending 'createdAt'
           ,(error, results)->
             cb error, results
-        , ['author'], ['author.nickname', 'author.avatar', 'backImageStr', 'shareCount', 'content', 'favoriteCount', 'commentCount']
+        , ['author'], ['author.nickname', 'author.avatar', 'backImageStr', 'shareCount', 'content', 'favoriteCount', 'commentCount', 'anonymous', 'anonymousNickname', 'anonymousAvatar']
       else
         userDao.queryByParam 'Publish', #圈外
           author:constructAVObject '_User', param.him
@@ -460,6 +460,6 @@ exports.queryHisTimeline = (param, callback)->
             query.descending 'createdAt'
           ,(error, results)->
             cb error, results
-        , ['author'], ['author.nickname', 'author.avatar', 'backImageStr', 'shareCount', 'content', 'favoriteCount', 'commentCount']
+        , ['author'], ['author.nickname', 'author.avatar', 'backImageStr', 'shareCount', 'content', 'favoriteCount', 'commentCount', 'anonymous', 'anonymousNickname', 'anonymousAvatar']
   ], (error, result)->
     callback error, result

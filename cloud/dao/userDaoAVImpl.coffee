@@ -1,6 +1,8 @@
 config = require "cloud/config/config"
 classMap = {}
 pageLimit = 20
+publishSelectKey = 'include author.avatar, include author.nickname, *'
+exports.publishSelectKey = publishSelectKey
 exports.queryByParam = (_class, param, callback, includes, selectKeys) ->
   if classMap[_class]
     Class = classMap[_class]
@@ -86,7 +88,7 @@ exports.insert = (_class, param, callback)->
       #console.log error
       callback error, classObject
 queryPublish = (param, orderby, callback)->
-  cql =  'select include author.avatar, include author.nickname, * from Publish where '
+  cql =  "select #{publishSelectKey} from Publish where "
   cql += 'publishType = ?'
   cqlParams = [param.publishType]
   if param.user && param.publishType ==  '2'
@@ -165,7 +167,7 @@ exports.checkIfFriend = (param, callback)->
     error:(error)->
       callback error, null
 exports.queryMyCircles = (param, callback)->
-  cql =  'select include author.avatar, include author.nickname, include backImageStr, include shareCount, include content, include publishType, include favoriteCount, include commentCount from Publish where '
+  cql =  "select #{publishSelectKey} from Publish where "
   cql += 'publishType = ?'
   cqlParams = [param.publishType]
   cql += " and author = pointer('_User', ?)"
@@ -183,7 +185,7 @@ exports.queryMyCircles = (param, callback)->
     error:(error)->
       callback error, null
 exports.queryMyFavorites = (param, callback)->
-  cql =  'select include post.author.avatar, include post.author.nickname, include post.backImageStr, include post.shareCount, include post.content, include post.publishType, include post.favoriteCount, include post.commentCount from Favorite where '
+  cql =  "select #{publishSelectKey} from Favorite where "
   cql += "author = pointer('_User', ?)"
   cqlParams = [param.user.id]
   cql += ' and publishType = ?'

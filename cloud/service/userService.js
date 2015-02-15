@@ -716,7 +716,7 @@
             }
           }, function(error, results) {
             return cb(error, results);
-          }, ['author'], ['author.nickname', 'author.avatar', 'backImageStr', 'shareCount', 'content', 'favoriteCount', 'commentCount']);
+          }, ['author'], ['author.nickname', 'author.avatar', 'backImageStr', 'shareCount', 'content', 'favoriteCount', 'commentCount', 'anonymous', 'anonymousNickname', 'anonymousAvatar']);
         } else {
           return userDao.queryByParam('Publish', {
             author: constructAVObject('_User', param.him),
@@ -727,7 +727,7 @@
             }
           }, function(error, results) {
             return cb(error, results);
-          }, ['author'], ['author.nickname', 'author.avatar', 'backImageStr', 'shareCount', 'content', 'favoriteCount', 'commentCount']);
+          }, ['author'], ['author.nickname', 'author.avatar', 'backImageStr', 'shareCount', 'content', 'favoriteCount', 'commentCount', 'anonymous', 'anonymousNickname', 'anonymousAvatar']);
         }
       }
     ], function(error, result) {
