@@ -262,9 +262,12 @@
 
   exports.queryMyCircles = function(param, callback) {
     var cql, cqlParams, page;
-    cql = "select " + publishSelectKey + " from Publish where ";
-    cql += 'publishType = ?';
-    cqlParams = [param.publishType];
+    cql = "select " + publishSelectKey + " from Publish where  1 != 0";
+    cqlParams = [];
+    if (param.publishType) {
+      cql += ' and publishType = ?';
+      cqlParams.push(param.publishType);
+    }
     cql += " and author = pointer('_User', ?)";
     cqlParams.push(param.user.id);
     page = 0;

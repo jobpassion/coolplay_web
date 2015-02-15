@@ -437,6 +437,10 @@
   };
 
   exports.checkIfFriend = function(param, callback) {
+    if (param.user.id === param.friend) {
+      callback(null, -1);
+      return;
+    }
     return userDao.checkIfFriend(param, function(error, result) {
       return callback(error, result);
     });
@@ -706,7 +710,14 @@
           return cb(error, result);
         });
       }, function(result, cb) {
-        if (result === 2) {
+        if (result === -1) {
+          return userDao.queryMyCircles({
+            user: param.user,
+            last: param.last
+          }, function(error, results) {
+            return cb(error, results);
+          });
+        } else if (result === 2) {
           return userDao.queryHisTimeline({
             user: param.user,
             him: param.him,

@@ -166,9 +166,11 @@ exports.checkIfFriend = (param, callback)->
     error:(error)->
       callback error, null
 exports.queryMyCircles = (param, callback)->
-  cql =  "select #{publishSelectKey} from Publish where "
-  cql += 'publishType = ?'
-  cqlParams = [param.publishType]
+  cql =  "select #{publishSelectKey} from Publish where  1 != 0"
+  cqlParams = []
+  if param.publishType
+    cql += ' and publishType = ?'
+    cqlParams .push param.publishType
   cql += " and author = pointer('_User', ?)"
   cqlParams.push param.user.id
   page = 0

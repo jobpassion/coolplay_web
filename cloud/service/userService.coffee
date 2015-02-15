@@ -270,6 +270,9 @@ exports.queryFriends = (param, callback)->
         newResults.push friend.get 'follower'
     callback error, newResults
 exports.checkIfFriend = (param, callback)->
+  if param.user.id == param.friend
+    callback null, -1
+    return
   userDao.checkIfFriend param, (error, result)->
     callback error, result
 exports.queryMyCircles = (param, callback)->
@@ -441,7 +444,13 @@ exports.queryHisTimeline = (param, callback)->
       exports.checkIfFriend param, (error, result)->
         cb error, result
     ,(result, cb)->
-      if result == 2
+      if result == -1
+        userDao.queryMyCircles
+          user:param.user
+          last:param.last
+        ,(error, results)->
+          cb error, results
+      else if result == 2
         userDao.queryHisTimeline
           user: param.user
           him:param.him
