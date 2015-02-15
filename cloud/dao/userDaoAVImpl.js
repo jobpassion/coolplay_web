@@ -481,4 +481,37 @@
     });
   };
 
+  exports.queryHisTimeline = function(param, callback) {
+    var cql, cqlParams;
+    cql = "select " + publishSelectKey + " from Publish where author = pointer('_User', ?) and publishType = ?";
+    cqlParams = [param.him, param.publishType];
+    if ('2' === param.publishType) {
+      cql += " and (anonymous = 0 or objectId in (select post.objectId from GuessIt where right = true and user = pointer('_User', ?)))";
+      cqlParams.push(param.user.id);
+    }
+    if (param.last && '' !== param.last) {
+      cql += ' and objectId < ?';
+      cqlParams.push(param.last);
+    }
+    cql += ' limit ?';
+    cqlParams.push(pageLimit);
+    cql += ' order by createdAt desc';
+    return AV.Query.doCloudQuery(cql, cqlParams, {
+      success: function(result) {
+        var r, _i, _len, _ref;
+        if (result && result.results && param.publishType === '2') {
+          _ref = result.results;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            r = _ref[_i];
+            r.set('guessRight', true);
+          }
+        }
+        return callback(null, result.results);
+      },
+      error: function(error) {
+        return callback(error, null);
+      }
+    });
+  };
+
 }).call(this);

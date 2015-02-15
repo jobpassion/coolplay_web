@@ -707,20 +707,19 @@
         });
       }, function(result, cb) {
         if (result === 2) {
-          return userDao.queryByParam('Publish', {
-            author: constructAVObject('_User', param.him),
+          return userDao.queryHisTimeline({
+            user: param.user,
+            him: param.him,
             publishType: '2',
-            last: param.last,
-            orderBy: function(query) {
-              return query.descending('createdAt');
-            }
+            last: param.last
           }, function(error, results) {
             return cb(error, results);
-          }, ['author'], ['author.nickname', 'author.avatar', 'backImageStr', 'shareCount', 'content', 'favoriteCount', 'commentCount', 'anonymous', 'anonymousNickname', 'anonymousAvatar']);
+          });
         } else {
           return userDao.queryByParam('Publish', {
             author: constructAVObject('_User', param.him),
             publishType: '1',
+            anonymous: 0,
             last: param.last,
             orderBy: function(query) {
               return query.descending('createdAt');

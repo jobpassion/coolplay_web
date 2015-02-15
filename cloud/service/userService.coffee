@@ -442,19 +442,18 @@ exports.queryHisTimeline = (param, callback)->
         cb error, result
     ,(result, cb)->
       if result == 2
-        userDao.queryByParam 'Publish',
-          author:constructAVObject '_User', param.him
+        userDao.queryHisTimeline
+          user: param.user
+          him:param.him
           publishType:'2'
           last:param.last
-          orderBy:(query)->
-            query.descending 'createdAt'
-          ,(error, results)->
-            cb error, results
-        , ['author'], ['author.nickname', 'author.avatar', 'backImageStr', 'shareCount', 'content', 'favoriteCount', 'commentCount', 'anonymous', 'anonymousNickname', 'anonymousAvatar']
+        ,(error, results)->
+          cb error, results
       else
         userDao.queryByParam 'Publish', #圈外
           author:constructAVObject '_User', param.him
           publishType:'1'
+          anonymous:0
           last:param.last
           orderBy:(query)->
             query.descending 'createdAt'

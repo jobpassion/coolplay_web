@@ -9,7 +9,18 @@
   require('cloud/hook');
 
   AV.Cloud.define("hello", function(request, response) {
-    response.success("Hello world!2");
+    var query;
+    query = new AV.Query('Publish');
+    query.equalTo('objectId', '54ca0ba8e4b0f88531b642a1');
+    query.include('guess');
+    query.find({
+      success: function(results) {
+        return response.success(results);
+      },
+      error: function(error) {
+        return response.success(results);
+      }
+    });
   });
 
   AV.Cloud.define("register", function(request, response) {

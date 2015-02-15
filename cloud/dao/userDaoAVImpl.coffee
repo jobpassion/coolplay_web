@@ -311,3 +311,24 @@ exports.queryHisTimeline = (param, callback)->
         callback null, null
     error:(error)->
       callback error, null
+exports.queryHisTimeline = (param, callback)->
+  cql = "select #{publishSelectKey} from Publish where author = pointer('_User', ?) and publishType = ?"
+  cqlParams = [param.him, param.publishType]
+  if '2' == param.publishType
+    cql += " and (anonymous = 0 or objectId in (select post.objectId from GuessIt where right = true and user = pointer('_User', ?)))"
+    cqlParams.push param.user.id
+  
+  if param.last && '' != param.last
+    cql += ' and objectId < ?'
+    cqlParams.push param.last
+  cql += ' limit ?'
+  cqlParams.push pageLimit
+  cql += ' order by createdAt desc'
+  AV.Query.doCloudQuery cql,cqlParams,
+    success:(result)->
+      if result && result.results && param.publishType == '2'
+        for r in result.results
+          r.set 'guessRight', true
+      callback null, result.results
+    error:(error)->
+      callback error, null

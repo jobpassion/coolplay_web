@@ -4,7 +4,14 @@ config = require "cloud/config/config"
 userService = require 'cloud/service/userService'
 require 'cloud/hook'
 AV.Cloud.define "hello", (request, response) ->
-  response.success "Hello world!2"
+  query = new AV.Query 'Publish'
+  query.equalTo 'objectId', '54ca0ba8e4b0f88531b642a1'
+  query.include 'guess'
+  query.find
+    success:(results)->
+      response.success results
+    error:(error)->
+      response.success results
   return
 AV.Cloud.define "register", (request, response) ->
   response.success "success"
