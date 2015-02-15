@@ -10,8 +10,6 @@
 
   publishSelectKey = 'include author.avatar, include author.nickname, *';
 
-  exports.publishSelectKey = publishSelectKey;
-
   exports.queryByParam = function(_class, param, callback, includes, selectKeys) {
     var Class, key, page, query, value, _i, _len;
     if (classMap[_class]) {
@@ -289,7 +287,7 @@
 
   exports.queryMyFavorites = function(param, callback) {
     var cql, cqlParams, page;
-    cql = "select " + publishSelectKey + " from Favorite where ";
+    cql = 'select include post.author.avatar, include post.author.nickname, include post.backImageStr, include post.shareCount, include post.content, include post.publishType, include post.favoriteCount, include post.commentCount from Favorite where ';
     cql += "author = pointer('_User', ?)";
     cqlParams = [param.user.id];
     cql += ' and publishType = ?';
