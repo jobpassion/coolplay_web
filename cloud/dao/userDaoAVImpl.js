@@ -465,28 +465,10 @@
 
   exports.queryHisTimeline = function(param, callback) {
     var cql, cqlParams;
-    cql = 'select * from _User where mobilePhoneNumber is exists';
-    cqlParams = [];
-    return AV.Query.doCloudQuery(cql, cqlParams, {
-      success: function(result) {
-        if (result && result.results) {
-          return callback(null, result.results);
-        } else {
-          return callback(null, null);
-        }
-      },
-      error: function(error) {
-        return callback(error, null);
-      }
-    });
-  };
-
-  exports.queryHisTimeline = function(param, callback) {
-    var cql, cqlParams;
     cql = "select " + publishSelectKey + " from Publish where author = pointer('_User', ?) and publishType = ?";
     cqlParams = [param.him, param.publishType];
     if ('2' === param.publishType) {
-      cql += " and (anonymous = 0 or objectId in (select post.objectId from GuessIt where right = true and user = pointer('_User', ?)))";
+      cql += " and (anonymous  = 0 or objectId in (select post.objectId from GuessIt where right = true and user = pointer('_User', ?)))";
       cqlParams.push(param.user.id);
     }
     if (param.last && '' !== param.last) {
@@ -496,6 +478,8 @@
     cql += ' limit ?';
     cqlParams.push(pageLimit);
     cql += ' order by createdAt desc';
+    console.log(cql);
+    console.log(cqlParams);
     return AV.Query.doCloudQuery(cql, cqlParams, {
       success: function(result) {
         var r, _i, _len, _ref;

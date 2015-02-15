@@ -301,21 +301,10 @@ exports.queryAllUsersWithPhone = (param, callback)->
     error:(error)->
       callback error, null
 exports.queryHisTimeline = (param, callback)->
-  cql = 'select * from _User where mobilePhoneNumber is exists'
-  cqlParams = []
-  AV.Query.doCloudQuery cql,cqlParams,
-    success:(result)->
-      if result && result.results
-        callback null, result.results
-      else
-        callback null, null
-    error:(error)->
-      callback error, null
-exports.queryHisTimeline = (param, callback)->
   cql = "select #{publishSelectKey} from Publish where author = pointer('_User', ?) and publishType = ?"
   cqlParams = [param.him, param.publishType]
   if '2' == param.publishType
-    cql += " and (anonymous = 0 or objectId in (select post.objectId from GuessIt where right = true and user = pointer('_User', ?)))"
+    cql += " and (anonymous  = 0 or objectId in (select post.objectId from GuessIt where right = true and user = pointer('_User', ?)))"
     cqlParams.push param.user.id
   
   if param.last && '' != param.last
@@ -324,6 +313,8 @@ exports.queryHisTimeline = (param, callback)->
   cql += ' limit ?'
   cqlParams.push pageLimit
   cql += ' order by createdAt desc'
+  console.log cql
+  console.log cqlParams
   AV.Query.doCloudQuery cql,cqlParams,
     success:(result)->
       if result && result.results && param.publishType == '2'
