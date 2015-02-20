@@ -110,6 +110,17 @@
     }
   });
 
+  AV.Cloud.afterDelete('Publish', function(request) {
+    var Favorite, query;
+    Favorite = userDao.AVClass('Favorite');
+    query = new AV.Query(Favorite);
+    query.equalTo('post', request.object);
+    return query.destroyAll({
+      success: function() {},
+      error: function(error) {}
+    });
+  });
+
   AV.Cloud.beforeSave('_User', function(request, response) {
     var authData, post;
     post = request.object;

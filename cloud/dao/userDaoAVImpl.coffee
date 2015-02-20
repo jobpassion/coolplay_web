@@ -2,6 +2,14 @@ config = require "cloud/config/config"
 classMap = {}
 pageLimit = 20
 publishSelectKey = 'include author.avatar, include author.nickname, *'
+exports.AVClass = (_class)->
+  if classMap[_class]
+    Class = classMap[_class]
+  else
+    Class = AV.Object.extend _class
+    classMap[_class] = Class
+  return Class
+
 exports.queryByParam = (_class, param, callback, includes, selectKeys) ->
   if classMap[_class]
     Class = classMap[_class]

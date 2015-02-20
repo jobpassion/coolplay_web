@@ -89,6 +89,13 @@ AV.Cloud.beforeSave 'Publish', (request, response)->
         response.success()
   else
     response.success()
+AV.Cloud.afterDelete 'Publish', (request)->
+  Favorite = userDao.AVClass 'Favorite'
+  query = new AV.Query Favorite
+  query.equalTo 'post', request.object
+  query.destroyAll
+    success:()->
+    error:(error)->
 AV.Cloud.beforeSave '_User', (request, response)->
   post = request.object
   post.set 'mobilePhoneVerified', true

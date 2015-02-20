@@ -10,6 +10,17 @@
 
   publishSelectKey = 'include author.avatar, include author.nickname, *';
 
+  exports.AVClass = function(_class) {
+    var Class;
+    if (classMap[_class]) {
+      Class = classMap[_class];
+    } else {
+      Class = AV.Object.extend(_class);
+      classMap[_class] = Class;
+    }
+    return Class;
+  };
+
   exports.queryByParam = function(_class, param, callback, includes, selectKeys) {
     var Class, key, page, query, value, _i, _len;
     if (classMap[_class]) {
