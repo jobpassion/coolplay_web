@@ -597,6 +597,46 @@
     }
   };
 
+  exports.queryWeiboFriendsAll = function(param, callback) {
+    var accessToken, authData, uid;
+    if (param.user.get('authData')) {
+      authData = param.user.get('authData');
+      if (authData.weibo) {
+        accessToken = authData.weibo.access_token;
+        uid = authData.weibo.uid;
+        return AV.Cloud.httpRequest({
+          url: 'https://api.weibo.com/2/friendships/friends.json',
+          params: {
+            access_token: accessToken,
+            uid: uid,
+            count: config.pageLimit,
+            cursor: param.page ? param.page * config.pageLimit : 0
+          },
+          success: function(httpResponse) {
+            var responseObject, responseText;
+            responseText = httpResponse.text;
+            responseObject = JSON.parse(responseText);
+            if (responseObject.users) {
+              return callback(null, responseObject.users);
+            } else {
+              return callback(null, []);
+            }
+          },
+          error: function(httpResponse) {
+            var responseObject, responseText;
+            responseText = httpResponse.text;
+            responseObject = JSON.parse(responseText);
+            return callback(responseObject, null);
+          }
+        });
+      } else {
+        return callback('未绑定微博帐号', null);
+      }
+    } else {
+      return callback('未绑定微博帐号', null);
+    }
+  };
+
   exports.searchNewFriend = function(param, callback) {
     var accessToken, authData;
     if (param.user.get('authData')) {

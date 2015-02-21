@@ -263,4 +263,17 @@
     });
   });
 
+  AV.Cloud.define("queryWeiboFriendsAll", function(request, response) {
+    var currentUser;
+    currentUser = AV.User.current();
+    request.params.user = currentUser;
+    return userService.queryWeiboFriendsAll(request.params, function(error, result) {
+      if (error) {
+        return response.error(error);
+      } else {
+        return response.success(result);
+      }
+    });
+  });
+
 }).call(this);

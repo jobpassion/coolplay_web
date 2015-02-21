@@ -15,7 +15,8 @@
       port: '',
       core: 'coolweb_collection',
       path: '/'
-    }
+    },
+    pageLimit: 20
   };
 
   config.ROOT = "cloud/";

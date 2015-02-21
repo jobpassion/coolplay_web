@@ -153,3 +153,11 @@ AV.Cloud.define "queryHisTimeline", (request, response) ->
       response.error error
     else
       response.success userService.recursiveToJson result
+AV.Cloud.define "queryWeiboFriendsAll", (request, response) ->
+  currentUser = AV.User.current()
+  request.params.user = currentUser
+  userService.queryWeiboFriendsAll request.params, (error, result)->
+    if error
+      response.error error
+    else
+      response.success result

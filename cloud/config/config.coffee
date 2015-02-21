@@ -17,6 +17,7 @@ config =
     port: ''
     core: 'coolweb_collection'
     path: '/'
+  pageLimit:20
   #local:true
 #log4js = require("log4js")
 #log4js.configure appenders: [
