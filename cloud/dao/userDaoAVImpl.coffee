@@ -194,7 +194,7 @@ exports.queryMyCircles = (param, callback)->
     error:(error)->
       callback error, null
 exports.queryMyFavorites = (param, callback)->
-  cql =  'select include post.author.avatar, include post.author.nickname, include post.backImageStr, include post.shareCount, include post.content, include post.publishType, include post.favoriteCount, include post.commentCount from Favorite where '
+  cql =  'select include post.author.avatar, include post.author.nickname, include post.backImageStr, include post.shareCount, include post.content, include post.publishType, include post.favoriteCount, include post.commentCount, include post.anonymous, include post.anonymousNickname, include post.anonymousAvatar from Favorite where '
   cql += "author = pointer('_User', ?)"
   cqlParams = [param.user.id]
   cql += ' and publishType = ?'
