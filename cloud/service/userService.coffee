@@ -193,9 +193,7 @@ recursiveToJson = (obj)->
     if obj.toJSON
       for key,value of obj.attributes
         obj.set key, recursiveToJson value
-      console.log obj.get 'author'
       obj = obj.toJSON()
-      obj.updatedAt = obj.updatedAt
     else if obj.thumbnailURL
       obj = 
         name:obj.name()
