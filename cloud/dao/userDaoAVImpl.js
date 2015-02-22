@@ -8,7 +8,7 @@
 
   pageLimit = 20;
 
-  publishSelectKey = 'include author.avatar, include author.nickname, include author.updatedAt, *';
+  publishSelectKey = 'include author, *';
 
   exports.AVClass = function(_class) {
     var Class;

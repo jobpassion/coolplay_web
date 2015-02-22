@@ -319,7 +319,9 @@
           value = _ref[key];
           obj.set(key, recursiveToJson(value));
         }
+        console.log(obj.get('author'));
         obj = obj.toJSON();
+        obj.updatedAt = obj.updatedAt;
       } else if (obj.thumbnailURL) {
         obj = {
           name: obj.name(),
@@ -348,7 +350,8 @@
       avatar: user.avatar,
       objectId: user.objectId,
       desc: user.desc,
-      nickname: user.nickname
+      nickname: user.nickname,
+      updatedAt: user.updatedAt
     };
   };
 
