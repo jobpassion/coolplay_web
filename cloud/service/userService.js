@@ -786,4 +786,62 @@
     });
   };
 
+  exports.queryNewsCount = function(param, callback) {
+    var output;
+    output = {};
+    return async.each([1, 2, 3, 4], function(idx, cb) {
+      var cpParam;
+      cpParam = {
+        user: param.user
+      };
+      if (1 === idx) {
+        if (!param.publicLatest) {
+          cb();
+          return;
+        }
+        cpParam.publishType = '1';
+        cpParam.latest = param.publicLatest;
+        cpParam.orderBy = 'order by createdAt desc';
+      } else if (2 === idx) {
+        if (!param.privateLatest) {
+          cb();
+          return;
+        }
+        cpParam.publishType = '2';
+        cpParam.latest = param.privateLatest;
+        cpParam.orderBy = 'order by createdAt desc';
+      } else if (3 === idx) {
+        if (!param.publicHotestLatest) {
+          cb();
+          return;
+        }
+        cpParam.publishType = '1';
+        cpParam.latest = param.publicHotestLatest;
+        cpParam.orderBy = 'order by favoriteCount,createdAt desc';
+      } else if (4 === idx) {
+        if (!param.privateHotestLatest) {
+          cb();
+          return;
+        }
+        cpParam.publishType = '2';
+        cpParam.latest = param.privateHotestLatest;
+        cpParam.orderBy = 'order by favoriteCount,createdAt desc';
+      }
+      return userDao.queryNewsCount(cpParam, function(error, result) {
+        if (1 === idx) {
+          output.publicCount = result;
+        } else if (2 === idx) {
+          output.privateCount = result;
+        } else if (3 === idx) {
+          output.publicHotestCount = result;
+        } else if (4 === idx) {
+          output.privateHotestCount = result;
+        }
+        return cb(error);
+      });
+    }, function(error) {
+      return callback(error, output);
+    });
+  };
+
 }).call(this);

@@ -94,10 +94,7 @@ exports.insert = (_class, param, callback)->
     error:(classObject, error)->
       #console.log error
       callback error, classObject
-queryPublish = (param, orderby, callback)->
-  cql =  "select #{publishSelectKey} from Publish where "
-  cql += 'publishType = ?'
-  cqlParams = [param.publishType]
+queryPublishAddConstraint = (param, cql, cqlParams)->
   if param.user && param.publishType ==  '2'
     cql += " and (author = (select follower from _Follower where user = pointer('_User', ?)) or author = pointer('_User', ?))"
     cqlParams.push param.user.id
@@ -106,7 +103,13 @@ queryPublish = (param, orderby, callback)->
     cql += " and author not in (select follower from _Follower where user = pointer('_User', ?)) and author not in (select followee from _Followee where user = pointer('_User', ?))"
     cqlParams.push param.user.id
     cqlParams.push param.user.id
-  page = 0
+  return cql
+
+queryPublish = (param, orderby, callback)->
+  cql =  "select #{publishSelectKey} from Publish where "
+  cql += 'publishType = ?'
+  cqlParams = [param.publishType]
+  cql = queryPublishAddConstraint param, cql, cqlParams
   if param.last && '' != param.last
     cql += ' and objectId < ?'
     cqlParams.push param.last
@@ -329,5 +332,20 @@ exports.queryHisTimeline = (param, callback)->
         for r in result.results
           r.set 'guessRight', true
       callback null, result.results
+    error:(error)->
+      callback error, null
+exports.queryNewsCount = (param, callback)->
+  orderby = param.orderBy
+  cql =  "select count(*) from Publish where "
+  cql += 'publishType = ?'
+  cqlParams = [param.publishType]
+  cql = queryPublishAddConstraint param, cql, cqlParams
+  if param.latest && '' != param.latest && '0' != param.latest
+    cql += ' and objectId > ?'
+    cqlParams.push param.latest
+  cql += ' ' + orderby
+  AV.Query.doCloudQuery cql,cqlParams,
+    success:(result)->
+      callback null, result.count
     error:(error)->
       callback error, null

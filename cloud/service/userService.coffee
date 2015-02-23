@@ -499,3 +499,50 @@ exports.queryHisTimeline = (param, callback)->
         , ['author'], ['author.nickname', 'author.avatar', 'backImageStr', 'shareCount', 'content', 'favoriteCount', 'commentCount', 'anonymous', 'anonymousNickname', 'anonymousAvatar']
   ], (error, result)->
     callback error, result
+exports.queryNewsCount = (param, callback)->
+  output = {}
+  async.each [1, 2, 3, 4], (idx, cb)->
+    cpParam = 
+      user:param.user
+    if 1 == idx
+      if !param.publicLatest
+        cb()
+        return
+      cpParam.publishType = '1'
+      cpParam.latest = param.publicLatest
+      cpParam.orderBy = 'order by createdAt desc'
+    else if 2 == idx
+      if !param.privateLatest
+        cb()
+        return
+      cpParam.publishType = '2'
+      cpParam.latest = param.privateLatest
+      cpParam.orderBy = 'order by createdAt desc'
+    else if 3 == idx
+      if !param.publicHotestLatest
+        cb()
+        return
+      cpParam.publishType = '1'
+      cpParam.latest = param.publicHotestLatest
+      cpParam.orderBy = 'order by favoriteCount,createdAt desc'
+    else if 4 == idx
+      if !param.privateHotestLatest
+        cb()
+        return
+      cpParam.publishType = '2'
+      cpParam.latest = param.privateHotestLatest
+      cpParam.orderBy = 'order by favoriteCount,createdAt desc'
+    userDao.queryNewsCount cpParam
+    , (error, result)->
+      if 1 == idx
+        output.publicCount = result
+      else if 2 == idx
+        output.privateCount = result
+      else if 3 == idx
+        output.publicHotestCount = result
+      else if 4 == idx
+        output.privateHotestCount = result
+      cb error
+  ,(error)->
+    callback error, output
+

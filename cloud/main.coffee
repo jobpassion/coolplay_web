@@ -161,3 +161,11 @@ AV.Cloud.define "queryWeiboFriendsAll", (request, response) ->
       response.error error
     else
       response.success result
+AV.Cloud.define "queryNewsCount", (request, response) ->
+  currentUser = AV.User.current()
+  request.params.user = currentUser
+  userService.queryNewsCount request.params, (error, result)->
+    if error
+      response.error error
+    else
+      response.success result
