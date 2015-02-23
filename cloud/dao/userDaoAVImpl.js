@@ -536,4 +536,26 @@
     });
   };
 
+  exports.queryNewsPublish = function(param, callback) {
+    var cql, cqlParams, orderby;
+    orderby = param.orderBy;
+    cql = "select " + publishSelectKey + " from Publish where ";
+    cql += 'publishType = ?';
+    cqlParams = [param.publishType];
+    cql = queryPublishAddConstraint(param, cql, cqlParams);
+    if (param.latest && '' !== param.latest && '0' !== param.latest) {
+      cql += ' and objectId > ?';
+      cqlParams.push(param.latest);
+    }
+    cql += ' ' + orderby;
+    return AV.Query.doCloudQuery(cql, cqlParams, {
+      success: function(result) {
+        return callback(null, result.results);
+      },
+      error: function(error) {
+        return callback(error, null);
+      }
+    });
+  };
+
 }).call(this);

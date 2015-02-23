@@ -546,3 +546,51 @@ exports.queryNewsCount = (param, callback)->
   ,(error)->
     callback error, output
 
+exports.queryNewsPublish = (param, callback)->
+  output = {}
+  async.each [1, 2, 3, 4], (idx, cb)->
+    cpParam = 
+      user:param.user
+    if 1 == idx
+      if !param.publicLatest
+        cb()
+        return
+      cpParam.publishType = '1'
+      cpParam.latest = param.publicLatest
+      cpParam.orderBy = 'order by createdAt desc'
+    else if 2 == idx
+      if !param.privateLatest
+        cb()
+        return
+      cpParam.publishType = '2'
+      cpParam.latest = param.privateLatest
+      cpParam.orderBy = 'order by createdAt desc'
+    else if 3 == idx
+      if !param.publicHotestLatest
+        cb()
+        return
+      cpParam.publishType = '1'
+      cpParam.latest = param.publicHotestLatest
+      cpParam.orderBy = 'order by favoriteCount,createdAt desc'
+    else if 4 == idx
+      if !param.privateHotestLatest
+        cb()
+        return
+      cpParam.publishType = '2'
+      cpParam.latest = param.privateHotestLatest
+      cpParam.orderBy = 'order by favoriteCount,createdAt desc'
+    userDao.queryNewsPublish cpParam
+    , (error, result)->
+      for post in result
+        post.set 'author',simpleUser post.get 'author'
+      if 1 == idx
+        output.publicPublish = result
+      else if 2 == idx
+        output.privatePublish = result
+      else if 3 == idx
+        output.publicHotestPublish = result
+      else if 4 == idx
+        output.privateHotesPublish = result
+      cb error
+  ,(error)->
+    callback error, output

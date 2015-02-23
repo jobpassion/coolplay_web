@@ -169,3 +169,11 @@ AV.Cloud.define "queryNewsCount", (request, response) ->
       response.error error
     else
       response.success result
+AV.Cloud.define "queryNewsPublish", (request, response) ->
+  currentUser = AV.User.current()
+  request.params.user = currentUser
+  userService.queryNewsPublish request.params, (error, result)->
+    if error
+      response.error error
+    else
+      response.success userService.recursiveToJson result

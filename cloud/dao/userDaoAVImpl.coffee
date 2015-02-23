@@ -349,3 +349,18 @@ exports.queryNewsCount = (param, callback)->
       callback null, result.count
     error:(error)->
       callback error, null
+exports.queryNewsPublish = (param, callback)->
+  orderby = param.orderBy
+  cql =  "select #{publishSelectKey} from Publish where "
+  cql += 'publishType = ?'
+  cqlParams = [param.publishType]
+  cql = queryPublishAddConstraint param, cql, cqlParams
+  if param.latest && '' != param.latest && '0' != param.latest
+    cql += ' and objectId > ?'
+    cqlParams.push param.latest
+  cql += ' ' + orderby
+  AV.Query.doCloudQuery cql,cqlParams,
+    success:(result)->
+      callback null, result.results
+    error:(error)->
+      callback error, null
