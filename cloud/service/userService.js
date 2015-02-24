@@ -421,6 +421,8 @@
             return callback(error, post);
           }
         });
+      } else {
+        return callback(error, null);
       }
     }, ['author'], ['author.nickname', 'author.avatar', 'backImageStr', 'shareCount', 'content', 'favoriteCount', 'commentCount', '*']);
   };

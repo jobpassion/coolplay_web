@@ -263,6 +263,8 @@ exports.queryCircleDetail = (param, callback) ->
               callback error, post
         else
           callback error, post
+    else
+      callback error, null
   , ['author'], ['author.nickname', 'author.avatar', 'backImageStr', 'shareCount', 'content', 'favoriteCount', 'commentCount', '*']
 exports.queryFriends = (param, callback)->
   userDao.queryFriends param, (error, results)->
