@@ -299,18 +299,17 @@ exports.guessIt = (param, callback)->
   ,(error, results)->
     if results && results.length > 0
       guessIt = results[0]
-      if guessIt.get('count') >= 3
-        error = errorConfig.guessCountLimit
-        callback error, guessIt
-        return
       guessIt.set 'count', 1 + guessIt.get('count')
     else
       guessIt = AV.Object.new('GuessIt')
       guessIt.set 'user', param.user
       guessIt.set 'post', constructAVObject('Publish', param.post)
       guessIt.set 'count', 1
-    userDao.save guessIt, (error, guessIt)->
-      callback error, guessIt
+    if guessIt.get('count') > 3
+      callback null, guessIt
+    else
+      userDao.save guessIt, (error, guessIt)->
+        callback error, guessIt
     
 exports.guessRight = (param, callback)->
   userDao.queryByParam 'GuessIt',

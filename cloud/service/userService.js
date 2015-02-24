@@ -487,11 +487,6 @@
       var guessIt;
       if (results && results.length > 0) {
         guessIt = results[0];
-        if (guessIt.get('count') >= 3) {
-          error = errorConfig.guessCountLimit;
-          callback(error, guessIt);
-          return;
-        }
         guessIt.set('count', 1 + guessIt.get('count'));
       } else {
         guessIt = AV.Object["new"]('GuessIt');
@@ -499,9 +494,13 @@
         guessIt.set('post', constructAVObject('Publish', param.post));
         guessIt.set('count', 1);
       }
-      return userDao.save(guessIt, function(error, guessIt) {
-        return callback(error, guessIt);
-      });
+      if (guessIt.get('count') > 3) {
+        return callback(null, guessIt);
+      } else {
+        return userDao.save(guessIt, function(error, guessIt) {
+          return callback(error, guessIt);
+        });
+      }
     });
   };
 
