@@ -550,6 +550,7 @@
     cql += ' ' + orderby;
     return AV.Query.doCloudQuery(cql, cqlParams, {
       success: function(result) {
+        console.log(result);
         return callback(null, result.results);
       },
       error: function(error) {

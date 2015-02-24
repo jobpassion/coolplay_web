@@ -361,6 +361,7 @@ exports.queryNewsPublish = (param, callback)->
   cql += ' ' + orderby
   AV.Query.doCloudQuery cql,cqlParams,
     success:(result)->
+      console.log result
       callback null, result.results
     error:(error)->
       callback error, null

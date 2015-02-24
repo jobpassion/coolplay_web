@@ -1,4 +1,5 @@
 config = require "cloud/config/config"
+errorConfig = require "cloud/config/errorConfig"
 async = require 'async'
 randomToken = ->
   crypto.randomBytes(20).toString "hex"
@@ -298,6 +299,10 @@ exports.guessIt = (param, callback)->
   ,(error, results)->
     if results && results.length > 0
       guessIt = results[0]
+      if guessIt.get('count') >= 3
+        error = errorConfig.guessCountLimit
+        callback error, guessIt
+        return
       guessIt.set 'count', 1 + guessIt.get('count')
     else
       guessIt = AV.Object.new('GuessIt')

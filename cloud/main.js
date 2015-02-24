@@ -198,6 +198,10 @@
     currentUser = AV.User.current();
     request.params.user = currentUser;
     return userService.guessIt(request.params, function(error, result) {
+      if (error) {
+        response.error(error);
+        return;
+      }
       return response.success(userService.recursiveToJson(result));
     });
   });
