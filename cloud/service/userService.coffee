@@ -410,8 +410,9 @@ exports.queryWeiboFriendsAll = (param, callback)->
 exports.searchNewFriend = (param, callback)->
   if param.user.get 'authData'
     authData = param.user.get 'authData'
-    if authData.weibo
-      accessToken = authData.weibo.access_token
+    #if authData.weibo
+    if true
+      accessToken = '2.00UOhFZC07aFlB1c9f21e47fwGQZ3B'
       weiboService.searchWeibo
         accessToken:accessToken
         who:param.who
