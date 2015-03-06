@@ -122,18 +122,17 @@
   });
 
   AV.Cloud.beforeSave('_User', function(request, response) {
-    var authData, post;
+    var post;
     post = request.object;
     post.set('mobilePhoneVerified', true);
-    if (post.get('authData')) {
-      authData = post.get('authData');
-      if (authData.weibo) {
-        post.set('weibo', '1');
-        response.success();
-        return;
-      }
-    }
     return response.success();
+  });
+
+  AV.Cloud.afterUpdate('_User', function(request, response) {
+    var post;
+    post = request.object;
+    post.set('mobilePhoneVerified', true);
+    return userDao.save(post, function(error, result) {});
   });
 
 }).call(this);

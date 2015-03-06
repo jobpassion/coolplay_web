@@ -99,13 +99,11 @@ AV.Cloud.afterDelete 'Publish', (request)->
 AV.Cloud.beforeSave '_User', (request, response)->
   post = request.object
   post.set 'mobilePhoneVerified', true
-  if post.get 'authData'
-    authData = post.get 'authData'
-    if authData.weibo
-      post.set 'weibo', '1'
-      response.success()
-      return
   response.success()
+AV.Cloud.afterUpdate '_User', (request, response)->
+  post = request.object
+  post.set 'mobilePhoneVerified', true
+  userDao.save post, (error, result)->
 #AV.Cloud.afterUpdate '_User', (request)->
 #  post = request.object
 #  if post.get 'authData'
