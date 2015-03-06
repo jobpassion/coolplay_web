@@ -180,3 +180,11 @@ AV.Cloud.define "queryNewsPublish", (request, response) ->
       response.error error
     else
       response.success userService.recursiveToJson result
+AV.Cloud.define "addBindMobile", (request, response) ->
+  currentUser = AV.User.current()
+  request.params.user = currentUser
+  userService.addBindMobile request.params, (error, result)->
+    if error
+      response.error error
+    else
+      response.success userService.recursiveToJson result

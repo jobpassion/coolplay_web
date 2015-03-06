@@ -915,4 +915,19 @@
     });
   };
 
+  exports.addBindMobile = function(param, callback) {
+    console.log(param.user.authenticated());
+    return async.waterfall([
+      function(cb) {
+        param.user.set('password', param.password);
+        param.user.set('mobilePhoneNumber', param.mobilePhoneNumber);
+        return userDao.save(param.user, function(error, result) {
+          return cb(error, result);
+        });
+      }
+    ], function(error, result) {
+      return callback(error, result);
+    });
+  };
+
 }).call(this);

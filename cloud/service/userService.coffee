@@ -601,3 +601,13 @@ exports.queryNewsPublish = (param, callback)->
       cb error
   ,(error)->
     callback error, output
+exports.addBindMobile = (param, callback)->
+  console.log param.user.authenticated()
+  async.waterfall [
+    (cb)->
+      param.user.set 'password', param.password
+      param.user.set 'mobilePhoneNumber', param.mobilePhoneNumber
+      userDao.save param.user, (error, result)->
+        cb(error, result)
+  ], (error, result)->
+      callback error, result
