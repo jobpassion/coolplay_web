@@ -113,6 +113,9 @@ queryPublish = (param, orderby, callback)->
   if param.last && '' != param.last
     cql += ' and objectId < ?'
     cqlParams.push param.last
+  if param.category && '' != param.category
+    cql += ' and category = ?'
+    cqlParams.push param.category
   cql += ' limit ?'
   cqlParams.push pageLimit
   cql += ' ' + orderby
