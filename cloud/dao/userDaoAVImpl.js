@@ -588,6 +588,7 @@
     datef = (dateformat(now, 'yyyy-mm-dd')) + 'T' + (dateformat(now, 'HH:MM:ss.000')) + 'Z';
     console.log("dateformat" + datef);
     cql += " and createdAt > date('" + datef + "')";
+    console.log(cql);
     return AV.Query.doCloudQuery(cql, cqlParams, {
       success: function(result) {
         return callback(null, result.count);

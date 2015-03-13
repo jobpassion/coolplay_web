@@ -390,6 +390,7 @@ exports.queryCategoryTodayNewsCount = (param, callback)->
   datef = (dateformat now, 'yyyy-mm-dd') + 'T' + (dateformat now, 'HH:MM:ss.000') + 'Z'
   console.log "dateformat#{datef}"
   cql += " and createdAt > date('#{datef}')"
+  console.log cql
   #cqlParams.push "date('2011-08-20T02:06:57.931Z')"
   AV.Query.doCloudQuery cql,cqlParams,
     success:(result)->
