@@ -1,4 +1,5 @@
 config = require "cloud/config/config"
+dateformat = require "dateformat"
 classMap = {}
 pageLimit = 20
 publishSelectKey = 'include author, *'
@@ -366,5 +367,32 @@ exports.queryNewsPublish = (param, callback)->
     success:(result)->
       console.log result
       callback null, result.results
+    error:(error)->
+      callback error, null
+exports.queryCategoryTodayNewsCount = (param, callback)->
+  cql =  "select count(*) from Publish where "
+  cql += 'publishType = ?'
+  cqlParams = [param.publishType]
+  cql = queryPublishAddConstraint param, cql, cqlParams
+  if param.last && '' != param.last
+    cql += ' and objectId < ?'
+    cqlParams.push param.last
+  if param.category && '' != param.category
+    cql += ' and category = ?'
+    cqlParams.push param.category
+  #cql += ' and createdAt > ?'
+  now = new Date()
+  now.setMinutes 0
+  now.setSeconds 0
+  now.setMilliseconds 0
+  now.setHours 16
+  now.setDate(now.getDate() - 1)
+  datef = (dateformat now, 'yyyy-mm-dd') + 'T' + (dateformat now, 'HH:MM:ss.000') + 'Z'
+  console.log "dateformat#{datef}"
+  cql += " and createdAt > date('#{datef}')"
+  #cqlParams.push "date('2011-08-20T02:06:57.931Z')"
+  AV.Query.doCloudQuery cql,cqlParams,
+    success:(result)->
+      callback null, result.count
     error:(error)->
       callback error, null

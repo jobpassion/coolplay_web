@@ -602,7 +602,6 @@ exports.queryNewsPublish = (param, callback)->
   ,(error)->
     callback error, output
 exports.addBindMobile = (param, callback)->
-  console.log param.user.authenticated()
   async.waterfall [
     (cb)->
       param.user.set 'password', param.password
@@ -611,3 +610,15 @@ exports.addBindMobile = (param, callback)->
         cb(error, result)
   ], (error, result)->
       callback error, result
+exports.queryCategoryTodayNewsCount = (param, callback)->
+  output = {}
+  async.each [0, 1, 2, 3, 4, 5, 6], (idx, cb)->
+    userDao.queryCategoryTodayNewsCount
+      category:idx
+      user:param.user
+      publishType:param.publishType
+    , (error, result)->
+      output[idx] = result
+      cb error
+  ,(error)->
+    callback error, output

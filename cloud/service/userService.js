@@ -916,7 +916,6 @@
   };
 
   exports.addBindMobile = function(param, callback) {
-    console.log(param.user.authenticated());
     return async.waterfall([
       function(cb) {
         param.user.set('password', param.password);
@@ -927,6 +926,23 @@
       }
     ], function(error, result) {
       return callback(error, result);
+    });
+  };
+
+  exports.queryCategoryTodayNewsCount = function(param, callback) {
+    var output;
+    output = {};
+    return async.each([0, 1, 2, 3, 4, 5, 6], function(idx, cb) {
+      return userDao.queryCategoryTodayNewsCount({
+        category: idx,
+        user: param.user,
+        publishType: param.publishType
+      }, function(error, result) {
+        output[idx] = result;
+        return cb(error);
+      });
+    }, function(error) {
+      return callback(error, output);
     });
   };
 
