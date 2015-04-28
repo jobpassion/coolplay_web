@@ -43,6 +43,8 @@ log4js.configure appenders: [
 #,replaceConsole: true
 GLOBAL.ROOT = __dirname + "/../"
 module.exports = config
+config.setAV = (_AV)->
+  GLOBAL.AV = _AV
 Object.defineProperty global, "__stack",
   get: ->
     orig = Error.prepareStackTrace

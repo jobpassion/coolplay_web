@@ -2,8 +2,13 @@
 # For example:
 config = require "../config/config"
 userService = require ROOT + 'service/userService'
+config.setAV AV
 AV.Cloud.define "hello", (request, response) ->
-  response.success "Hello world!"
+  response.success "Hello world!2"
   return
 AV.Cloud.define "register", (request, response) ->
   response.success "success"
+AV.Cloud.define "addToLike", (request, response) ->
+  currentUser = AV.User.current()
+  userService.addToLike currentUser, request.params.post, (error, result)->
+    response.success result

@@ -112,5 +112,25 @@ exports.queryUserLike = (params, callback) ->
   params.type = 2
   userDao.queryUserAction params, util.resultHandle(callback, 5)
   return
-exports.bindWeibo = (user, authData) ->
-  f
+#exports.bindWeibo = (user, authData) ->
+#  f
+classMap = {}
+exports.addToLike = (user, post, callback) ->
+  publish = AV.Object.new 'Comment'
+  publish.set 'objectId', post
+  userDao.queryByParam 'Like',
+    author:user
+    post:publish
+    ,(error, results)->
+      if error
+        callback error,null
+      else
+        if results.length > 0
+          callback null, '已经赞过'
+        else
+          userDao.insert 'Like', 
+            author:user
+            post:publish
+            ,(error, result)->
+              if !error
+                callback null, '成功赞'
