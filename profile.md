@@ -42,7 +42,7 @@
 
  - 贾金平/男/1987
  - 本科/南昌在学心理系 
- - 工作年限：3年
+ - 工作年限：4年
  - 微博：[@Red_Wolf_](http://weibo.com/2350795254) 
  - 技术博客：http://www.xieyiyx.com
  - Github: https://github.com/jobpassion
